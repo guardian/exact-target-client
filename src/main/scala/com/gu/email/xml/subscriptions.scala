@@ -3,7 +3,7 @@ package com.gu.email.xml
 import com.gu.email.{AccountDetails, Subscriber}
 
 private[email] object SubscriptionRequest {
-    def apply(listId: String, accountDetails: AccountDetails, subscribers: Seq[Subscriber]): String =
+    def apply(listId: String, accountDetails: AccountDetails, subscribers: Seq[Subscriber]) =
       <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -31,12 +31,10 @@ private[email] object SubscriptionRequest {
         </soap:Header>
         <soap:Body>
           <CreateRequest xmlns="http://exacttarget.com/wsdl/partnerAPI">
-            {subscribers map {
-            ListSubscriber("132", accountDetails)
-          }}
+            {subscribers map { ListSubscriber("132", accountDetails) }}
           </CreateRequest>
         </soap:Body>
-      </soap:Envelope>.toString()
+      </soap:Envelope>
   }
 
 private object ListSubscriber {
