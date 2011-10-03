@@ -20,12 +20,12 @@ class ListSubscriberTest extends FlatSpec with ShouldMatchers {
       Subscriber("peter.jones@guardian.co.uk", "Peter", "Jones"))
     val (status, results) = listSubscriber.subscribeToList("132", subscribers)
 
-    results.foreach(println)
-
     status should equal (200)
 
-    results should contain (SubscriberResult("john.smith@guardian.co.uk", "Error", "The subscriber is already on the list"))
+    results foreach {sub => sub.success should be (true) }
 
-    results should contain (SubscriberResult("peter.jones@guardian.co.uk", "Error", "The subscriber is already on the list"))
+    results should contain (SubscriberResult("john.smith@guardian.co.uk", "OK", "Created Subscriber."))
+
+    results should contain (SubscriberResult("peter.jones@guardian.co.uk", "OK", "Created Subscriber."))
   }
 }

@@ -31,7 +31,15 @@ private[email] object SubscriptionRequest {
         </soap:Header>
         <soap:Body>
           <CreateRequest xmlns="http://exacttarget.com/wsdl/partnerAPI">
-            {subscribers map { ListSubscriber("132", accountDetails) }}
+            <Options>
+              <SaveOptions>
+                <SaveOption>
+                  <PropertyName>*</PropertyName>
+                  <SaveAction>UpdateAdd</SaveAction>
+                </SaveOption>
+              </SaveOptions>
+            </Options>
+            {subscribers map { ListSubscriber(listId, accountDetails) }}
           </CreateRequest>
         </soap:Body>
       </soap:Envelope>
