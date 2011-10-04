@@ -3,9 +3,8 @@ package com.gu.email.http
 import org.apache.commons.httpclient.{HttpConnectionManager, HttpClient, SimpleHttpConnectionManager, MultiThreadedHttpConnectionManager}
 
 trait Http {
-  //override this in you code with a more funky connection manager
-  val connectionManager: HttpConnectionManager =  Http.connectionManager
-  val httpClient = new HttpClient(connectionManager)
+  //overide this if you need a different htp client
+  val httpClient = new HttpClient(Http.connectionManager)
 }
 
 private object Http {
