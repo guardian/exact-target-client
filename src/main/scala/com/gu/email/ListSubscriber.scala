@@ -1,12 +1,14 @@
 package com.gu.email
 
-import http.Http
 import org.apache.commons.httpclient.methods.{PostMethod, StringRequestEntity}
 import xml.SubscriptionRequest
 import scala.xml.{Node, XML}
 import org.slf4j.LoggerFactory
+import org.apache.commons.httpclient.HttpClient
 
-trait ListSubscriber extends Http {
+trait ListSubscriber {
+
+  val httpClient: HttpClient
 
   val logger = LoggerFactory.getLogger(getClass)
 

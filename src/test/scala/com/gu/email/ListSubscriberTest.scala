@@ -3,6 +3,8 @@ package com.gu.email
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 import collection.Seq
+import org.apache.commons.httpclient.HttpClient
+import org.apache.commons.httpclient.SimpleHttpConnectionManager
 
 
 class ListSubscriberTest extends FlatSpec with ShouldMatchers {
@@ -12,6 +14,7 @@ class ListSubscriberTest extends FlatSpec with ShouldMatchers {
   "List subscriber" should "call the Exact target API and attempt to add subscribers" in {
 
     val listSubscriber = new ListSubscriber {
+      val httpClient = new HttpClient(new SimpleHttpConnectionManager(true))
       val accountDetails = AccountDetails("gnmtestuser", "row_4boat", "1062022")
     }
 
