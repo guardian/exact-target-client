@@ -21,12 +21,17 @@ trait ListSubscriber {
 
     val subscriptionXml = SubscriptionRequest(listId, accountDetails, subscribers)
 
+    if (logger.isDebugEnabled) logger.debug("Email subscription request xml: " + subscriptionXml.toString)
+
     val requestBody = new StringRequestEntity(subscriptionXml toString, "text/xml", "UTF-8")
     val httpMethod = prepareRequest(requestBody)
 
     httpClient.executeMethod(httpMethod) match {
       case OK => {
         val response = XML.load(httpMethod.getResponseBodyAsStream)
+
+        if (logger.isDebugEnabled) logger.debug("Email subscription response xml: " + response.toString)
+
         val subscriberResults = (response \\ "CreateResponse" \\ "Results") map { SubscriberResult(_) }
 
         if (logger.isDebugEnabled) subscriberResults foreach { r => logger.debug(r.toString) }
@@ -36,7 +41,7 @@ trait ListSubscriber {
       case error => {
         logger.error("Error adding subscribers to list %s : %s : %s : %s".
           format(error, httpMethod.getStatusCode, httpMethod.getStatusLine, httpMethod.getStatusText))
-        logger.error("Subscriber list: " + subscribers.map(_.toString).mkString(","))
+        if (logger isDebugEnabled) logger.debug("Subscriber list: " + subscribers.map(_.toString).mkString(","))
         (error, Nil)
       }
     }
