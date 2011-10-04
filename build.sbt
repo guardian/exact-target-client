@@ -2,7 +2,7 @@ name := "exact-target-client"
 
 organization := "com.gu"
 
-version := "1.3-SNAPSHOT"
+version := "1.2"
 
 crossScalaVersions := Seq("2.8.1", "2.9.0-1", "2.9.1")
 
@@ -28,4 +28,6 @@ publishTo <<= (version) { version: String =>
 
 credentials += Credentials("Sonatype Nexus Repository Manager", "nexus.gudev.gnl", "deployment", "d3pl0y")
 
-publishArtifact in (Compile, packageDoc) := true
+publishArtifact in (Compile, packageDoc) := false
+
+publishArtifact in (Compile, packageSrc) := true
