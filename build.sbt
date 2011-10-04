@@ -28,4 +28,4 @@ publishTo <<= (version) { version: String =>
 
 credentials += Credentials("Sonatype Nexus Repository Manager", "nexus.gudev.gnl", "deployment", "d3pl0y")
 
-publishArtifact in (Compile, packageDoc) := false
+publishArtifact in (Compile, packageDoc) := true
