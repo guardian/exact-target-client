@@ -49,36 +49,24 @@ private object ListSubscriber {
     def apply(listId: String, accountDetails: AccountDetails)(subscriber: Subscriber) =
       <Objects xsi:type="Subscriber">
         <Client>
-          <ID>
-            {accountDetails.bussinessUnitId}
-          </ID>
+          <ID>{accountDetails.bussinessUnitId}</ID>
         </Client>
         <ObjectID xsi:nil="true">
         </ObjectID>
-        <EmailAddress>
-          {subscriber.email}
-        </EmailAddress>
-        <SubscriberKey>
-          {subscriber.email}
-        </SubscriberKey>
+        <EmailAddress>{subscriber.email}</EmailAddress>
+        <SubscriberKey>{subscriber.email}</SubscriberKey>
         <Lists>
-          <ID>
-            {listId}
-          </ID>
+          <ID>{listId}</ID>
           <ObjectID xsi:nil="true">
           </ObjectID>
         </Lists>
         <Attributes>
           <Name>First Name</Name>
-          <Value>
-            {subscriber.firstName}
-          </Value>
+          <Value>{subscriber.firstName}</Value>
         </Attributes>
         <Attributes>
           <Name>Last Name</Name>
-          <Value>
-            {subscriber.lastName}
-          </Value>
+          <Value>{subscriber.lastName}</Value>
         </Attributes>
       </Objects>
   }
