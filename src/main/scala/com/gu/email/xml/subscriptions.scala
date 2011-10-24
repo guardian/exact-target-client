@@ -20,12 +20,8 @@ private[email] object SubscriptionRequest {
           <wsa:To>https://webservice.s4.exacttarget.com/Service.asmx</wsa:To>
           <wsse:Security soap:mustUnderstand="1">
             <wsse:UsernameToken xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-              <wsse:Username>
-                {accountDetails.username}
-              </wsse:Username>
-              <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">
-                {accountDetails.password}
-              </wsse:Password>
+              <wsse:Username>{accountDetails.username}</wsse:Username>
+              <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">{accountDetails.password}</wsse:Password>
             </wsse:UsernameToken>
           </wsse:Security>
         </soap:Header>
@@ -39,34 +35,34 @@ private[email] object SubscriptionRequest {
                 </SaveOption>
               </SaveOptions>
             </Options>
-            {subscribers map { ListSubscriber(listId, accountDetails) }}
+            {subscribers map { SubscriberXml(listId, accountDetails) }}
           </CreateRequest>
         </soap:Body>
       </soap:Envelope>
   }
 
-private object ListSubscriber {
-    def apply(listId: String, accountDetails: AccountDetails)(subscriber: Subscriber) =
-      <Objects xsi:type="Subscriber">
-        <Client>
-          <ID>{accountDetails.bussinessUnitId}</ID>
-        </Client>
+private object SubscriberXml {
+  def apply(listId: String, accountDetails: AccountDetails)(subscriber: Subscriber) =
+    <Objects xsi:type="Subscriber">
+      <Client>
+        <ID>{accountDetails.bussinessUnitId}</ID>
+      </Client>
+      <ObjectID xsi:nil="true">
+      </ObjectID>
+      <EmailAddress>{subscriber.email}</EmailAddress>
+      <SubscriberKey>{subscriber.email}</SubscriberKey>
+      <Lists>
+        <ID>{listId}</ID>
         <ObjectID xsi:nil="true">
         </ObjectID>
-        <EmailAddress>{subscriber.email}</EmailAddress>
-        <SubscriberKey>{subscriber.email}</SubscriberKey>
-        <Lists>
-          <ID>{listId}</ID>
-          <ObjectID xsi:nil="true">
-          </ObjectID>
-        </Lists>
-        <Attributes>
-          <Name>First Name</Name>
-          <Value>{subscriber.firstName}</Value>
-        </Attributes>
-        <Attributes>
-          <Name>Last Name</Name>
-          <Value>{subscriber.lastName}</Value>
-        </Attributes>
-      </Objects>
-  }
+      </Lists>
+      <Attributes>
+        <Name>First Name</Name>
+        <Value>{subscriber.firstName}</Value>
+      </Attributes>
+      <Attributes>
+        <Name>Last Name</Name>
+        <Value>{subscriber.lastName}</Value>
+      </Attributes>
+    </Objects>
+}
