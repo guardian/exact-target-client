@@ -5,7 +5,7 @@ import org.scalatest.matchers.ShouldMatchers
 import collection.Seq
 import org.apache.commons.httpclient.HttpClient
 import org.apache.commons.httpclient.SimpleHttpConnectionManager
-import xml.{SubscriptionRequest, SubscriberXml}
+import xml.SubscriptionRequest
 
 class ListSubscriberTest extends FlatSpec with ShouldMatchers {
 
