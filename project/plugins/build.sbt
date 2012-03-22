@@ -1,1 +1,3 @@
-libraryDependencies <+= (sbtVersion) { sv => "org.scalaxb" %% "sbt-scalaxb" % ("sbt" + sv + "_0.6.4") }
+addSbtPlugin("org.scalaxb" % "sbt-scalaxb" % "0.6.8")
+ 
+resolvers += ("Sonatype Public" at "https://oss.sonatype.org/content/repositories/public/")
