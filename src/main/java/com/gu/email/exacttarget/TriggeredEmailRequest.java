@@ -20,24 +20,19 @@ public class TriggeredEmailRequest implements RequestEntity
     private final String password;
     private final String accountName;
     private final String emailTemplate;
-    private final String endPoint;
-    private final String host;
     private final String emailAddress;
     private final String userName;
     private final String soapAction;
 
     private final RequestEntity delegate;
 
-    TriggeredEmailRequest(AccountDetails account, String emailTemplate, GuardianUser user, URI endPoint, String soapAction)
+    TriggeredEmailRequest( AccountDetails account, String emailTemplate, GuardianUser user, String soapAction )
     {
         this.accountName = account.username();
         this.password = account.password();
 
         this.userName = user.userName();
         this.emailAddress = user.email();
-
-        this.endPoint = endPoint.toString();
-        this.host = endPoint.getHost();
 
         this.emailTemplate = emailTemplate;
 
@@ -56,41 +51,6 @@ public class TriggeredEmailRequest implements RequestEntity
         }
     }
 
-//    void setPassword( String password )
-//    {
-//        this.password = password;
-//    }
-//
-//    void setAccountName( String accountName )
-//    {
-//        this.accountName = accountName;
-//    }
-//
-//    void setEmailTemplate( String emailTemplate )
-//    {
-//        this.emailTemplate = emailTemplate;
-//    }
-//
-//    void setEndPoint( String endPoint )
-//    {
-//        this.endPoint = endPoint;
-//    }
-//
-//    void setHost( String host )
-//    {
-//        this.host = host;
-//    }
-//
-//    void setEmailAddress( String emailAddress )
-//    {
-//        this.emailAddress = emailAddress;
-//    }
-//
-//    void setUserName( String userName )
-//    {
-//        this.userName = userName;
-//    }
-
     public String getPassword()
     {
         return password;
@@ -104,16 +64,6 @@ public class TriggeredEmailRequest implements RequestEntity
     public String getEmailTemplate()
     {
         return emailTemplate;
-    }
-
-    public String getEndPoint()
-    {
-        return endPoint;
-    }
-
-    public String getHost()
-    {
-        return host;
     }
 
     public String getEmailAddress()

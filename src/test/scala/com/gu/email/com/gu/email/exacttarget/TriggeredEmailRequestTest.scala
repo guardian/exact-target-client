@@ -2,7 +2,7 @@ package com.gu.email.com.gu.email.exacttarget
 
 import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
-import com.gu.email.exacttarget.TriggeredEmailRequestFactory
+import com.gu.email.exacttarget.ExactTargetSoapFactory
 import java.net.URI
 import org.jdom.input.SAXBuilder
 import org.jdom.output.{XMLOutputter, Format}
@@ -11,7 +11,7 @@ import java.io.{FileOutputStream, ByteArrayOutputStream, File}
 class TriggeredEmailRequestTest extends FunSuite with ShouldMatchers {
 
   test("Should generate correct soap message with variables interpolated into the right slots") {
-    val factory = new TriggeredEmailRequestFactory("XXXaccountNameXXX", "XXXpasswordXXX", "XXXemailTemplateXXX", new URI("http://host.com/path/path"))
+    val factory = new ExactTargetSoapFactory("XXXaccountNameXXX", "XXXpasswordXXX", "XXXemailTemplateXXX", new URI("http://host.com/path/path"))
     val emailRequest = factory.createRequest("XXXnew.userXXX", "XXXnew.user@somewhere.comXXX")
 
     val byteOutStream = new ByteArrayOutputStream()
