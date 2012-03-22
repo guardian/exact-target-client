@@ -1,2 +1,5 @@
+*sources.jar
+*~
+project/boot
 target/
 .idea*/

@@ -62,6 +62,8 @@ case class AccountDetails(username: String, password: String, bussinessUnitId: S
 
 case class Subscriber(email: String, firstName: String, lastName: String)
 
+case class GuardianUser(userName: String, email: String)
+
 case class SubscriberResult(email: String, statusCode: String, statusMessage: String) {
   val success = statusCode == "OK"
 }

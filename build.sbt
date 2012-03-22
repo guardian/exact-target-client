@@ -20,6 +20,8 @@ libraryDependencies ++= {
     )
 }
 
+libraryDependencies += "org.jdom" % "jdom" % "1.1"
+
 publishTo <<= (version) { version: String =>
   val nexus = "http://nexus.gudev.gnl:8081/nexus/content/repositories/"
   if (version.trim.endsWith("SNAPSHOT")) Some("Guardian Internal Snapshots" at nexus + "snapshots/")
