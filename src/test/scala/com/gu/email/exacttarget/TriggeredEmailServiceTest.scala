@@ -15,7 +15,7 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
 
   test("Should construct a soap envelope from the params and send it off in a post request") {
 
-    val mockSoapFactory = mock[ExactTargetSoapFactory]
+    val mockSoapFactory = mock[ExactTargetFactory]
     val mockHttpClient = mock[HttpClient]
 
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
@@ -34,7 +34,7 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
 
   test("Should return a soap document constructed from the response of the post method") {
 
-    val mockSoapFactory = mock[ExactTargetSoapFactory]
+    val mockSoapFactory = mock[ExactTargetFactory]
     val mockHttpClient = mock[HttpClient]
 
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
@@ -54,7 +54,7 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
   }
 
   test("Should throw an exception if the response code is not 200") {
-    val mockSoapFactory = mock[ExactTargetSoapFactory]
+    val mockSoapFactory = mock[ExactTargetFactory]
     val mockHttpClient = mock[HttpClient]
 
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
@@ -73,7 +73,7 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
 
 
   test("Should wrap IO exception thrown by http client") {
-    val mockSoapFactory = mock[ExactTargetSoapFactory]
+    val mockSoapFactory = mock[ExactTargetFactory]
     val mockHttpClient = mock[HttpClient]
 
     val user = GuardianUser("jon_balls", "jon.balls@test.com")

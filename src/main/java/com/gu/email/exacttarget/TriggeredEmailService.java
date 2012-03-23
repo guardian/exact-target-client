@@ -8,10 +8,10 @@ import java.io.IOException;
 
 public class TriggeredEmailService
 {
-    private final ExactTargetSoapFactory soapFactory;
+    private final ExactTargetFactory soapFactory;
     private HttpClient httpClient;
 
-    public TriggeredEmailService( ExactTargetSoapFactory soapFactory, HttpClient httpClient )
+    public TriggeredEmailService( ExactTargetFactory soapFactory, HttpClient httpClient )
     {
         this.soapFactory = soapFactory;
         this.httpClient = httpClient;

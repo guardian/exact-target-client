@@ -1,4 +1,4 @@
-package com.gu.email.exacttarget.soap;
+package com.gu.email.exacttarget;
 
 import org.jdom.Element;
 

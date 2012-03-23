@@ -12,14 +12,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
-public class ExactTargetSoapFactory
+
+public class ExactTargetFactory
 {
     private final String emailTemplate;
     private final URI endPoint;
     private String soapAction = "Create";
     private final AccountDetails accountDetails;
 
-    public ExactTargetSoapFactory( String accountName, String password, String emailTemplate, URI endPoint )
+    public ExactTargetFactory( String accountName, String password, String emailTemplate, URI endPoint )
     {
         accountDetails = new AccountDetails(accountName, password, "");
         this.emailTemplate = emailTemplate;

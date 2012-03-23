@@ -2,7 +2,6 @@ package com.gu.email.exacttarget;
 
 import com.gu.email.AccountDetails;
 import com.gu.email.GuardianUser;
-import com.gu.email.exacttarget.soap.SoapMessageFactory;
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.jdom.Document;
@@ -12,10 +11,9 @@ import org.jdom.output.XMLOutputter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 
 // TODO: change name. This is the body of a post request. It wraps a SOAP envelope
-public class TriggeredEmailRequest implements RequestEntity
+class TriggeredEmailRequest implements RequestEntity
 {
     private final String password;
     private final String accountName;
@@ -83,7 +81,7 @@ public class TriggeredEmailRequest implements RequestEntity
 
     private Document buildXmlMessage()
     {
-        return new SoapMessageFactory().createMessage( this );
+        return new SoapEnvelopeFactory().createMessage( this );
     }
 
     private String xmlToString( Document document )

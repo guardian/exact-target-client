@@ -1,9 +1,9 @@
-package com.gu.email.exacttarget.soap;
+package com.gu.email.exacttarget;
 
 import org.jdom.Document;
 import org.jdom.Element;
 
-import static com.gu.email.exacttarget.soap.Namespaces.*;
+import static com.gu.email.exacttarget.Namespaces.*;
 
 
 class SoapEnvelope extends Document

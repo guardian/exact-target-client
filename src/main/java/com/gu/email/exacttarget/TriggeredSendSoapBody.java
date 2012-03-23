@@ -1,8 +1,8 @@
-package com.gu.email.exacttarget.soap;
+package com.gu.email.exacttarget;
 
 import org.jdom.Element;
 
-import static com.gu.email.exacttarget.soap.Namespaces.*;
+import static com.gu.email.exacttarget.Namespaces.*;
 
 
 class TriggeredSendSoapBody extends Element

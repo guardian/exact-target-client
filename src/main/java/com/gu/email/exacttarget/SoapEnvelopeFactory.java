@@ -1,9 +1,8 @@
-package com.gu.email.exacttarget.soap;
+package com.gu.email.exacttarget;
 
-import com.gu.email.exacttarget.TriggeredEmailRequest;
 import org.jdom.Document;
 
-public class SoapMessageFactory
+class SoapEnvelopeFactory
 {
     public Document createMessage( TriggeredEmailRequest requestData )
     {

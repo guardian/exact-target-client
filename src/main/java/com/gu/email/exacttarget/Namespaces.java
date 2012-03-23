@@ -1,10 +1,10 @@
-package com.gu.email.exacttarget.soap;
+package com.gu.email.exacttarget;
 
 import org.jdom.Namespace;
 
 import static org.jdom.Namespace.getNamespace;
 
-public class Namespaces
+class Namespaces
 {
     public static final Namespace SOAP = getNamespace("soap", "http://schemas.xmlsoap.org/soap/envelope/");
     public static final Namespace XSI = getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
