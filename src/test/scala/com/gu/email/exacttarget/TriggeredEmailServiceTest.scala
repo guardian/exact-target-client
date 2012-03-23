@@ -40,7 +40,7 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
     val emailRequest = mock[TriggeredEmailRequest]
     val postMethod = mock[PostMethod]
-    val expectedResponseDocument = mock[TriggeredEmailResponseDocument]
+    val expectedResponseDocument = mock[TriggeredEmailResponse]
 
     when(mockSoapFactory.createRequest(user)).thenReturn(emailRequest)
     when(mockSoapFactory.createPostMethod(emailRequest)).thenReturn(postMethod)
@@ -60,11 +60,11 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
     val emailRequest = mock[TriggeredEmailRequest]
     val postMethod = mock[PostMethod]
-    val expectedResponseDocument = mock[TriggeredEmailResponseDocument]
+    val expectedResponse = mock[TriggeredEmailResponse]
 
     when(mockSoapFactory.createRequest(user)).thenReturn(emailRequest)
     when(mockSoapFactory.createPostMethod(emailRequest)).thenReturn(postMethod)
-    when(mockSoapFactory.createResponseDocument(postMethod)).thenReturn(expectedResponseDocument)
+    when(mockSoapFactory.createResponseDocument(postMethod)).thenReturn(expectedResponse)
     when(mockHttpClient.executeMethod(postMethod)).thenReturn(500)
 
     val service = new TriggeredEmailService(mockSoapFactory, mockHttpClient)
@@ -79,7 +79,7 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
     val emailRequest = mock[TriggeredEmailRequest]
     val postMethod = mock[PostMethod]
-    val expectedResponseDocument = mock[TriggeredEmailResponseDocument]
+    val expectedResponseDocument = mock[TriggeredEmailResponse]
 
     when(mockSoapFactory.createRequest(user)).thenReturn(emailRequest)
     when(mockSoapFactory.createPostMethod(emailRequest)).thenReturn(postMethod)

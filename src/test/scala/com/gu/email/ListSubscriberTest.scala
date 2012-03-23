@@ -7,7 +7,7 @@ import org.apache.commons.httpclient.HttpClient
 import org.apache.commons.httpclient.SimpleHttpConnectionManager
 import xml.SubscriptionRequest
 
-class .ListSubscriberTest extends FlatSpec with ShouldMatchers {
+class ListSubscriberTest extends FlatSpec with ShouldMatchers {
 
   //NOTE this is an integration test that actually tries to add subscribers to the list in the test environment
 

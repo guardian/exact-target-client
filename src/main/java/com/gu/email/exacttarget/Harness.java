@@ -1,6 +1,5 @@
 package com.gu.email.exacttarget;
 
-import com.gu.email.AccountDetails;
 import com.gu.email.GuardianUser;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -15,7 +14,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static com.gu.email.exacttarget.soap.Namespaces.*;
+import static com.gu.email.exacttarget.soap.Namespaces.ET;
+import static com.gu.email.exacttarget.soap.Namespaces.SOAP;
 
 public class Harness
 {
@@ -45,7 +45,7 @@ public class Harness
 
         System.out.println( httpClient.executeMethod( postMethod ) );
 
-        // TriggeredEmailResponseDocument response = postMethod.getTriggeredEmailResponse();
+        // TriggeredEmailResponse response = postMethod.getTriggeredEmailResponse();
 
 
         Document responseDocument = new SAXBuilder().build( postMethod.getResponseBodyAsStream() );

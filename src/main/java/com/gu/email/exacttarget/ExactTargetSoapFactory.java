@@ -45,7 +45,7 @@ public class ExactTargetSoapFactory
         return triggeredRequest;
     }
 
-    public TriggeredEmailResponseDocument createResponseDocument( PostMethod postMethod ) throws ExactTargetException
+    public TriggeredEmailResponse createResponseDocument( PostMethod postMethod ) throws ExactTargetException
     {
         InputStream inputStream = null;
         try
@@ -70,6 +70,6 @@ public class ExactTargetSoapFactory
             throw new ExactTargetException( "Error parsing post response into xml document", e );
         }
 
-        return new TriggeredEmailResponseDocument( responseDocument );
+        return new TriggeredEmailResponse( responseDocument );
     }
 }

@@ -5,7 +5,6 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 public class TriggeredEmailService
 {
@@ -18,7 +17,7 @@ public class TriggeredEmailService
         this.httpClient = httpClient;
     }
 
-    public TriggeredEmailResponseDocument sendEmailRequest(  GuardianUser user ) throws ExactTargetException
+    public TriggeredEmailResponse sendEmailRequest(  GuardianUser user ) throws ExactTargetException
     {
         TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest( user );
         PostMethod postMethod = soapFactory.createPostMethod( triggeredEmailRequest );

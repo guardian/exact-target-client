@@ -2,11 +2,11 @@ package com.gu.email.exacttarget;
 
 import org.jdom.Document;
 
-public class TriggeredEmailResponseDocument
+public class TriggeredEmailResponse
 {
     private final Document responseDocument;
 
-    TriggeredEmailResponseDocument( Document responseDocument )
+    TriggeredEmailResponse( Document responseDocument )
     {
         this.responseDocument = responseDocument;
     }
