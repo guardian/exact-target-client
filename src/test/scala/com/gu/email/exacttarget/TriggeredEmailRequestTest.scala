@@ -2,11 +2,10 @@ package com.gu.email.exacttarget
 
 import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
-import com.gu.email.exacttarget.ExactTargetSoapFactory
 import java.net.URI
 import org.jdom.input.SAXBuilder
 import org.jdom.output.{XMLOutputter, Format}
-import java.io.{FileOutputStream, ByteArrayOutputStream, File}
+import java.io.ByteArrayOutputStream
 import com.gu.email.GuardianUser
 
 class TriggeredEmailRequestTest extends FunSuite with ShouldMatchers {

@@ -4,7 +4,6 @@ import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
 import org.apache.commons.httpclient.methods.RequestEntity
 import java.io.OutputStream
-import com.gu.email.exacttarget.ExactTargetSoapFactory
 import java.net.URI
 
 class ExactTargetSoapFactoryTest extends FunSuite with ShouldMatchers {

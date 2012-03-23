@@ -6,7 +6,7 @@ version := "1.6-SNAPSHOT"
 
 crossScalaVersions := Seq("2.8.1", "2.9.0-1", "2.9.1")
 
-addSbtPlugin("org.scalaxb" % "sbt-scalaxb" % "0.6.8")
+addSbtPlugin("org.scalaxb" %% "sbt-scalaxb" % "0.6.8")
 
 resolvers += ("Sonatype Public" at "https://oss.sonatype.org/content/repositories/public/")
 
