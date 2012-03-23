@@ -14,7 +14,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 
-
+// TODO: change name. This is the body of a post request. It wraps a SOAP envelope
 public class TriggeredEmailRequest implements RequestEntity
 {
     private final String password;
@@ -26,7 +26,7 @@ public class TriggeredEmailRequest implements RequestEntity
 
     private final RequestEntity delegate;
 
-    TriggeredEmailRequest( AccountDetails account, String emailTemplate, GuardianUser user, String soapAction )
+    public TriggeredEmailRequest( AccountDetails account, String emailTemplate, GuardianUser user, String soapAction )
     {
         this.accountName = account.username();
         this.password = account.password();

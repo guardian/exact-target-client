@@ -58,7 +58,7 @@ trait ListSubscriber {
   }
 }
 
-case class AccountDetails(username: String, password: String, bussinessUnitId: String)
+case class AccountDetails(username: String, password: String, businessUnitId: String)
 
 case class Subscriber(email: String, firstName: String, lastName: String)
 

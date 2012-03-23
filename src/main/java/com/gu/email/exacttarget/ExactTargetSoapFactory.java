@@ -4,24 +4,24 @@ import com.gu.email.AccountDetails;
 import com.gu.email.GuardianUser;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 
 public class ExactTargetSoapFactory
 {
     private final String emailTemplate;
-    private final String accountName;
-    private final String password;
     private final URI endPoint;
     private String soapAction = "Create";
-
-    // TODO: Are we going to need this?
-    private String businessUnit = "";
+    private final AccountDetails accountDetails;
 
     public ExactTargetSoapFactory( String accountName, String password, String emailTemplate, URI endPoint )
     {
-        this.password = password;
-        this.accountName = accountName;
+        accountDetails = new AccountDetails(accountName, password, "");
         this.emailTemplate = emailTemplate;
         this.endPoint = endPoint;
     }
@@ -39,13 +39,37 @@ public class ExactTargetSoapFactory
         return method;
     }
 
-    public TriggeredEmailRequest createRequest( String userName, String emailAddress )
+    public TriggeredEmailRequest createRequest( GuardianUser guardianUser )
     {
-        AccountDetails accountDetails = new AccountDetails( accountName, password, businessUnit );
-        GuardianUser registeredUser = new GuardianUser( userName, emailAddress );
-
-        TriggeredEmailRequest triggeredRequest = new TriggeredEmailRequest( accountDetails, emailTemplate, registeredUser, soapAction );
-
+        TriggeredEmailRequest triggeredRequest = new TriggeredEmailRequest( accountDetails, emailTemplate, guardianUser, soapAction );
         return triggeredRequest;
+    }
+
+    public TriggeredEmailResponseDocument createResponseDocument( PostMethod postMethod ) throws ExactTargetException
+    {
+        InputStream inputStream = null;
+        try
+        {
+            inputStream = postMethod.getResponseBodyAsStream();
+        }
+        catch( IOException e )
+        {
+            throw new ExactTargetException( "Error extracting body from post response", e );
+        }
+        Document responseDocument = null;
+        try
+        {
+            responseDocument = new SAXBuilder().build( inputStream );
+        }
+        catch( JDOMException e )
+        {
+            throw new ExactTargetException( "Error parsing post response into xml document", e );
+        }
+        catch( IOException e )
+        {
+            throw new ExactTargetException( "Error parsing post response into xml document", e );
+        }
+
+        return new TriggeredEmailResponseDocument( responseDocument );
     }
 }

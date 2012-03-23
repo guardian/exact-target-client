@@ -45,7 +45,7 @@ private object SubscriberXml {
   def apply(listId: String, accountDetails: AccountDetails)(subscriber: Subscriber) =
     <Objects xsi:type="Subscriber">
       <Client>
-        <ID>{accountDetails.bussinessUnitId}</ID>
+        <ID>{accountDetails.businessUnitId}</ID>
       </Client>
       <ObjectID xsi:nil="true">
       </ObjectID>

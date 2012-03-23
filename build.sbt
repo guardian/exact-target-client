@@ -6,6 +6,10 @@ version := "1.6-SNAPSHOT"
 
 crossScalaVersions := Seq("2.8.1", "2.9.0-1", "2.9.1")
 
+addSbtPlugin("org.scalaxb" % "sbt-scalaxb" % "0.6.8")
+
+resolvers += ("Sonatype Public" at "https://oss.sonatype.org/content/repositories/public/")
+
 libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
 	val versionMap = Map("2.8.1" -> "1.5.1", "2.9.0-1" -> "1.6.1", "2.9.1" -> "1.6.1")
 	val testVersion = versionMap.getOrElse(sv, error("Unsupported Scala version " + sv))
@@ -15,12 +19,14 @@ libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
 libraryDependencies ++= {
     Seq(
         "joda-time" % "joda-time" % "1.6.2" % "provided",
-        "commons-httpclient" % "commons-httpclient" % "3.1" % "provided",
+        "commons-httpclient" % "commons-httpclient" % "3.1",
         "org.slf4j" % "slf4j-api" % "1.6.1" % "provided"
     )
 }
 
 libraryDependencies += "org.jdom" % "jdom" % "1.1"
+
+libraryDependencies += "org.mockito" % "mockito-core" % "1.9.0" % "test"
 
 publishTo <<= (version) { version: String =>
   val nexus = "http://nexus.gudev.gnl:8081/nexus/content/repositories/"

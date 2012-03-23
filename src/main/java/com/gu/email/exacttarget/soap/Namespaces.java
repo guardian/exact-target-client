@@ -4,7 +4,7 @@ import org.jdom.Namespace;
 
 import static org.jdom.Namespace.getNamespace;
 
-class Namespaces
+public class Namespaces
 {
     public static final Namespace SOAP = getNamespace("soap", "http://schemas.xmlsoap.org/soap/envelope/");
     public static final Namespace XSI = getNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
