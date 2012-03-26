@@ -20,6 +20,7 @@ class ExactTargetSoapFactoryTest extends FunSuite with ShouldMatchers {
     def getContentType: String = "cheese;balls"
   }
 
+  // irrelevant comment to trigger the build
   test("Should create a post request and set the body as specified") {
     val postBody = factory.createPostMethod(body)
 
