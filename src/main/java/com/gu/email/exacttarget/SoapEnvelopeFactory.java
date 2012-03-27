@@ -12,6 +12,7 @@ class SoapEnvelopeFactory
                 requestData.getPassword() );
 
         TriggeredSendSoapBody body = new TriggeredSendSoapBody(
+                requestData.getBusinessUnitId(),
                 requestData.getEmailTemplate(),
                 requestData.getUserName(),
                 requestData.getEmailAddress() );

@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-	       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	       xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
-	       xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
-	       xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
-  <soap:Header>
-    <wsa:Action>Create</wsa:Action>
-    <wsa:MessageID>urn:uuid:bd9bc23b-42da-4c2e-b4c1-b1e822f520a6</wsa:MessageID>
-    <wsa:ReplyTo>
-      <wsa:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:Address>
-    </wsa:ReplyTo>
-    <wsa:To>https://webservice.s4.exacttarget.com/Service.asmx</wsa:To>
-    <wsse:Security soap:mustUnderstand="1">
-      <wsse:UsernameToken wsu:Id="SecurityToken-884da619-59bb-4db6-834d-138322342442">
-	<wsse:Username>XXXaccountNameXXX</wsse:Username>
-	<wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">XXXpasswordXXX</wsse:Password>
-      </wsse:UsernameToken>
-    </wsse:Security>
-  </soap:Header>
-  <soap:Body>
-    <CreateRequest xmlns="http://exacttarget.com/wsdl/partnerAPI">
-      <Options/>
-      <Objects xsi:type="TriggeredSend">
-	<PartnerKey xsi:nil="true"/>
-	<ObjectID xsi:nil="true"/>
-	<TriggeredSendDefinition>
-	  <PartnerKey xsi:nil="true"/>
-	  <ObjectID xsi:nil="true"/>
-	  <CustomerKey>XXXemailTemplateXXX</CustomerKey>
-	</TriggeredSendDefinition>
-	<Subscribers>
-	  <PartnerKey xsi:nil="true"/>
-	  <ObjectID xsi:nil="true"/>
-	  <EmailAddress>XXXnew.user@somewhere.comXXX</EmailAddress>
-	  <SubscriberKey>XXXnew.user@somewhere.comXXX</SubscriberKey>
-	  <Attributes>
-	    <Name>Field_A</Name>
-	    <Value>XXXnew.userXXX</Value>
-	  </Attributes>
-	</Subscribers>
-      </Objects>
-    </CreateRequest>
-  </soap:Body>
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+               xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing"
+               xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
+               xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <soap:Header>
+        <wsa:Action>Create</wsa:Action>
+        <wsa:MessageID>urn:uuid:bd9bc23b-42da-4c2e-b4c1-b1e822f520a6</wsa:MessageID>
+        <wsa:ReplyTo>
+            <wsa:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:Address>
+        </wsa:ReplyTo>
+        <wsa:To>https://webservice.s4.exacttarget.com/Service.asmx</wsa:To>
+        <wsse:Security soap:mustUnderstand="1">
+            <wsse:UsernameToken wsu:Id="SecurityToken-884da619-59bb-4db6-834d-138322342442">
+                <wsse:Username>XXXaccountNameXXX</wsse:Username>
+                <wsse:Password
+                        Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">
+                    XXXpasswordXXX
+                </wsse:Password>
+            </wsse:UsernameToken>
+        </wsse:Security>
+    </soap:Header>
+    <soap:Body>
+        <CreateRequest xmlns="http://exacttarget.com/wsdl/partnerAPI">
+            <Options/>
+            <Objects xsi:type="TriggeredSend">
+                <PartnerKey xsi:nil="true"/>
+                <ObjectID xsi:nil="true"/>
+                <TriggeredSendDefinition>
+                    <Client>
+                        <ID>XXXbusinessUnitIdXXX</ID>
+                    </Client>
+                    <PartnerKey xsi:nil="true"/>
+                    <ObjectID xsi:nil="true"/>
+                    <CustomerKey>XXXemailTemplateXXX</CustomerKey>
+                </TriggeredSendDefinition>
+                <Subscribers>
+                    <PartnerKey xsi:nil="true"/>
+                    <ObjectID xsi:nil="true"/>
+                    <EmailAddress>XXXnew.user@somewhere.comXXX</EmailAddress>
+                    <SubscriberKey>XXXnew.user@somewhere.comXXX</SubscriberKey>
+                    <Attributes>
+                        <Name>Field_A</Name>
+                        <Value>XXXnew.userXXX</Value>
+                    </Attributes>
+                </Subscribers>
+            </Objects>
+        </CreateRequest>
+    </soap:Body>
 </soap:Envelope>

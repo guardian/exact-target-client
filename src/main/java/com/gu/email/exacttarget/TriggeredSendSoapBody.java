@@ -1,5 +1,6 @@
 package com.gu.email.exacttarget;
 
+import org.jdom.Content;
 import org.jdom.Element;
 
 import static com.gu.email.exacttarget.Namespaces.*;
@@ -10,13 +11,15 @@ class TriggeredSendSoapBody extends Element
     private String userName;
     private String emailAddress;
     private String emailTemplate;
+    private String businessUnitId;
 
-    public TriggeredSendSoapBody( String emailTemplate, String userName, String emailAddress )
+    public TriggeredSendSoapBody( String businessUnitId, String emailTemplate, String userName, String emailAddress )
     {
         super( "Body", SOAP );
         this.userName = userName;
         this.emailAddress = emailAddress;
         this.emailTemplate = emailTemplate;
+        this.businessUnitId = businessUnitId;
 
         Element createRequest = new Element( "CreateRequest", ET );
 
@@ -44,11 +47,23 @@ class TriggeredSendSoapBody extends Element
         customerKeyElement.setText( emailTemplate );
 
         Element triggeredSendDefinition = new Element( "TriggeredSendDefinition", ET );
+        triggeredSendDefinition.addContent( businessUnitID() );
         triggeredSendDefinition.addContent( partnerKey() );
         triggeredSendDefinition.addContent( objectId() );
         triggeredSendDefinition.addContent( customerKeyElement );
 
         return triggeredSendDefinition;
+    }
+
+    private Content businessUnitID()
+    {
+        Element client = new Element( "Client", ET );
+        Element id = new Element( "ID", ET );
+        id.setText( businessUnitId );
+
+        client.addContent( id );
+
+        return client;
     }
 
     private Element subscribers()

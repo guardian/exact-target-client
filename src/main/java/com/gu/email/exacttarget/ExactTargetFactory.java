@@ -19,10 +19,12 @@ public class ExactTargetFactory
     private final URI endPoint;
     private String soapAction = "Create";
     private final AccountDetails accountDetails;
+    private String businessUnitId;
 
-    public ExactTargetFactory( String accountName, String password, String emailTemplate, URI endPoint )
+    public ExactTargetFactory( String accountName, String password, String businessUnitId, String emailTemplate, URI endPoint )
     {
-        accountDetails = new AccountDetails(accountName, password, "");
+        this.businessUnitId = businessUnitId;
+        accountDetails = new AccountDetails(accountName, password, this.businessUnitId );
         this.emailTemplate = emailTemplate;
         this.endPoint = endPoint;
     }

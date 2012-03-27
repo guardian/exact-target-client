@@ -1,4 +1,4 @@
-package harness;
+package com.gu.email.exacttarget;
 
 import com.gu.email.GuardianUser;
 import com.gu.email.exacttarget.ExactTargetException;
@@ -20,6 +20,7 @@ public class Harness
     private static final String emailTemplate = "001WelcomeEmailTriggerET";
     private static URI endPoint;
     private static final HttpClient httpClient = new HttpClient();
+    private static String businessUnitId = "1062022";
 
     static {
         try
@@ -34,10 +35,14 @@ public class Harness
 
     public static void main( String args[] ) throws IOException, JDOMException, ExactTargetException
     {
-        ExactTargetFactory factory = new ExactTargetFactory( accountName, password, emailTemplate, endPoint );
+        ExactTargetFactory factory = new ExactTargetFactory( accountName, password, businessUnitId, emailTemplate, endPoint );
         TriggeredEmailService emailService = new TriggeredEmailService( factory, httpClient );
         TriggeredEmailResponse response = emailService.sendEmailRequest( new GuardianUser( "billy_bob", "james.rodgers@guardian.co.uk" ) );
 
+        System.out.println( response.getStatusCode() );
+        System.out.println( response.getOverallStatus() );
+        System.out.println( response.getRequestId() );
+        System.out.println( response.getStatusMessage() );
         System.out.println( response.getDocumentAsString() );
 
 

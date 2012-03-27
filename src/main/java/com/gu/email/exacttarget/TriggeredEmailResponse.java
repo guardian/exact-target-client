@@ -4,6 +4,8 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,8 +20,10 @@ public class TriggeredEmailResponse
     private String statusMessage;
     private String requestId;
     private String overallStatus;
-
     private final Document responseDocument;
+
+    private static final Logger LOG = LoggerFactory.getLogger( TriggeredEmailResponse.class );
+
 
     TriggeredEmailResponse( Document responseDocument )
     {
@@ -39,8 +43,7 @@ public class TriggeredEmailResponse
         }
         catch( Exception e )
         {
-            // TODO: log this
-            //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error( "Error parsing triggered email response", e );
 
             this.statusCode = "ERROR";
             this.statusMessage = "Unable to parse response document";
@@ -90,7 +93,7 @@ public class TriggeredEmailResponse
         }
         catch( IOException e )
         {
-            // TODO: log this
+            LOG.error( "Error outputting triggered email response", e );
             return "Could not parse response document: " + e.getMessage();
         }
 
