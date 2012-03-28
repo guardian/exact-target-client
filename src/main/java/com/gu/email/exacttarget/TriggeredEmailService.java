@@ -24,7 +24,14 @@ public class TriggeredEmailService
     }
 
 
-    public TriggeredEmailResponse sendEmailRequest(  GuardianUser user ) throws ExactTargetException
+    public TriggeredEmailResponse sendEmailRequest( String userName, String emailAddress ) throws ExactTargetException
+    {
+        GuardianUser user = new GuardianUser( userName, emailAddress );
+        return sendEmailRequest( user );
+    }
+
+
+    TriggeredEmailResponse sendEmailRequest(  GuardianUser user ) throws ExactTargetException
     {
         TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest( user );
         PostMethod postMethod = soapFactory.createPostMethod( triggeredEmailRequest );
