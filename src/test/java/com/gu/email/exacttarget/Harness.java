@@ -18,9 +18,10 @@ public class Harness
     private static final String accountName = "gnmtestuser";
     private static final String password = "row_4boat";
     private static final String emailTemplate = "001WelcomeEmailTriggerET";
+    private static String businessUnitId = "1062022";
+
     private static URI endPoint;
     private static final HttpClient httpClient = new HttpClient();
-    private static String businessUnitId = "1062022";
 
     static {
         try
@@ -37,7 +38,7 @@ public class Harness
     {
         ExactTargetFactory factory = new ExactTargetFactory( accountName, password, businessUnitId, emailTemplate, endPoint );
         TriggeredEmailService emailService = new TriggeredEmailService( factory, httpClient );
-        TriggeredEmailResponse response = emailService.sendEmailRequest( new GuardianUser( "billy_bob", "james.rodgers@guardian.co.uk" ) );
+        TriggeredEmailResponse response = emailService.sendEmailRequest( "John Smit", "james.rodgers@guardian.co.uk" );
 
         System.out.println( response.getStatusCode() );
         System.out.println( response.getOverallStatus() );
