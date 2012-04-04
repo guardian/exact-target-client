@@ -17,9 +17,9 @@ trait ListSubscriber {
   val OK = 200
 
 
-  def subscribeToList(listId: String, subscribers: Seq[Subscriber]): (Int, Seq[SubscriberResult]) = {
+  def subscribeToList(listId: String, businessUnitId: String, subscribers: Seq[Subscriber]): (Int, Seq[SubscriberResult]) = {
 
-    val subscriptionXml = SubscriptionRequest(listId, accountDetails, subscribers)
+    val subscriptionXml = SubscriptionRequest(listId, businessUnitId, accountDetails, subscribers)
 
     if (logger.isDebugEnabled) logger.debug("Email subscription request xml: " + subscriptionXml.toString)
 
@@ -58,7 +58,7 @@ trait ListSubscriber {
   }
 }
 
-case class AccountDetails(username: String, password: String, businessUnitId: String)
+case class AccountDetails(username: String, password: String)
 
 case class Subscriber(email: String, firstName: String, lastName: String)
 

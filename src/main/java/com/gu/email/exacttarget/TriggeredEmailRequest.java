@@ -23,13 +23,13 @@ class TriggeredEmailRequest implements RequestEntity
     private final String soapAction;
 
     private final RequestEntity delegate;
-    private String businessUnitId;
+    private final String businessUnitId;
 
-    public TriggeredEmailRequest( AccountDetails account, String emailTemplate, GuardianUser user, String soapAction )
+    public TriggeredEmailRequest( AccountDetails account, String businessUnitId, String emailTemplate, GuardianUser user, String soapAction )
     {
+        this.businessUnitId = businessUnitId;
         this.accountName = account.username();
         this.password = account.password();
-        this.businessUnitId = account.businessUnitId();
 
         this.userName = user.userName();
         this.emailAddress = user.email();
