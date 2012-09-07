@@ -20,7 +20,8 @@ libraryDependencies ++= {
     Seq(
         "joda-time" % "joda-time" % "1.6.2" % "provided",
         "commons-httpclient" % "commons-httpclient" % "3.1",
-        "org.slf4j" % "slf4j-api" % "1.6.1" % "provided"
+        "org.slf4j" % "slf4j-api" % "1.6.1" % "provided",
+        "ch.qos.logback" % "logback-classic" % "1.0.7" % "test"
     )
 }
 
