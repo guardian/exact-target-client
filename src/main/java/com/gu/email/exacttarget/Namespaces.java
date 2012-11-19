@@ -13,5 +13,6 @@ class Namespaces
     public static final Namespace WSSE = getNamespace("wsse", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd");
     public static final Namespace WSU = getNamespace("wsu", "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd");
     public static final Namespace ET = getNamespace( "http://exacttarget.com/wsdl/partnerAPI" );
+    public static final Namespace ETNS = getNamespace("ns1", "http://exacttarget.com/wsdl/partnerAPI");
 
 }

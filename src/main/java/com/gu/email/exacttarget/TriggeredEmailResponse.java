@@ -24,7 +24,6 @@ public class TriggeredEmailResponse
 
     private static final Logger LOG = LoggerFactory.getLogger( TriggeredEmailResponse.class );
 
-
     TriggeredEmailResponse( Document responseDocument )
     {
         this.responseDocument = responseDocument;

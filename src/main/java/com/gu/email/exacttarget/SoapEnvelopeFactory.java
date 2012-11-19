@@ -19,4 +19,18 @@ class SoapEnvelopeFactory
 
         return new SoapEnvelope( header, body );
     }
+
+    public Document createEmaiListMessage( EmailListForUserRequest requestData ) {
+
+        ExactTargetSoapHeader header = new ExactTargetSoapHeader(
+                requestData.getAccountName(),
+                requestData.getPassword() );
+
+        EmailListForUserRequestSoapBody body = new EmailListForUserRequestSoapBody(
+                requestData.getBusinessUnitId(),
+                requestData.getEmailAddress()
+        );
+
+        return new SoapEnvelope(header, body);
+    }
 }

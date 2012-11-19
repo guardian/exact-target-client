@@ -1,6 +1,7 @@
 package com.gu.email.exacttarget;
 
 import org.jdom.Element;
+import org.jdom.Namespace;
 
 
 class ExactTargetSoapHeader extends Element
@@ -23,6 +24,17 @@ class ExactTargetSoapHeader extends Element
         addContent( replyTo() );
         addContent( to );
         addContent( security( accountName, password ) );
+    }
+
+    public ExactTargetSoapHeader ( String accountName, String password )
+    {
+        super("Header", Namespaces.SOAP );
+
+//
+//        Element action = new Element( "Action", Namespaces.WSA );
+//        action.setText( "GetSystemStatus" );
+
+        addContent( security(accountName, password));
     }
 
     private Element security( String accountName, String password )
