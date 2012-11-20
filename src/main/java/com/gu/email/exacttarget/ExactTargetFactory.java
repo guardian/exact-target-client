@@ -41,12 +41,33 @@ public class ExactTargetFactory
 
         return method;
     }
+    //TODO this repitition sucks
+    public PostMethod emailListsForUser( RequestEntity body )
+    {
+        PostMethod postMethod = new PostMethod(endPoint.toString());
+        postMethod.setRequestHeader("Content-type", "text/xml; charser=utf-8");
+        postMethod.setRequestHeader("Content-Length", "" + body.getContentLength() );
+        postMethod.setRequestHeader( "SOAPAction", "Retrieve" );
+
+        //postMethod.setRequestHeader( "SOAPAction", soapAction );
+
+        postMethod.setRequestEntity( body ) ;
+
+        return postMethod;
+    }
 
     public TriggeredEmailRequest createRequest( GuardianUser guardianUser )
     {
         TriggeredEmailRequest triggeredRequest = new TriggeredEmailRequest( accountDetails, businessUnitId, emailTemplate, guardianUser, soapAction );
         return triggeredRequest;
     }
+
+    public EmailListForUserRequest createListForUserRequest( GuardianUser guardianUser )
+    {
+        EmailListForUserRequest emailListForUserRequest = new EmailListForUserRequest(accountDetails, businessUnitId, guardianUser);
+        return emailListForUserRequest;
+    }
+
 
     public TriggeredEmailResponse createResponseDocument( PostMethod postMethod ) throws ExactTargetException
     {

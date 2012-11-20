@@ -13,32 +13,21 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 // TODO: change name. This is the body of a post request. It wraps a SOAP envelope
-class TriggeredEmailRequest implements RequestEntity
+class TriggeredEmailRequest extends ExactTargetRequest
 {
-    private final String password;
-    private final String accountName;
-    private final String emailTemplate;
-    private final String emailAddress;
-    private final String userName;
-    private final String soapAction;
+    private final String emailTemplate; //Keep here
+    private final String userName;     //Keep here
+    private String soapAction;
 
-    private final RequestEntity delegate;
-    private final String businessUnitId;
 
     public TriggeredEmailRequest( AccountDetails account, String businessUnitId, String emailTemplate, GuardianUser user, String soapAction )
     {
-        this.businessUnitId = businessUnitId;
-        this.accountName = account.username();
-        this.password = account.password();
-
-        this.userName = user.userName();
-        this.emailAddress = user.email();
-
-        this.emailTemplate = emailTemplate;
+        super(account, businessUnitId, user);
 
         this.soapAction = soapAction;
-
-        Document soapEnvelope = buildXmlMessage();
+        this.userName = user.userName();
+        this.emailTemplate = emailTemplate;// kee
+        Document soapEnvelope = buildXmlMessage();//
         String soapEnvelopeString = xmlToString( soapEnvelope );
 
         try
@@ -49,31 +38,7 @@ class TriggeredEmailRequest implements RequestEntity
         {
             throw new IllegalStateException( ex );
         }
-    }
 
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public String getAccountName()
-    {
-        return accountName;
-    }
-
-    public String getEmailTemplate()
-    {
-        return emailTemplate;
-    }
-
-    public String getEmailAddress()
-    {
-        return emailAddress;
-    }
-
-    public String getUserName()
-    {
-        return userName;
     }
 
     public String getSoapAction()
@@ -81,44 +46,24 @@ class TriggeredEmailRequest implements RequestEntity
         return soapAction;
     }
 
+
+    public String getEmailTemplate()
+    {
+        return emailTemplate;
+    }
+
+
+    public String getUserName()
+    {
+        return userName;
+    }
+
+
     private Document buildXmlMessage()
     {
         return new SoapEnvelopeFactory().createMessage( this );
     }
 
-    private String xmlToString( Document document )
-    {
-        Format format = Format.getCompactFormat();
-        XMLOutputter outputter = new XMLOutputter( format );
-        return outputter.outputString( document );
-    }
 
-    @Override
-    public boolean isRepeatable()
-    {
-        return delegate.isRepeatable();
-    }
 
-    @Override
-    public void writeRequest( OutputStream out ) throws IOException
-    {
-        delegate.writeRequest( out );
-    }
-
-    @Override
-    public long getContentLength()
-    {
-        return delegate.getContentLength();
-    }
-
-    @Override
-    public String getContentType()
-    {
-        return delegate.getContentType();
-    }
-
-    public String getBusinessUnitId()
-    {
-        return businessUnitId;
-    }
 }
