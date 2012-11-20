@@ -1,10 +1,5 @@
 package com.gu.email.exacttarget;
 
-import com.gu.email.GuardianUser;
-import com.gu.email.exacttarget.ExactTargetException;
-import com.gu.email.exacttarget.ExactTargetFactory;
-import com.gu.email.exacttarget.TriggeredEmailResponse;
-import com.gu.email.exacttarget.TriggeredEmailService;
 import org.apache.commons.httpclient.HttpClient;
 import org.jdom.JDOMException;
 
