@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+    <soap:Header>
+        <wsa:Action>RetrieveResponse</wsa:Action>
+        <wsa:MessageID>urn:uuid:f6b0b7a6-ec89-4e91-93af-38f69798af72</wsa:MessageID>
+        <wsa:RelatesTo>urn:uuid:a7542744-83eb-4550-8514-34b944eb1f7a</wsa:RelatesTo>
+        <wsa:To>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:To>
+        <wsse:Security>
+            <wsu:Timestamp wsu:Id="Timestamp-982ccf81-e5e1-4e00-abf0-73b2d419a59e">
+                <wsu:Created>2012-11-19T17:35:43Z</wsu:Created>
+                <wsu:Expires>2012-11-19T17:40:43Z</wsu:Expires>
+            </wsu:Timestamp>
+        </wsse:Security>
+    </soap:Header>
+    <soap:Body>
+        <RetrieveResponseMsg xmlns="http://exacttarget.com/wsdl/partnerAPI">
+            <OverallStatus>OK</OverallStatus>
+            <RequestID>e9f5d440-165c-4fad-8f74-d538a23b653e</RequestID>
+            <Results xsi:type="ListSubscriber">
+                <PartnerKey xsi:nil="true"/>
+                <ObjectID xsi:nil="true"/>
+                <Status>Active</Status>
+                <ListID>396</ListID>
+                <SubscriberKey>mrwibblywobblyo@guardian.co.uk</SubscriberKey>
+            </Results>
+            <Results xsi:type="ListSubscriber">
+                <PartnerKey xsi:nil="true"/>
+                <ObjectID xsi:nil="true"/>
+                <Status>Active</Status>
+                <ListID>397</ListID>
+                <SubscriberKey>>mrwibblywobbly@guardian.co.uk</SubscriberKey>
+            </Results>
+            <Results xsi:type="ListSubscriber">
+                <PartnerKey xsi:nil="true"/>
+                <ObjectID xsi:nil="true"/>
+                <Status>Active</Status>
+                <ListID>537</ListID>
+                <SubscriberKey>>mrwibblywobbly@guardian.co.uk</SubscriberKey>
+            </Results>
+            <Results xsi:type="ListSubscriber">
+                <PartnerKey xsi:nil="true"/>
+                <ObjectID xsi:nil="true"/>
+                <Status>Active</Status>
+                <ListID>540</ListID>
+                <SubscriberKey>>mrwibblywobbly@guardian.co.uk</SubscriberKey>
+            </Results>
+        </RetrieveResponseMsg>
+    </soap:Body>
+</soap:Envelope>
+

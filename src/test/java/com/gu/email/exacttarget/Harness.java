@@ -37,8 +37,8 @@ public class Harness
     public static void main( String args[] ) throws IOException, JDOMException, ExactTargetException
     {
         ExactTargetFactory factory = new ExactTargetFactory( accountName, password, businessUnitId, emailTemplate, endPoint );
-        TriggeredEmailService emailService = new TriggeredEmailService( factory, httpClient );
-        TriggeredEmailResponse response = emailService.sendEmailRequest( "John Smit", "james.rodgers@guardian.co.uk" );
+        ExactTargetSoapApiService exactTargetSoapApiService = new ExactTargetSoapApiService( factory, httpClient );
+        TriggeredEmailResponse response = exactTargetSoapApiService.sendEmailRequest( "John Smit", "james.rodgers@guardian.co.uk" );
 
         System.out.println( response.getStatusCode() );
         System.out.println( response.getOverallStatus() );

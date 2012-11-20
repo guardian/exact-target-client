@@ -12,7 +12,7 @@ class TriggeredEmailRequestTest extends FunSuite with ShouldMatchers {
 
   test("Should generate correct soap message with variables interpolated into the right slots") {
     val factory = new ExactTargetFactory("XXXaccountNameXXX", "XXXpasswordXXX", "XXXbusinessUnitIdXXX", "XXXemailTemplateXXX", new URI("http://host.com/path/path"))
-    val emailRequest = factory.createRequest(GuardianUser("XXXnew.userXXX", "XXXnew.user@somewhere.comXXX"))
+    val emailRequest = factory.createRequest(GuardianUser("XXXnew.userXXX", "XXXnew.user@somewhere.comXXX"), "Create")
 
     val byteOutStream = new ByteArrayOutputStream()
     emailRequest.writeRequest(byteOutStream)
