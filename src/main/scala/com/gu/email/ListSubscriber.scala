@@ -60,7 +60,7 @@ trait ListSubscriber {
 
 case class AccountDetails(username: String, password: String)
 
-case class Subscriber(email: String, firstName: String, lastName: String)
+case class Subscriber(email: String, firstName: Option[String], lastName: Option[String])
 
 case class GuardianUser(userName: String, email: String)
 

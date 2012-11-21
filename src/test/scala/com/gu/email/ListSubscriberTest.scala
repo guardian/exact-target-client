@@ -21,8 +21,8 @@ class ListSubscriberTest extends FlatSpec with ShouldMatchers {
     }
 
 
-    val subscribers = Seq(Subscriber("john.smith@guardian.co.uk", "John", "Smith"),
-                          Subscriber("peter.jones@guardian.co.uk", "Peter", "Jones"))
+    val subscribers = Seq(Subscriber("john.smith@guardian.co.uk", Some("John"), Some("Smith")),
+                          Subscriber("peter.jones@guardian.co.uk", Some("Peter"), Some("Jones")))
 
     val (status, results) = listSubscriber.subscribeToList("132", testBusinessUnitId, subscribers)
 
@@ -39,7 +39,7 @@ class ListSubscriberTest extends FlatSpec with ShouldMatchers {
 
   "Xml" should "not have leading or trailing whitespace" in {
 
-    val subscribers = List(Subscriber("john.smith@guardian.co.uk", "John", "Smith"))
+    val subscribers = List(Subscriber("john.smith@guardian.co.uk", Some("John"), Some("Smith")))
     val accountDetails = AccountDetails("gnmtestuser", "row_4boat")
 
     val subscriberXml = SubscriptionRequest("123", testBusinessUnitId, accountDetails, subscribers)

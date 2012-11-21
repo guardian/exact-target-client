@@ -56,13 +56,17 @@ private object SubscriberXml {
         <ObjectID xsi:nil="true">
         </ObjectID>
       </Lists>
-      <Attributes>
-        <Name>First Name</Name>
-        <Value>{subscriber.firstName}</Value>
-      </Attributes>
-      <Attributes>
-        <Name>Last Name</Name>
-        <Value>{subscriber.lastName}</Value>
-      </Attributes>
+      {subscriber.firstName.map( firstName =>
+        <Attributes>
+          <Name>First Name</Name>
+          <Value>{firstName}</Value>
+        </Attributes>
+      ) flatten}
+      {subscriber.lastName.map( lastName =>
+        <Attributes>
+          <Name>Last Name</Name>
+          <Value>{lastName}</Value>
+        </Attributes>
+      ) flatten}
     </Objects>
 }
