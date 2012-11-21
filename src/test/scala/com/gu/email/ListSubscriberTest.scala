@@ -24,7 +24,7 @@ class ListSubscriberTest extends FlatSpec with ShouldMatchers {
     val subscribers = Seq(Subscriber("john.smith@guardian.co.uk", Some("John"), Some("Smith")),
                           Subscriber("peter.jones@guardian.co.uk", Some("Peter"), Some("Jones")))
 
-    val (status, results) = listSubscriber.subscribeToList("132", testBusinessUnitId, subscribers)
+    val (status, results) = listSubscriber.subscribeToList("132", Some(testBusinessUnitId), subscribers)
 
     status should equal(200)
 
