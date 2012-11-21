@@ -2,7 +2,7 @@ name := "exact-target-client"
 
 organization := "com.gu"
 
-version := "2.2-SNAPSHOT"
+version := "2.4-SNAPSHOT"
 
 crossScalaVersions := Seq("2.8.1", "2.9.0-1", "2.9.1")
 
@@ -20,7 +20,8 @@ libraryDependencies ++= {
     Seq(
         "joda-time" % "joda-time" % "1.6.2" % "provided",
         "commons-httpclient" % "commons-httpclient" % "3.1",
-        "org.slf4j" % "slf4j-api" % "1.6.1" % "provided"
+        "org.slf4j" % "slf4j-api" % "1.6.1" % "provided",
+        "ch.qos.logback" % "logback-classic" % "1.0.7" % "test"
     )
 }
 

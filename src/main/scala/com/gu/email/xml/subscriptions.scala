@@ -3,7 +3,7 @@ package com.gu.email.xml
 import com.gu.email.{AccountDetails, Subscriber}
 
 private[email] object SubscriptionRequest {
-    def apply(listId: String, businessUnitId: String, accountDetails: AccountDetails, subscribers: Seq[Subscriber]) =
+    def apply(listId: String, businessUnitId: Option[String], accountDetails: AccountDetails, subscribers: Seq[Subscriber]) =
       <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -42,11 +42,13 @@ private[email] object SubscriptionRequest {
   }
 
 private object SubscriberXml {
-  def apply(listId: String, businessUnitId: String, accountDetails: AccountDetails)(subscriber: Subscriber) =
+  def apply(listId: String, businessUnitId: Option[String], accountDetails: AccountDetails)(subscriber: Subscriber) =
     <Objects xsi:type="Subscriber">
-      <Client>
-        <ID>{businessUnitId}</ID>
-      </Client>
+      {businessUnitId map ( businessUnitId =>
+        <Client>
+          <ID>{businessUnitId}</ID>
+        </Client>
+      ) flatten }
       <ObjectID xsi:nil="true">
       </ObjectID>
       <EmailAddress>{subscriber.email}</EmailAddress>
@@ -56,13 +58,17 @@ private object SubscriberXml {
         <ObjectID xsi:nil="true">
         </ObjectID>
       </Lists>
-      <Attributes>
-        <Name>First Name</Name>
-        <Value>{subscriber.firstName}</Value>
-      </Attributes>
-      <Attributes>
-        <Name>Last Name</Name>
-        <Value>{subscriber.lastName}</Value>
-      </Attributes>
+      {subscriber.firstName.map( firstName =>
+        <Attributes>
+          <Name>First Name</Name>
+          <Value>{firstName}</Value>
+        </Attributes>
+      ) flatten}
+      {subscriber.lastName.map( lastName =>
+        <Attributes>
+          <Name>Last Name</Name>
+          <Value>{lastName}</Value>
+        </Attributes>
+      ) flatten}
     </Objects>
 }
