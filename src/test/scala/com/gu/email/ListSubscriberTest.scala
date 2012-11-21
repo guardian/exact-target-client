@@ -42,7 +42,7 @@ class ListSubscriberTest extends FlatSpec with ShouldMatchers {
     val subscribers = List(Subscriber("john.smith@guardian.co.uk", Some("John"), Some("Smith")))
     val accountDetails = AccountDetails("gnmtestuser", "row_4boat")
 
-    val subscriberXml = SubscriptionRequest("123", testBusinessUnitId, accountDetails, subscribers)
+    val subscriberXml = SubscriptionRequest("123", Some(testBusinessUnitId), accountDetails, subscribers)
 
     ((subscriberXml) \\ "Username").text should equal("gnmtestuser")
     ((subscriberXml) \\ "Password").text should equal("row_4boat")
