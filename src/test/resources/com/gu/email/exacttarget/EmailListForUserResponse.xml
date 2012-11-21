@@ -23,7 +23,7 @@
                 <ListID>396</ListID>
                 <SubscriberKey>mrwibblywobblyo@guardian.co.uk</SubscriberKey>
             </Results>
-            <Results xsi:type="ListSubscriber">
+             <Results xsi:type="ListSubscriber">
                 <PartnerKey xsi:nil="true"/>
                 <ObjectID xsi:nil="true"/>
                 <Status>Active</Status>

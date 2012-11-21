@@ -53,7 +53,6 @@ public class ExactTargetSoapApiService
             if ( resposeCode < 200 || resposeCode >= 300)  {
                 throw new ExactTargetException(String.format("Recieved non 200 response retrieving email lists for: %s", guardianUser.email()));
             }
-            String s = postMethod.getResponseBodyAsString();
             return soapFactory.createEmailListResponseDocument(postMethod);
         }
         catch (IOException iox )

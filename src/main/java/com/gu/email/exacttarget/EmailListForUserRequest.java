@@ -16,8 +16,6 @@ public class EmailListForUserRequest extends ExactTargetRequest {
         super(accountDetails, businessUnitId, guardianUser);
         Document soapEnvelope = buildXmlMessage();//
         String soapEnvelopeString = xmlToString( soapEnvelope );
-        String s = "\n======================\n";
-        System.out.println(String.format("%s%s%s", s, soapEnvelopeString, s  ));
         try
         {
             delegate = new StringRequestEntity( soapEnvelopeString, "text/xml", "utf-8" );
