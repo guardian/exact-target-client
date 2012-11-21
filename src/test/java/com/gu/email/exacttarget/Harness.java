@@ -1,10 +1,5 @@
 package com.gu.email.exacttarget;
 
-import com.gu.email.GuardianUser;
-import com.gu.email.exacttarget.ExactTargetException;
-import com.gu.email.exacttarget.ExactTargetFactory;
-import com.gu.email.exacttarget.TriggeredEmailResponse;
-import com.gu.email.exacttarget.TriggeredEmailService;
 import org.apache.commons.httpclient.HttpClient;
 import org.jdom.JDOMException;
 
@@ -37,8 +32,8 @@ public class Harness
     public static void main( String args[] ) throws IOException, JDOMException, ExactTargetException
     {
         ExactTargetFactory factory = new ExactTargetFactory( accountName, password, businessUnitId, emailTemplate, endPoint );
-        TriggeredEmailService emailService = new TriggeredEmailService( factory, httpClient );
-        TriggeredEmailResponse response = emailService.sendEmailRequest( "John Smit", "james.rodgers@guardian.co.uk" );
+        ExactTargetSoapApiService exactTargetSoapApiService = new ExactTargetSoapApiService( factory, httpClient );
+        TriggeredEmailResponse response = exactTargetSoapApiService.sendEmailRequest( "John Smit", "james.rodgers@guardian.co.uk" );
 
         System.out.println( response.getStatusCode() );
         System.out.println( response.getOverallStatus() );

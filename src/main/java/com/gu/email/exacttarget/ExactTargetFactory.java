@@ -8,6 +8,7 @@ import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -17,7 +18,6 @@ public class ExactTargetFactory
 {
     private final String emailTemplate;
     private final URI endPoint;
-    private String soapAction = "Create";
     private final AccountDetails accountDetails;
     private String businessUnitId;
 
@@ -29,7 +29,7 @@ public class ExactTargetFactory
         this.endPoint = endPoint;
     }
 
-    public PostMethod createPostMethod( RequestEntity body )
+    public PostMethod createPostMethod( RequestEntity body, String soapAction )
     {
         PostMethod method = new PostMethod( endPoint.toString() );
 
@@ -41,26 +41,13 @@ public class ExactTargetFactory
 
         return method;
     }
-    //TODO this repitition sucks
-    public PostMethod emailListsForUser( RequestEntity body )
-    {
-        PostMethod postMethod = new PostMethod(endPoint.toString());
-        postMethod.setRequestHeader("Content-type", "text/xml; charser=utf-8");
-        postMethod.setRequestHeader("Content-Length", "" + body.getContentLength() );
-        postMethod.setRequestHeader( "SOAPAction", "Retrieve" );
 
-        //postMethod.setRequestHeader( "SOAPAction", soapAction );
-
-        postMethod.setRequestEntity( body ) ;
-
-        return postMethod;
-    }
-
-    public TriggeredEmailRequest createRequest( GuardianUser guardianUser )
+    public TriggeredEmailRequest createRequest( GuardianUser guardianUser, String soapAction )
     {
         TriggeredEmailRequest triggeredRequest = new TriggeredEmailRequest( accountDetails, businessUnitId, emailTemplate, guardianUser, soapAction );
         return triggeredRequest;
     }
+
 
     public EmailListForUserRequest createListForUserRequest( GuardianUser guardianUser )
     {
@@ -68,13 +55,23 @@ public class ExactTargetFactory
         return emailListForUserRequest;
     }
 
-
     public TriggeredEmailResponse createResponseDocument( PostMethod postMethod ) throws ExactTargetException
     {
-        InputStream inputStream = null;
+        Document responseDocument = getDocumentFromPostRequest(postMethod);
+        return new TriggeredEmailResponse( responseDocument );
+    }
+
+    public EmailListForUserResponse createEmailListResponseDocument( PostMethod postMethod ) throws ExactTargetException
+    {
+        Document responseDocument = getDocumentFromPostRequest(postMethod);
+        return new EmailListForUserResponse( responseDocument );
+    }
+
+    private Document getDocumentFromPostRequest(PostMethod postMethod) throws ExactTargetException {
+        String bodyAsString  = null;
         try
         {
-            inputStream = postMethod.getResponseBodyAsStream();
+            bodyAsString = postMethod.getResponseBodyAsString();
         }
         catch( IOException e )
         {
@@ -83,17 +80,16 @@ public class ExactTargetFactory
         Document responseDocument = null;
         try
         {
-            responseDocument = new SAXBuilder().build( inputStream );
+            responseDocument = new SAXBuilder().build( new ByteArrayInputStream(bodyAsString.getBytes()));
         }
         catch( JDOMException e )
         {
-            throw new ExactTargetException( "Error parsing post response into xml document", e );
+            throw new ExactTargetException( "DOM Error parsing post response into xml document " + e.getMessage(), e );
         }
         catch( IOException e )
         {
-            throw new ExactTargetException( "Error parsing post response into xml document", e );
+            throw new ExactTargetException( "I/O Error parsing post response into xml document", e );
         }
-
-        return new TriggeredEmailResponse( responseDocument );
+        return responseDocument;
     }
 }

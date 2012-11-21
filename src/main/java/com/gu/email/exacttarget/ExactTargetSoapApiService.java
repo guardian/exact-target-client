@@ -11,13 +11,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class TriggeredEmailService
+public class ExactTargetSoapApiService
 {
     private final ExactTargetFactory soapFactory;
     private HttpClient httpClient;
     private static final Logger LOG = LoggerFactory.getLogger( TriggeredEmailResponse.class );
+    private String createSoapAction = "Create";
+    private String retrieveSoapAction = "Retrieve";
 
-    public TriggeredEmailService( ExactTargetFactory soapFactory, HttpClient httpClient )
+
+    public ExactTargetSoapApiService(ExactTargetFactory soapFactory, HttpClient httpClient)
     {
         this.soapFactory = soapFactory;
         this.httpClient = httpClient;
@@ -31,31 +34,45 @@ public class TriggeredEmailService
     }
 
 
-    public String getEmailRequestsForUser(String userName, String emailAddress) throws IOException {
-
+    public EmailListForUserResponse getEmailRequestsForUser(String userName, String emailAddress) throws  ExactTargetException {
         GuardianUser guardianUser = new GuardianUser(userName, emailAddress);
-        EmailListForUserRequest emailListForUserRequest = soapFactory.createListForUserRequest(guardianUser);
-        PostMethod postMethod = soapFactory.emailListsForUser(emailListForUserRequest);
-
-        dumpRequestBody(postMethod);
-        int resposeCode = httpClient.executeMethod(postMethod);
-        System.out.println(String.format("Response Code %d", resposeCode));
-
-
-        return ExactTargetUtils.convertStreamToString(postMethod.getResponseBodyAsStream(), "UTF-8");
+        return getEmailRequestsForUser(guardianUser);
     }
 
+    EmailListForUserResponse getEmailRequestsForUser(GuardianUser guardianUser) throws  ExactTargetException {
 
+        EmailListForUserRequest emailListForUserRequest = soapFactory.createListForUserRequest(guardianUser);
+        PostMethod postMethod = soapFactory.createPostMethod(emailListForUserRequest, retrieveSoapAction);
+
+        if ( LOG.isDebugEnabled() ) {
+            dumpRequestBody(postMethod);
+        }
+
+        try {
+            int resposeCode = httpClient.executeMethod(postMethod);
+            if ( resposeCode < 200 || resposeCode >= 300)  {
+                throw new ExactTargetException(String.format("Recieved non 200 response retrieving email lists for: %s", guardianUser.email()));
+            }
+            String s = postMethod.getResponseBodyAsString();
+            return soapFactory.createEmailListResponseDocument(postMethod);
+        }
+        catch (IOException iox )
+        {
+            throw new ExactTargetException("Error sending post request for lists for user", iox);
+        }
+
+
+    }
 
     TriggeredEmailResponse sendEmailRequest(  GuardianUser user ) throws ExactTargetException
     {
-        TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest( user );
-        PostMethod postMethod = soapFactory.createPostMethod( triggeredEmailRequest );
+        TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest( user, createSoapAction );
+        PostMethod postMethod = soapFactory.createPostMethod( triggeredEmailRequest, createSoapAction );
 
-       // if( LOG.isDebugEnabled() )
-        //{
+        if( LOG.isDebugEnabled() )
+        {
             dumpRequestBody( postMethod );
-        //}
+        }
 
         try
         {
