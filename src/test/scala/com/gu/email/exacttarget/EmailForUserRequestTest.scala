@@ -13,8 +13,8 @@ class EmailForUserRequestTest extends FunSuite with ShouldMatchers {
 
   test("should generate correct soap message")
   {
-    val factory = new ExactTargetFactory("XXXaccountNameXXX", "XXXpasswordXXX", "XXXbusinessUnitIdXXX", "XXXemailTemplateXXX", new URI("http://host.com/path/path"))
-    val emailListsRequest = factory.createListForUserRequest(GuardianUser("XXXnew.userXXX", "mrwibblywobbly@guardian.co.uk"))
+    val factory = new ExactTargetFactory("XXXaccountNameXXX", "XXXpasswordXXX", "XXXemailTemplateXXX", new URI("http://host.com/path/path"))
+    val emailListsRequest = factory.createListForUserRequest(GuardianUser("XXXnew.userXXX", "mrwibblywobbly@guardian.co.uk"), "XXXbusinessUnitIdXXX")
 
     val stream = new ByteArrayOutputStream()
     emailListsRequest.writeRequest(stream)

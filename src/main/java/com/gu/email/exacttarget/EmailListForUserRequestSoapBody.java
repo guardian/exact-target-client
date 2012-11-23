@@ -25,12 +25,12 @@ class EmailListForUserRequestSoapBody extends Element {
 
     private Element retrieveRequest() {
         Element retrieveRequest = new Element("RetrieveRequest", ET);
+        retrieveRequest.addContent(new Element("ClientIDs", ET).addContent(new Element("ID", ET).setText(businessUnitId)));
         retrieveRequest.addContent(new Element("ObjectType", ET).setText("ListSubscriber") );
         retrieveRequest.addContent(new Element("Properties", ET).setText("SubscriberKey") );
         retrieveRequest.addContent(new Element("Properties",ET).setText("ListID") );
         retrieveRequest.addContent(new Element("Properties", ET).setText("Status") );
         retrieveRequest.addContent( filter() );
-        retrieveRequest.addContent(new Element("QueryAllAccounts", ET).setText("true") );
 
         return retrieveRequest;
     }

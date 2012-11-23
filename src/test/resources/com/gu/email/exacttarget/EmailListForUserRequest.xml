@@ -13,6 +13,9 @@
     </soap:Header>
     <soap:Body><RetrieveRequestMsg xmlns="http://exacttarget.com/wsdl/partnerAPI">
         <RetrieveRequest>
+            <ClientIDs>
+                <ID>XXXbusinessUnitIdXXX</ID>
+            </ClientIDs>
             <ObjectType>ListSubscriber</ObjectType>
             <Properties>SubscriberKey</Properties>
             <Properties>ListID</Properties>
@@ -22,7 +25,6 @@
                 <ns1:SimpleOperator>equals</ns1:SimpleOperator>
                 <ns1:Value>mrwibblywobbly@guardian.co.uk</ns1:Value>
             </Filter>
-            <QueryAllAccounts>true</QueryAllAccounts>
         </RetrieveRequest>
     </RetrieveRequestMsg>
     </soap:Body>

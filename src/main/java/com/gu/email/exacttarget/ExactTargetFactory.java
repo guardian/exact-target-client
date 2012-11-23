@@ -19,11 +19,9 @@ public class ExactTargetFactory
     private final String emailTemplate;
     private final URI endPoint;
     private final AccountDetails accountDetails;
-    private String businessUnitId;
 
-    public ExactTargetFactory( String accountName, String password, String businessUnitId, String emailTemplate, URI endPoint )
+    public ExactTargetFactory( String accountName, String password, String emailTemplate, URI endPoint )
     {
-        this.businessUnitId = businessUnitId;
         accountDetails = new AccountDetails(accountName, password);
         this.emailTemplate = emailTemplate;
         this.endPoint = endPoint;
@@ -42,14 +40,14 @@ public class ExactTargetFactory
         return method;
     }
 
-    public TriggeredEmailRequest createRequest( GuardianUser guardianUser, String soapAction )
+    public TriggeredEmailRequest createRequest( GuardianUser guardianUser, String soapAction, String businessUnitId)
     {
         TriggeredEmailRequest triggeredRequest = new TriggeredEmailRequest( accountDetails, businessUnitId, emailTemplate, guardianUser, soapAction );
         return triggeredRequest;
     }
 
 
-    public EmailListForUserRequest createListForUserRequest( GuardianUser guardianUser )
+    public EmailListForUserRequest createListForUserRequest( GuardianUser guardianUser, String businessUnitId)
     {
         EmailListForUserRequest emailListForUserRequest = new EmailListForUserRequest(accountDetails, businessUnitId, guardianUser);
         return emailListForUserRequest;

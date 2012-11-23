@@ -27,21 +27,21 @@ public class ExactTargetSoapApiService
     }
 
 
-    public TriggeredEmailResponse sendEmailRequest( String userName, String emailAddress ) throws ExactTargetException
+    public TriggeredEmailResponse sendEmailRequest( String userName, String emailAddress, String businessUnitId ) throws ExactTargetException
     {
         GuardianUser user = new GuardianUser( userName, emailAddress );
-        return sendEmailRequest( user );
+        return sendEmailRequest( user, businessUnitId );
     }
 
 
-    public EmailListForUserResponse getEmailRequestsForUser(String userName, String emailAddress) throws  ExactTargetException {
+    public EmailListForUserResponse getEmailRequestsForUser(String userName, String emailAddress, String businessUnitId) throws  ExactTargetException {
         GuardianUser guardianUser = new GuardianUser(userName, emailAddress);
-        return getEmailRequestsForUser(guardianUser);
+        return getEmailRequestsForUser(guardianUser, businessUnitId);
     }
 
-    EmailListForUserResponse getEmailRequestsForUser(GuardianUser guardianUser) throws  ExactTargetException {
+    EmailListForUserResponse getEmailRequestsForUser(GuardianUser guardianUser, String businessUnitId) throws  ExactTargetException {
 
-        EmailListForUserRequest emailListForUserRequest = soapFactory.createListForUserRequest(guardianUser);
+        EmailListForUserRequest emailListForUserRequest = soapFactory.createListForUserRequest(guardianUser, businessUnitId);
         PostMethod postMethod = soapFactory.createPostMethod(emailListForUserRequest, retrieveSoapAction);
 
         if ( LOG.isDebugEnabled() ) {
@@ -65,9 +65,9 @@ public class ExactTargetSoapApiService
 
     }
 
-    TriggeredEmailResponse sendEmailRequest(  GuardianUser user ) throws ExactTargetException
+    TriggeredEmailResponse sendEmailRequest(  GuardianUser user, String businessUnitId) throws ExactTargetException
     {
-        TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest( user, createSoapAction );
+        TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest( user, createSoapAction, businessUnitId);
         PostMethod postMethod = soapFactory.createPostMethod( triggeredEmailRequest, createSoapAction );
 
         if( LOG.isDebugEnabled() )
