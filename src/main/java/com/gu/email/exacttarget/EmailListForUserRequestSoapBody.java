@@ -30,6 +30,7 @@ class EmailListForUserRequestSoapBody extends Element {
         retrieveRequest.addContent(new Element("Properties",ET).setText("ListID") );
         retrieveRequest.addContent(new Element("Properties", ET).setText("Status") );
         retrieveRequest.addContent( filter() );
+        retrieveRequest.addContent(new Element("QueryAllAccounts", ET).setText("true") );
 
         return retrieveRequest;
     }

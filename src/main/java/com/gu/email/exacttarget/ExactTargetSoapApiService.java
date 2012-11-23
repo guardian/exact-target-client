@@ -54,6 +54,7 @@ public class ExactTargetSoapApiService
                 throw new ExactTargetException(String.format("Recieved non 200 response retrieving email lists for: %s", guardianUser.email()));
             }
             String s = postMethod.getResponseBodyAsString();
+            LOG.debug("Email lists for user response:" + s);
             return soapFactory.createEmailListResponseDocument(postMethod);
         }
         catch (IOException iox )
@@ -81,6 +82,7 @@ public class ExactTargetSoapApiService
             {
                 throw new ExactTargetException( "Received non 200 response: " + responseCode + "\n" + postMethod.getResponseBodyAsString() );
             }
+            LOG.debug("Triggered email response:" + postMethod.getResponseBodyAsString());
             return soapFactory.createResponseDocument( postMethod );
         }
         catch( IOException e )

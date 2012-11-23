@@ -22,6 +22,7 @@
                 <ns1:SimpleOperator>equals</ns1:SimpleOperator>
                 <ns1:Value>mrwibblywobbly@guardian.co.uk</ns1:Value>
             </Filter>
+            <QueryAllAccounts>true</QueryAllAccounts>
         </RetrieveRequest>
     </RetrieveRequestMsg>
     </soap:Body>
