@@ -8,6 +8,7 @@ import sun.beans.editors.StringEditor;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.Iterator;
 
 import static com.gu.email.exacttarget.Namespaces.ET;
@@ -20,8 +21,9 @@ public class EmailListForUserResponse {
     private  String overallStatus;
     private final List<String> emailListIds = new ArrayList<String>();
     private final static String RESULTS_ELEMENT_NAME = "Results";
-   // private final static String STATUS_ELEMENT_NAME = "Results";
+    private String statusCode = "";
 
+   // private final static String STATUS_ELEMENT_NAME = "Results";
     private static final Logger LOG = LoggerFactory.getLogger(EmailListForUserResponse.class);
 
     public EmailListForUserResponse(Document responseDocument) {
@@ -47,6 +49,7 @@ public class EmailListForUserResponse {
         catch ( Exception e )
         {
             LOG.error("Error parsing email list response document", e);
+            this.statusCode = "ERROR";
             this.overallStatus = "ERROR";
         }
     }
@@ -61,5 +64,9 @@ public class EmailListForUserResponse {
 
     public boolean isOverallStatusOk() {
         return overallStatus.toLowerCase().equals("ok");
+    }
+
+    public String getStatusCode() {
+        return statusCode;
     }
 }

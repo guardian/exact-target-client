@@ -5,6 +5,7 @@ import org.scalatest.matchers.ShouldMatchers
 import org.jdom.input.SAXBuilder
 
 import scala.collection.JavaConverters._
+import java.io.StringReader
 
 
 class EmailsForUserResponseTest extends FunSuite with ShouldMatchers {
@@ -27,6 +28,15 @@ class EmailsForUserResponseTest extends FunSuite with ShouldMatchers {
     listIds should contain ("540")
   }
 
+  test("Should set status fields appropriately if we receive a junk document") {
+    val junkDocString = "<junk>junk</junk>"
+    val junkDoc = new SAXBuilder().build(new StringReader(junkDocString))
+    val response = new EmailListForUserResponse(junkDoc)
+
+    response.isOverallStatusOk should be(false)
+    response.getOverallStatus should be("ERROR")
+    response.getStatusCode should be ("ERROR")
+  }
 
 
 
