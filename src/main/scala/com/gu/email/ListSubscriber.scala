@@ -16,10 +16,17 @@ trait ListSubscriber {
 
   val OK = 200
 
-
   def subscribeToList(listId: String, businessUnitId: Option[String], subscribers: Seq[Subscriber]): (Int, Seq[SubscriberResult]) = {
+    sendSubscriptionRequest(listId, businessUnitId, subscribers, "Active")
+  }
 
-    val subscriptionXml = SubscriptionRequest(listId, businessUnitId, accountDetails, subscribers)
+  def unsubscribeFromList(listId: String, businessUnitId: Option[String], subscribers: Seq[Subscriber]): (Int, Seq[SubscriberResult]) = {
+    sendSubscriptionRequest(listId, businessUnitId, subscribers, "Unsubscribed")
+  }
+
+  def sendSubscriptionRequest(listId: String, businessUnitId: Option[String], subscribers: Seq[Subscriber], status:String): (Int, Seq[SubscriberResult]) = {
+
+    val subscriptionXml = SubscriptionRequest(listId, businessUnitId, accountDetails, subscribers, status)
 
     if (logger.isDebugEnabled) logger.debug("Email subscription request xml: " + subscriptionXml.toString)
 
