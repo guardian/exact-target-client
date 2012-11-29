@@ -36,15 +36,44 @@ class EmailListForUserRequestSoapBody extends Element {
     }
 
     private Element filter() {
-        Element filter = new Element("Filter", ET);
-        filter.addNamespaceDeclaration(ETNS);
-        filter.setAttribute( "type", "ns1:SimpleFilterPart", XSI );
+//        <Filter xsi:type="par:ComplexFilterPart" xmlns:par="http://exacttarget.com/wsdl/partnerAPI">
+//                <LeftOperand xsi:type="par:SimpleFilterPart">
+//                <Property>Status</Property>
+//                <SimpleOperator>equals</SimpleOperator>
+//                <Value>Active</Value>
+//                </LeftOperand>
+//                <LogicalOperator>AND</LogicalOperator>
+//                <RightOperand xsi:type="par:SimpleFilterPart">
+//                <Property>CreatedDate</Property>
+//                <SimpleOperator>greaterThan</SimpleOperator>
+//                <DateValue>2010-11-15T11:25:54.617-07:00</DateValue>
+//                </RightOperand>
 
-        filter.addContent(new Element("Property", ETNS).setText("SubscriberKey"));
-        filter.addContent(new Element("SimpleOperator",ETNS).setText("equals"));
-        filter.addContent(new Element("Value",ETNS).setText(emailAddress));
+        Element andFilter = new Element("Filter", ET);
+        andFilter.addNamespaceDeclaration(ETNS);
+        andFilter.setAttribute("type", "ns1:ComplexFilterPart", XSI);
 
-        return filter;
+
+        Element subsrciberKeyFilter = new Element("LeftOperand", ET);
+        subsrciberKeyFilter.setAttribute("type", "ns1:SimpleFilterPart", XSI);
+        subsrciberKeyFilter.addContent(new Element("Property", ETNS).setText("SubscriberKey"));
+        subsrciberKeyFilter.addContent(new Element("SimpleOperator", ETNS).setText("equals"));
+        subsrciberKeyFilter.addContent(new Element("Value", ETNS).setText(emailAddress));
+
+        Element operater = new Element("LogicalOperator", ET);
+        operater.setText("AND");
+
+        Element statusFilter = new Element("RightOperand", ET);
+        statusFilter.setAttribute("type", "ns1:SimpleFilterPart", XSI);
+        statusFilter.addContent(new Element("Property", ETNS).setText("SubscriberKey"));
+        statusFilter.addContent(new Element("SimpleOperator", ETNS).setText("equals"));
+        statusFilter.addContent(new Element("Value", ETNS).setText(emailAddress));
+
+        andFilter.addContent(subsrciberKeyFilter);
+        andFilter.addContent(operater);
+        andFilter.addContent(statusFilter);
+
+        return andFilter;
     }
 
 }
