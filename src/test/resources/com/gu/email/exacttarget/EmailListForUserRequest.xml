@@ -22,15 +22,15 @@
             <Properties>Status</Properties>
             <Filter xmlns:ns1="http://exacttarget.com/wsdl/partnerAPI" xsi:type="ns1:ComplexFilterPart">
                 <LeftOperand xsi:type="ns1:SimpleFilterPart">
-                    <ns1:Property>Status</ns1:Property>
-                    <ns1:SimpleOperator>equals</ns1:SimpleOperator>
-                    <ns1:Value>Active</ns1:Value>
-                </LeftOperand>
-                <LogicalOperator>AND</LogicalOperator>
-                <RightOperand xsi:type="ns1:SimpleFilterPart">
                     <ns1:Property>SubscriberKey</ns1:Property>
                     <ns1:SimpleOperator>equals</ns1:SimpleOperator>
                     <ns1:Value>mrwibblywobbly@guardian.co.uk</ns1:Value>
+                </LeftOperand>
+                <LogicalOperator>AND</LogicalOperator>
+                <RightOperand xsi:type="ns1:SimpleFilterPart">
+                    <ns1:Property>Status</ns1:Property>
+                    <ns1:SimpleOperator>equals</ns1:SimpleOperator>
+                    <ns1:Value>Active</ns1:Value>
                 </RightOperand>
             </Filter>
         </RetrieveRequest>

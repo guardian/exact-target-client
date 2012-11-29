@@ -36,19 +36,6 @@ class EmailListForUserRequestSoapBody extends Element {
     }
 
     private Element filter() {
-//        <Filter xsi:type="par:ComplexFilterPart" xmlns:par="http://exacttarget.com/wsdl/partnerAPI">
-//                <LeftOperand xsi:type="par:SimpleFilterPart">
-//                <Property>Status</Property>
-//                <SimpleOperator>equals</SimpleOperator>
-//                <Value>Active</Value>
-//                </LeftOperand>
-//                <LogicalOperator>AND</LogicalOperator>
-//                <RightOperand xsi:type="par:SimpleFilterPart">
-//                <Property>CreatedDate</Property>
-//                <SimpleOperator>greaterThan</SimpleOperator>
-//                <DateValue>2010-11-15T11:25:54.617-07:00</DateValue>
-//                </RightOperand>
-
         Element andFilter = new Element("Filter", ET);
         andFilter.addNamespaceDeclaration(ETNS);
         andFilter.setAttribute("type", "ns1:ComplexFilterPart", XSI);
@@ -65,9 +52,9 @@ class EmailListForUserRequestSoapBody extends Element {
 
         Element statusFilter = new Element("RightOperand", ET);
         statusFilter.setAttribute("type", "ns1:SimpleFilterPart", XSI);
-        statusFilter.addContent(new Element("Property", ETNS).setText("SubscriberKey"));
+        statusFilter.addContent(new Element("Property", ETNS).setText("Status"));
         statusFilter.addContent(new Element("SimpleOperator", ETNS).setText("equals"));
-        statusFilter.addContent(new Element("Value", ETNS).setText(emailAddress));
+        statusFilter.addContent(new Element("Value", ETNS).setText("Active"));
 
         andFilter.addContent(subsrciberKeyFilter);
         andFilter.addContent(operater);
