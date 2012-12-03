@@ -71,7 +71,7 @@ case class Subscriber(email: String, firstName: Option[String], lastName: Option
 
 case class GuardianUser(userName: String, email: String)
 
-case class SubscriberResult(email: String, statusCode: String, statusMessage: String) {
+case class SubscriberResult(email: String, statusCode: String, statusMessage: String, errorCode: String ) {
   val success = statusCode == "OK"
 }
 object SubscriberResult {
@@ -79,6 +79,7 @@ object SubscriberResult {
     val email = (node \\ "EmailAddress").text.trim
     val statusCode = (node \\ "StatusCode").text.trim
     val statusMessage = (node \\ "StatusMessage").text.trim
-    SubscriberResult(email, statusCode, statusMessage)
+    val errorCode = (node \\ "ErrorCode").text.trim
+    SubscriberResult(email, statusCode, statusMessage, errorCode)
   }
 }
