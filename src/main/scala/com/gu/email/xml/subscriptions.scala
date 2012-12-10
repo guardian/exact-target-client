@@ -61,10 +61,10 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
           subscriber.lists.map { emailList =>
             <ID>{emailList.listId}</ID>
             <Status>{emailList.status}</Status>
-          }
-          <ObjectID xsi:nil="true">
-          </ObjectID>
+          } flatten
         }
+        <ObjectID xsi:nil="true">
+        </ObjectID>
       </Lists>
       {subscriber.firstName.map( firstName =>
       <Attributes>
