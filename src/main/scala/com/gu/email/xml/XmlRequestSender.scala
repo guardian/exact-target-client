@@ -1,4 +1,4 @@
-package com.gu.email
+package com.gu.email.xml
 
 import scala.xml.{Source, NodeSeq, XML}
 import org.apache.commons.httpclient.HttpClient
@@ -59,5 +59,7 @@ abstract class MessageEncoder[RequestType, ResponseType] {
   def encodeRequest(request: RequestType): NodeSeq
   def decodeResponse(response: NodeSeq): ResponseType
 }
+
+case class Response[ResponseObjectType](status: String, data: ResponseObjectType)
 
 

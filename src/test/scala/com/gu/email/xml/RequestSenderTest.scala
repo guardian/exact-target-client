@@ -1,4 +1,4 @@
-package com.gu.email
+package com.gu.email.xml
 
 import org.scalatest.FlatSpec
 import org.mockito.Matchers._

@@ -1,6 +1,6 @@
 package com.gu.email
 
-import xml.{SubscriberUpdateMessageEncoder, SubscriberUpdateRequest}
+import xml.{XmlRequestSender, RequestSender, SubscriberUpdateMessageEncoder, SubscriberUpdateRequest}
 import org.slf4j.LoggerFactory
 import org.apache.commons.httpclient.HttpClient
 

@@ -6,7 +6,7 @@ import scala.collection.Seq
 import org.apache.commons.httpclient.HttpClient
 import org.scalatest.mock.MockitoSugar
 import scala._
-import xml.SubscriberUpdateRequest
+import xml.{RequestSender, SubscriberUpdateRequest}
 import scala.Some
 import org.mockito.Mockito._
 
