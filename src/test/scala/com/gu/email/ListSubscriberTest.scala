@@ -2,66 +2,35 @@ package com.gu.email
 
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
-import collection.Seq
+import scala.collection.Seq
 import org.apache.commons.httpclient.HttpClient
 import org.apache.commons.httpclient.SimpleHttpConnectionManager
+import com.gu.email.xml.SubscriptionRequest
+import org.scalatest.mock.MockitoSugar
+import scala._
+import com.gu.email.SubscriberResult
+import com.gu.email.Subscriber
 import xml.SubscriptionRequest
+import scala.Some
+import com.gu.email.AccountDetails
+import org.mockito.Mockito._
+import org.mockito.Matchers._
 
-class ListSubscriberTest extends FlatSpec with ShouldMatchers {
+class ListSubscriberTest extends FlatSpec with ShouldMatchers with MockitoSugar {
+  val listSubscriber = new ListSubscriber {
+    val httpClient = mock[HttpClient]
+    val accountDetails = mock[AccountDetails]
+    override val listSubscriptionMessageSender = mock[RequestSender[SubscriptionRequest, Seq[SubscriberResult]]]
+  }
 
-  //NOTE this is an integration test that actually tries to add subscribers to the list in the test environment
+  val subscribers = List(mock[Subscriber], mock[Subscriber])
+  val result = List(mock[SubscriberResult])
 
-//  val testBusinessUnitId = "1062022"
-//
-//  "List subscriber" should "call the Exact target API and attempt to add subscribers" in {
-//
-//    val listSubscriber = new ListSubscriber {
-//      val httpClient = new HttpClient(new SimpleHttpConnectionManager(true))
-//      val accountDetails = AccountDetails("gnmtestuser", "row_4boat")
-//    }
-//
-//
-//    val subscribers = Seq(Subscriber("john.smith@guardian.co.uk", Some("John"), Some("Smith")),
-//                          Subscriber("peter.jones@guardian.co.uk", Some("Peter"), Some("Jones")))
-//
-//    val (status, results) = listSubscriber.subscribeToList("132", Some(testBusinessUnitId), subscribers)
-//
-//    status should equal(200)
-//
-////    println("XXXXXXXXXXXXXXX Results: " + results)
-////
-////    results foreach {sub => sub.success should be (true) }
-////
-////    results should contain (SubscriberResult("john.smith@guardian.co.uk", "OK", "Created Subscriber."))
-////
-////    results should contain (SubscriberResult("peter.jones@guardian.co.uk", "OK", "Created Subscriber."))
-//  }
-//
-//  "Xml" should "not have leading or trailing whitespace" in {
-//
-//    val subscribers = List(Subscriber("john.smith@guardian.co.uk", Some("John"), Some("Smith")))
-//    val accountDetails = AccountDetails("gnmtestuser", "row_4boat")
-//
-//    val subscriberXml = SubscriptionRequest("123", Some(testBusinessUnitId), accountDetails, subscribers, "aStatus")
-//
-//    ((subscriberXml) \\ "Username").text should equal("gnmtestuser")
-//    ((subscriberXml) \\ "Password").text should equal("row_4boat")
-//
-//    ((subscriberXml) \\ "SubscriberKey").text should equal("john.smith@guardian.co.uk")
-//    ((subscriberXml) \\ "Client" \\ "ID").text should equal("1062022")
-//    ((subscriberXml) \\ "EmailAddress").text should equal("john.smith@guardian.co.uk")
-//    ((subscriberXml) \\ "Lists" \\ "ID").text should equal("123")
-//    ((subscriberXml) \\ "Lists" \\ "Status").text should equal("aStatus")
-//
-//    val attributes = ((subscriberXml) \\ "Attributes" \\ "Value") map {
-//      _.text
-//    }
-//
-//    attributes.size should be(2)
-//
-//    attributes foreach {
-//      attribute =>
-//        attribute should equal(attribute trim)
-//    }
-//  }
+  "Unsubscribe" should "update subscription to Unsubscribed" in {
+    when(listSubscriber.listSubscriptionMessageSender.sendRequest(
+        SubscriptionRequest("alist", Some("abusinessunit"), listSubscriber.accountDetails, subscribers, "Unsubscribed"), "Create"))
+        .thenReturn((200, result))
+
+    listSubscriber.unsubscribeFromList("alist", Some("abusinessunit"), subscribers) should equal((200, result))
+  }
 }

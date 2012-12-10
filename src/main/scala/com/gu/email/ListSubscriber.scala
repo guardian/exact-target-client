@@ -18,15 +18,11 @@ trait ListSubscriber {
   val accountDetails: AccountDetails
 
   def subscribeToList(listId: String, businessUnitId: Option[String], subscribers: Seq[Subscriber]): (Int, Seq[SubscriberResult]) = {
-    sendSubscriptionRequest(listId, businessUnitId, subscribers, "Active")
+    listSubscriptionMessageSender.sendRequest(SubscriptionRequest(listId, businessUnitId, accountDetails, subscribers, "Active"), "Create")
   }
 
   def unsubscribeFromList(listId: String, businessUnitId: Option[String], subscribers: Seq[Subscriber]): (Int, Seq[SubscriberResult]) = {
-    sendSubscriptionRequest(listId, businessUnitId, subscribers, "Unsubscribed")
-  }
-
-  def sendSubscriptionRequest(listId: String, businessUnitId: Option[String], subscribers: Seq[Subscriber], status:String): (Int, Seq[SubscriberResult]) = {
-    listSubscriptionMessageSender.sendRequest(SubscriptionRequest(listId, businessUnitId, accountDetails, subscribers, status), "Create")
+    listSubscriptionMessageSender.sendRequest(SubscriptionRequest(listId, businessUnitId, accountDetails, subscribers, "Unsubscribed"), "Create")
   }
 }
 
