@@ -102,6 +102,7 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
               <StatusCode>OK</StatusCode>
               <StatusMessage>Created Subscriber.</StatusMessage>
               <OrdinalID>0</OrdinalID>
+              <ErrorCode>12002</ErrorCode>
               <NewID>5797215</NewID>
               <Object xsi:type="Subscriber">
                 <Client>
@@ -125,6 +126,6 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
           </CreateResponse>
         </soap:Body>
       </soap:Envelope>
-    ) should equal( List(SubscriberResult("13219403-francis@rhys-jones.com", "OK", "Created Subscriber.", "" )) )
+    ) should equal( List(SubscriberResult("13219403-francis@rhys-jones.com", "OK", "Created Subscriber.", "12002" )) )
   }
 }
