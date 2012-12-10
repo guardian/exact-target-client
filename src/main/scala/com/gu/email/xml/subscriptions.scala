@@ -3,10 +3,10 @@ package com.gu.email.xml
 import com.gu.email.{MessageEncoder, SubscriberResult, AccountDetails, Subscriber}
 import xml.NodeSeq
 
-case class SubscriptionRequest(listId: String, businessUnitId: Option[String], accountDetails: AccountDetails, subscribers: Seq[Subscriber], status: String)
+case class SubscriberUpdateRequest(businessUnitId: Option[String], accountDetails: AccountDetails, subscribers: Seq[Subscriber])
 
-class ListSubscriberMessageEncoder extends MessageEncoder[SubscriptionRequest, Seq[SubscriberResult]] {
-  def encodeRequest(request: SubscriptionRequest) = {
+class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequest, Seq[SubscriberResult]] {
+  def encodeRequest(request: SubscriberUpdateRequest) = {
     <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -38,14 +38,14 @@ class ListSubscriberMessageEncoder extends MessageEncoder[SubscriptionRequest, S
               </SaveOption>
             </SaveOptions>
           </Options>
-          {request.subscribers map { subscriber => encodeSubscriber(request.listId, request.businessUnitId, subscriber, request.status) }}
+          {request.subscribers map { subscriber => encodeSubscriber(request.businessUnitId, subscriber) }}
         </CreateRequest>
       </soap:Body>
     </soap:Envelope>
 
   }
 
-  def encodeSubscriber(listId: String, businessUnitId: Option[String], subscriber: Subscriber, status: String) = {
+  def encodeSubscriber(businessUnitId: Option[String], subscriber: Subscriber) = {
     <Objects xsi:type="Subscriber">
       {businessUnitId map ( businessUnitId =>
       <Client>
@@ -57,10 +57,14 @@ class ListSubscriberMessageEncoder extends MessageEncoder[SubscriptionRequest, S
       <EmailAddress>{subscriber.email}</EmailAddress>
       <SubscriberKey>{subscriber.email}</SubscriberKey>
       <Lists>
-        <ID>{listId}</ID>
-        <Status>{status}</Status>
-        <ObjectID xsi:nil="true">
-        </ObjectID>
+        {
+          subscriber.lists.map { emailList =>
+            <ID>{emailList.listId}</ID>
+            <Status>{emailList.status}</Status>
+          }
+          <ObjectID xsi:nil="true">
+          </ObjectID>
+        }
       </Lists>
       {subscriber.firstName.map( firstName =>
       <Attributes>
