@@ -38,6 +38,6 @@ case class Subscriber(email: String, firstName: Option[String], lastName: Option
 
 case class GuardianUser(userName: String, email: String)
 
-case class SubscriberResult(email: String, statusCode: String, statusMessage: String) {
+case class SubscriberResult(email: String, statusCode: String, statusMessage: String, errorCode: String ) {
   val success = statusCode == "OK"
 }

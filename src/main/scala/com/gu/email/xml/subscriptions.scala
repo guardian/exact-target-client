@@ -82,7 +82,8 @@ class ListSubscriberMessageEncoder extends MessageEncoder[SubscriptionRequest, S
       val email = (subscriberNode \\ "EmailAddress").text.trim
       val statusCode = (subscriberNode \\ "StatusCode").text.trim
       val statusMessage = (subscriberNode \\ "StatusMessage").text.trim
-      SubscriberResult(email, statusCode, statusMessage)
+      val errorCode = (subscriberNode \\ "ErrorCode").text.trim
+      SubscriberResult(email, statusCode, statusMessage, errorCode)
     }
   }
 }
