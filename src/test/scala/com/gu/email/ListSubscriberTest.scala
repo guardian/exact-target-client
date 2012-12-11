@@ -22,7 +22,7 @@ class ListSubscriberTest extends FlatSpec with ShouldMatchers with MockitoSugar 
   "unsubscribe" should "update subscription to Unsubscribed" in {
     when(listSubscriber.subscriberUpdateMessageSender.sendRequest(
       SubscriberUpdateRequest(Some("abusinessunit"), listSubscriber.accountDetails,
-          List(Subscriber("email@address.com", None, None, lists = List(EmailList("alist", "Unsubscribed"))))), "Create"))
+          List(Subscriber("email@address.com", None, None, subscriptions = List(EmailList("alist", "Unsubscribed"))))), "Create"))
         .thenReturn((200, result))
 
     listSubscriber.unsubscribeFromList("alist", Some("abusinessunit"), subscribers) should equal((200, result))
@@ -31,7 +31,7 @@ class ListSubscriberTest extends FlatSpec with ShouldMatchers with MockitoSugar 
   "subscribe" should "update subscription to Active" in {
     when(listSubscriber.subscriberUpdateMessageSender.sendRequest(
       SubscriberUpdateRequest(Some("abusinessunit"), listSubscriber.accountDetails,
-          List(Subscriber("email@address.com", None, None, lists = List(EmailList("alist", "Active"))))), "Create"))
+          List(Subscriber("email@address.com", None, None, subscriptions = List(EmailList("alist", "Active"))))), "Create"))
         .thenReturn((200, result))
 
     listSubscriber.subscribeToList("alist", Some("abusinessunit"), subscribers) should equal((200, result))

@@ -17,12 +17,12 @@ trait ListSubscriber {
   val accountDetails: AccountDetails
 
   def subscribeToList(listId: String, businessUnitId: Option[String], subscribers: Seq[Subscriber]): (Int, Seq[Response[String]]) = {
-    val subscribersWithList = subscribers.map(_.copy(lists = List(EmailList(listId, "Active"))))
+    val subscribersWithList = subscribers.map(_.copy(subscriptions = List(EmailList(listId, "Active"))))
     subscriberUpdateMessageSender.sendRequest(SubscriberUpdateRequest(businessUnitId, accountDetails, subscribersWithList), "Create")
   }
 
   def unsubscribeFromList(listId: String, businessUnitId: Option[String], subscribers: Seq[Subscriber]): (Int, Seq[Response[String]]) = {
-    val subscribersWithList = subscribers.map(_.copy(lists = List(EmailList(listId, "Unsubscribed"))))
+    val subscribersWithList = subscribers.map(_.copy(subscriptions = List(EmailList(listId, "Unsubscribed"))))
     subscriberUpdateMessageSender.sendRequest(SubscriberUpdateRequest(businessUnitId, accountDetails, subscribersWithList), "Create")
   }
 }
@@ -38,7 +38,7 @@ case class AccountDetails(username: String, password: String)
 case class Subscriber(email: String, firstName: Option[String], lastName: Option[String],
                       createdDate: Option[String] = None, unsubscribeDate: Option[String] = None,
                       status: Option[String] = None, emailTypePreference: Option[String] = None,
-                      lists: List[EmailList] = Nil)
+                      subscriptions: List[EmailList] = Nil)
 
 case class GuardianUser(userName: String, email: String)
 

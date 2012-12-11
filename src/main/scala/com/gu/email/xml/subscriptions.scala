@@ -67,7 +67,7 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
         {subscriber.email}
       </SubscriberKey>
       <Lists>
-        {subscriber.lists.map {
+        {subscriber.subscriptions.map {
         emailList =>
           <ID>
             {emailList.listId}
