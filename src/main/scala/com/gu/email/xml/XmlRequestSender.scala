@@ -60,6 +60,6 @@ abstract class MessageEncoder[RequestType, ResponseType] {
   def decodeResponse(response: NodeSeq): ResponseType
 }
 
-case class Response[ResponseObjectType](status: String, data: ResponseObjectType)
+case class Response[ResponseObjectType](status: String, statusMessage: Option[String], errorCode: Option[String], data: ResponseObjectType)
 
 

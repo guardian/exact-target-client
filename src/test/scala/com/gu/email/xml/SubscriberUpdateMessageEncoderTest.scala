@@ -1,16 +1,11 @@
 package com.gu.email.xml
 
 import org.scalatest.FlatSpec
-import org.mockito.Matchers._
-import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.matchers.ShouldMatchers
-import org.apache.commons.httpclient.HttpClient
-import org.apache.commons.httpclient.methods.PostMethod
-import xml.{Utility, XML, NodeSeq}
-import com.gu.email.{SubscriberResult, EmailList, Subscriber, AccountDetails}
+import xml.Utility
+import com.gu.email.{EmailList, Subscriber, AccountDetails}
 import org.joda.time.DateTime
-import io.Source
 
 class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with ShouldMatchers{
   val encoder = new SubscriberUpdateMessageEncoder
@@ -126,6 +121,6 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
           </CreateResponse>
         </soap:Body>
       </soap:Envelope>
-    ) should equal( List(SubscriberResult("13219403-francis@rhys-jones.com", "OK", "Created Subscriber.", "12002" )) )
+    ) should equal(List(Response[String]("OK", Some("Created Subscriber."), Some("12002"), "13219403-francis@rhys-jones.com")) )
   }
 }

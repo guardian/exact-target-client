@@ -1,11 +1,11 @@
 package com.gu.email.xml
 
-import com.gu.email.{SubscriberResult, AccountDetails, Subscriber}
+import com.gu.email.{AccountDetails, Subscriber}
 import xml.NodeSeq
 
 case class SubscriberUpdateRequest(businessUnitId: Option[String], accountDetails: AccountDetails, subscribers: Seq[Subscriber])
 
-class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequest, Seq[SubscriberResult]] {
+class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequest, Seq[Response[String]]] {
   def encodeRequest(request: SubscriberUpdateRequest) = {
     <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -102,7 +102,7 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
         val statusCode = (subscriberNode \\ "StatusCode").text.trim
         val statusMessage = (subscriberNode \\ "StatusMessage").text.trim
         val errorCode = (subscriberNode \\ "ErrorCode").text.trim
-        SubscriberResult(email, statusCode, statusMessage, errorCode)
+        Response( statusCode, Some(statusMessage), Some(errorCode), email)
     }
   }
 }
@@ -148,6 +148,8 @@ class SubscriberRetrieveMessageEncoder extends MessageEncoder[String, Response[S
 
     val results = response \\ "RetrieveResponseMsg"
     Response(results \\ "OverallStatus" text,
+      None,
+      None,
       Subscriber(
         results \\ "SubscriberKey" text,
         (results \\ "Attributes") find (attribute => (attribute \\ "Name" text) == "First Name") map (_ \\ "Value" text),

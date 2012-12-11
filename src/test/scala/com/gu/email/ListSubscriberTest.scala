@@ -3,22 +3,21 @@ package com.gu.email
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
 import scala.collection.Seq
-import org.apache.commons.httpclient.HttpClient
 import org.scalatest.mock.MockitoSugar
 import scala._
-import xml.{RequestSender, SubscriberUpdateRequest}
+import xml.{XmlRequestSender, Response, RequestSender, SubscriberUpdateRequest}
 import scala.Some
 import org.mockito.Mockito._
 
 class ListSubscriberTest extends FlatSpec with ShouldMatchers with MockitoSugar {
   val listSubscriber = new ListSubscriber {
-    val httpClient = mock[HttpClient]
+    val xmlRequestSender = mock[XmlRequestSender]
     val accountDetails = mock[AccountDetails]
-    override val subscriberUpdateMessageSender = mock[RequestSender[SubscriberUpdateRequest, Seq[SubscriberResult]]]
+    override val subscriberUpdateMessageSender = mock[RequestSender[SubscriberUpdateRequest, Seq[Response[String]]]]
   }
 
   val subscribers = List(Subscriber("email@address.com", None, None))
-  val result = List(mock[SubscriberResult])
+  val result = List(mock[Response[String]])
 
   "unsubscribe" should "update subscription to Unsubscribed" in {
     when(listSubscriber.subscriberUpdateMessageSender.sendRequest(

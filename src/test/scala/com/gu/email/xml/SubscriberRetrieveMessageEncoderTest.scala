@@ -4,9 +4,8 @@ import org.scalatest.FlatSpec
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.matchers.ShouldMatchers
 import xml.Utility
-import com.gu.email.{SubscriberResult, EmailList, Subscriber, AccountDetails}
+import com.gu.email.Subscriber
 import org.joda.time.DateTime
-import org.joda.time.format.ISODateTimeFormat
 
 class SubscriberRetrieveMessageEncoderTest extends FlatSpec with MockitoSugar with ShouldMatchers {
   val encoder = new SubscriberRetrieveMessageEncoder
@@ -89,6 +88,8 @@ class SubscriberRetrieveMessageEncoderTest extends FlatSpec with MockitoSugar wi
     ) should equal(
       Response(
         "OK",
+        None,
+        None,
         Subscriber("foo@blah.com",
           Some("foo"),
           Some("blah"),
