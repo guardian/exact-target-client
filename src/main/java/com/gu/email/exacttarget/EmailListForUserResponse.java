@@ -1,10 +1,10 @@
 package com.gu.email.exacttarget;
 
+import com.gu.email.EmailList;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-import sun.beans.editors.StringEditor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ public class EmailListForUserResponse {
 
     private Document responseDocument;
     private  String overallStatus;
-    private final List<String> emailListIds = new ArrayList<String>();
+    private final List<EmailList> subscriptions = new ArrayList<EmailList>();
     private final static String RESULTS_ELEMENT_NAME = "Results";
     private String statusCode = "";
 
@@ -42,7 +42,8 @@ public class EmailListForUserResponse {
             for ( Iterator<Element> iterator = children.iterator(); iterator.hasNext() ; ) {
                 Element element = iterator.next();
                 if ( element.getName().equals(RESULTS_ELEMENT_NAME)) {
-                    emailListIds.add(element.getChildText("ListID", ET));//FK
+                    //Note all these subscriptions are active as the query will only return active ones
+                    subscriptions.add(new EmailList(element.getChildText("ListID", ET), "Active"));
                 }
             }
         }
@@ -58,8 +59,8 @@ public class EmailListForUserResponse {
         return overallStatus;
     }
 
-    public List<String> getEmalListIds() {
-        return emailListIds;
+    public List<EmailList> getSubscriptions() {
+        return subscriptions;
     }
 
     public boolean isOverallStatusOk() {

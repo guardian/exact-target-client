@@ -6,6 +6,7 @@ import org.jdom.input.SAXBuilder
 
 import scala.collection.JavaConverters._
 import java.io.StringReader
+import com.gu.email.EmailList
 
 
 class EmailsForUserResponseTest extends FunSuite with ShouldMatchers {
@@ -19,13 +20,13 @@ class EmailsForUserResponseTest extends FunSuite with ShouldMatchers {
 
     response.isOverallStatusOk should be(true)
     response.getOverallStatus should be("OK")
-    val jListIds : java.util.List[java.lang.String] = response.getEmalListIds;
-    val listIds = jListIds.asScala.toSet[String]
+    val jListIds : java.util.List[EmailList] = response.getSubscriptions;
+    val listIds = jListIds.asScala.toSet[EmailList]
     listIds.size should be (4)
-    listIds should contain ("396")
-    listIds should contain ("397")
-    listIds should contain ("537")
-    listIds should contain ("540")
+    listIds should contain (EmailList("396", "Active"))
+    listIds should contain (EmailList("397", "Active"))
+    listIds should contain (EmailList("537", "Active"))
+    listIds should contain (EmailList("540", "Active"))
   }
 
   test("Should set status fields appropriately if we receive a junk document") {
