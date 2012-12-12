@@ -4,28 +4,29 @@ import org.scalatest.FlatSpec
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.matchers.ShouldMatchers
 import xml.Utility
-import com.gu.email.Subscriber
+import com.gu.email.{AccountDetails, Subscriber}
 import org.joda.time.DateTime
 
 class SubscriberRetrieveMessageEncoderTest extends FlatSpec with MockitoSugar with ShouldMatchers {
-  val encoder = new SubscriberRetrieveMessageEncoder
+  val encoder = new SubscriberRetrieveMessageEncoder(AccountDetails("aUsername", "aPassword"))
 
   "SubscriberRetrieveMessageEncoder" should "encode subscriber update message" in {
     val time = new DateTime()
 
     Utility.trim(encoder.encodeRequest("foo@foo.com")) should equal(Utility.trim(
-      <s:Envelope xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
-        <s:Header>
-          <a:Action s:mustUnderstand="1">Retrieve</a:Action>
-          <a:MessageID>urn:uuid:12afdce4-062d-45e9-98b6-d221ace9cc95</a:MessageID>
-          <ActivityId CorrelationId="007731bc-31c3-40a2-8fbe-108de7783a57" xmlns="http://schemas.microsoft.com/2004/09/ServiceModel/Diagnostics">8d3425a9-1d88-4af3-a987-ea52e660437a</ActivityId>
-          <a:ReplyTo>
-            <a:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</a:Address>
-          </a:ReplyTo>
-        </s:Header>
-        <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <soapenv:Header>
+          <wsse:Security soapenv:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+            <wsse:UsernameToken wsu:Id="UsernameToken-24440876" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+              <wsse:Username>aUsername</wsse:Username>
+              <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">aPassword</wsse:Password>
+            </wsse:UsernameToken>
+          </wsse:Security>
+        </soapenv:Header>
+        <soapenv:Body>
           <RetrieveRequestMsg xmlns="http://exacttarget.com/wsdl/partnerAPI">
             <RetrieveRequest>
+              <ObjectType>Subscriber</ObjectType>
               <ObjectType>Subscriber</ObjectType>
               <Properties>ID</Properties>
               <Properties>CreatedDate</Properties>
@@ -35,15 +36,16 @@ class SubscriberRetrieveMessageEncoderTest extends FlatSpec with MockitoSugar wi
               <Properties>UnsubscribedDate</Properties>
               <Properties>Status</Properties>
               <Properties>EmailTypePreference</Properties>
-              <Filter xmlns:q1="http://exacttarget.com/wsdl/partnerAPI" xsi:type="q1:SimpleFilterPart">
-                <q1:Property>SubscriberKey</q1:Property>
-                <q1:SimpleOperator>equals</q1:SimpleOperator>
-                <q1:Value>foo@foo.com</q1:Value>
+              <Filter xsi:type="ns1:SimpleFilterPart" xmlns:ns1="http://exacttarget.com/wsdl/partnerAPI">
+                <Property>SubscriberKey</Property>
+                <SimpleOperator>equals</SimpleOperator>
+                <Value>foo@foo.com</Value>
               </Filter>
             </RetrieveRequest>
           </RetrieveRequestMsg>
-        </s:Body>
-      </s:Envelope>
+        </soapenv:Body>
+      </soapenv:Envelope>
+
     ))
   }
 

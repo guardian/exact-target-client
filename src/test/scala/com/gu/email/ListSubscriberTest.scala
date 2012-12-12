@@ -13,7 +13,7 @@ class ListSubscriberTest extends FlatSpec with ShouldMatchers with MockitoSugar 
   val listSubscriber = new ListSubscriber {
     val xmlRequestSender = mock[XmlRequestSender]
     val accountDetails = mock[AccountDetails]
-    override val subscriberUpdateMessageSender = mock[RequestSender[SubscriberUpdateRequest, Seq[Response[String]]]]
+    override lazy val subscriberUpdateMessageSender = mock[RequestSender[SubscriberUpdateRequest, Seq[Response[String]]]]
   }
 
   val subscribers = List(Subscriber("email@address.com", None, None))

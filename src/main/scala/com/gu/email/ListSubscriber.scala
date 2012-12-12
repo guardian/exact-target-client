@@ -5,16 +5,20 @@ import org.slf4j.LoggerFactory
 import xml.SubscriberUpdateRequest
 
 //these traits are for convenience and can be mixed in to create a 'repository', you need to provide a xmlRequestSender eg:
-//class ETRepo (val xmlRequestSender: XmlRequestSender) with ListSubscriber with SubscriberInfo
+//class ETRepo (val xmlRequestSender: XmlRequestSender, val accountDetails: AccountDetails) with ListSubscriber with SubscriberInfo
 //val repo = new ETRepo(new XmlRequestSender(httpClient))
 
-trait ListSubscriber {
+trait RequiresXmlRequestSender {
   val xmlRequestSender: XmlRequestSender
-  val subscriberUpdateMessageSender = new RequestSender[SubscriberUpdateRequest, Seq[Response[String]]](new SubscriberUpdateMessageEncoder(), xmlRequestSender)
+}
+trait RequiresAccountDetails {
+  val accountDetails: AccountDetails
+}
+
+trait ListSubscriber extends RequiresXmlRequestSender with RequiresAccountDetails{
+  lazy val subscriberUpdateMessageSender = new RequestSender[SubscriberUpdateRequest, Seq[Response[String]]](new SubscriberUpdateMessageEncoder(), xmlRequestSender)
 
   val logger = LoggerFactory.getLogger(getClass)
-
-  val accountDetails: AccountDetails
 
   def subscribeToList(listId: String, businessUnitId: Option[String], subscribers: Seq[Subscriber]): (Int, Seq[Response[String]]) = {
     val subscribersWithList = subscribers.map(_.copy(subscriptions = List(EmailList(listId, "Active"))))
@@ -27,9 +31,8 @@ trait ListSubscriber {
   }
 }
 
-trait SubscriberInfo {
-  val xmlRequestSender: XmlRequestSender
-  val subscriberRetrieveMessageSender = new RequestSender[String, Response[Subscriber]](new SubscriberRetrieveMessageEncoder(), xmlRequestSender)
+trait SubscriberInfo extends RequiresXmlRequestSender with RequiresAccountDetails {
+  lazy val subscriberRetrieveMessageSender = new RequestSender[String, Response[Subscriber]](new SubscriberRetrieveMessageEncoder(accountDetails), xmlRequestSender)
   def getSubscriberInfo(userId: String) = subscriberRetrieveMessageSender.sendRequest(userId, "Retrieve")
 }
 
