@@ -55,6 +55,7 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
               </ObjectID>
               <EmailAddress>anEmailAddress</EmailAddress>
               <SubscriberKey>anEmailAddress</SubscriberKey>
+              <EmailTypePreference>anEmailPreference</EmailTypePreference>
               <Lists>
                 <ID>aListId</ID>
                 <Status>aStatus</Status>
