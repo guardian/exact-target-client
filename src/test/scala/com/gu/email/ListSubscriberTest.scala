@@ -13,14 +13,14 @@ class ListSubscriberTest extends FlatSpec with ShouldMatchers with MockitoSugar 
   val listSubscriber = new ListSubscriber {
     val xmlRequestSender = mock[XmlRequestSender]
     val accountDetails = mock[AccountDetails]
-    override lazy val subscriberUpdateMessageSender = mock[RequestSender[SubscriberUpdateRequest, Seq[Response[String]]]]
+    override lazy val listSubscriberUpdateMessageSender = mock[RequestSender[SubscriberUpdateRequest, Seq[Response[String]]]]
   }
 
   val subscribers = List(Subscriber("email@address.com", None, None))
   val result = List(mock[Response[String]])
 
   "unsubscribe" should "update subscription to Unsubscribed" in {
-    when(listSubscriber.subscriberUpdateMessageSender.sendRequest(
+    when(listSubscriber.listSubscriberUpdateMessageSender.sendRequest(
       SubscriberUpdateRequest(Some("abusinessunit"), listSubscriber.accountDetails,
           List(Subscriber("email@address.com", None, None, subscriptions = List(EmailList("alist", "Unsubscribed"))))), "Create"))
         .thenReturn((200, result))
@@ -29,7 +29,7 @@ class ListSubscriberTest extends FlatSpec with ShouldMatchers with MockitoSugar 
   }
 
   "subscribe" should "update subscription to Active" in {
-    when(listSubscriber.subscriberUpdateMessageSender.sendRequest(
+    when(listSubscriber.listSubscriberUpdateMessageSender.sendRequest(
       SubscriberUpdateRequest(Some("abusinessunit"), listSubscriber.accountDetails,
           List(Subscriber("email@address.com", None, None, subscriptions = List(EmailList("alist", "Active"))))), "Create"))
         .thenReturn((200, result))

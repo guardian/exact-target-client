@@ -60,14 +60,22 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
     </ObjectID>
       <EmailAddress>{subscriber.email}</EmailAddress>
       <SubscriberKey>{subscriber.email}</SubscriberKey>
-      <Lists>
-        {subscriber.subscriptions.map {
-        emailList =>
-          <ID>{emailList.listId}</ID>
-          <Status>{emailList.status}</Status>
-      } flatten}<ObjectID xsi:nil="true">
-      </ObjectID>
-      </Lists>{subscriber.firstName.map(firstName =>
+      {subscriber.emailTypePreference.map(preference =>
+      <EmailTypePreference>{preference}</EmailTypePreference>
+    ) flatten}
+      {
+        if(!subscriber.subscriptions.isEmpty) {
+          <Lists>
+            {subscriber.subscriptions.map {
+            emailList =>
+              <ID>{emailList.listId}</ID>
+                <Status>{emailList.status}</Status>
+          } flatten}<ObjectID xsi:nil="true">
+          </ObjectID>
+          </Lists>
+        }
+      }
+      {subscriber.firstName.map(firstName =>
       <Attributes>
         <Name>First Name</Name>
         <Value>{firstName}</Value>

@@ -16,24 +16,28 @@ trait RequiresAccountDetails {
 }
 
 trait ListSubscriber extends RequiresXmlRequestSender with RequiresAccountDetails{
-  lazy val subscriberUpdateMessageSender = new RequestSender[SubscriberUpdateRequest, Seq[Response[String]]](new SubscriberUpdateMessageEncoder(), xmlRequestSender)
+  lazy val listSubscriberUpdateMessageSender = new RequestSender[SubscriberUpdateRequest, Seq[Response[String]]](new SubscriberUpdateMessageEncoder(), xmlRequestSender)
 
   val logger = LoggerFactory.getLogger(getClass)
 
   def subscribeToList(listId: String, businessUnitId: Option[String], subscribers: Seq[Subscriber]): (Int, Seq[Response[String]]) = {
     val subscribersWithList = subscribers.map(_.copy(subscriptions = List(EmailList(listId, "Active"))))
-    subscriberUpdateMessageSender.sendRequest(SubscriberUpdateRequest(businessUnitId, accountDetails, subscribersWithList), "Create")
+    listSubscriberUpdateMessageSender.sendRequest(SubscriberUpdateRequest(businessUnitId, accountDetails, subscribersWithList), "Create")
   }
 
   def unsubscribeFromList(listId: String, businessUnitId: Option[String], subscribers: Seq[Subscriber]): (Int, Seq[Response[String]]) = {
     val subscribersWithList = subscribers.map(_.copy(subscriptions = List(EmailList(listId, "Unsubscribed"))))
-    subscriberUpdateMessageSender.sendRequest(SubscriberUpdateRequest(businessUnitId, accountDetails, subscribersWithList), "Create")
+    listSubscriberUpdateMessageSender.sendRequest(SubscriberUpdateRequest(businessUnitId, accountDetails, subscribersWithList), "Create")
   }
 }
 
 trait SubscriberInfo extends RequiresXmlRequestSender with RequiresAccountDetails {
-  lazy val subscriberRetrieveMessageSender = new RequestSender[String, Response[Subscriber]](new SubscriberRetrieveMessageEncoder(accountDetails), xmlRequestSender)
-  def getSubscriberInfo(userId: String) = subscriberRetrieveMessageSender.sendRequest(userId, "Retrieve")
+  lazy val infoSubscriberRetrieveMessageSender = new RequestSender[String, Response[Subscriber]](new SubscriberRetrieveMessageEncoder(accountDetails), xmlRequestSender)
+  lazy val infoSubscriberUpdateMessageSender = new RequestSender[SubscriberUpdateRequest, Seq[Response[String]]](new SubscriberUpdateMessageEncoder(), xmlRequestSender)
+
+  def getSubscriberInfo(emailAddress: String) = infoSubscriberRetrieveMessageSender.sendRequest(emailAddress, "Retrieve")
+  def updateSubscriberInfo(subscriber: Subscriber) = infoSubscriberUpdateMessageSender.sendRequest(SubscriberUpdateRequest(None, accountDetails, List(subscriber)), "Create")
+
 }
 
 case class AccountDetails(username: String, password: String)
