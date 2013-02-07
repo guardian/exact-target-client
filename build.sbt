@@ -4,24 +4,17 @@ organization := "com.gu"
 
 version := "2.15-SNAPSHOT"
 
-crossScalaVersions := Seq("2.8.1", "2.9.0-1", "2.9.1", "2.9.2")
-
-
+crossScalaVersions := Seq("2.9.0-1", "2.9.1", "2.9.2")
 
 resolvers += ("Sonatype Public" at "https://oss.sonatype.org/content/repositories/public/")
-
-libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
-	val versionMap = Map("2.8.1" -> "1.5.1", "2.9.0-1" -> "1.9.1", "2.9.1" -> "1.9.1", "2.9.2" -> "1.9.1")
-	val testVersion = versionMap.getOrElse(sv, error("Unsupported Scala version " + sv))
-	deps :+ ("org.scalatest" %% "scalatest" % testVersion % "test")
-}
 
 libraryDependencies ++= {
     Seq(
         "joda-time" % "joda-time" % "2.1" % "provided",
         "commons-httpclient" % "commons-httpclient" % "3.1",
         "org.slf4j" % "slf4j-api" % "1.6.1" % "provided",
-        "ch.qos.logback" % "logback-classic" % "1.0.7" % "test"
+        "ch.qos.logback" % "logback-classic" % "1.0.7" % "test",
+        "org.scalatest" %% "scalatest" % "1.9.1" % "test"
     )
 }
 
