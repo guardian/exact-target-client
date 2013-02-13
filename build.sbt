@@ -2,7 +2,7 @@ name := "exact-target-client"
 
 organization := "com.gu"
 
-version := "2.15"
+version := "2.16-SNAPSHOT"
 
 crossScalaVersions := Seq("2.9.0-1", "2.9.1", "2.9.2")
 
