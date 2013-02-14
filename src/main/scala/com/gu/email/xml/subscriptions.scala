@@ -85,6 +85,8 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
         <Name>Last Name</Name>
         <Value>{lastName}</Value>
       </Attributes>
+    ) flatten}{subscriber.status.map(status =>
+      <Status>{status}</Status>
     ) flatten}
     </Objects>
   }
