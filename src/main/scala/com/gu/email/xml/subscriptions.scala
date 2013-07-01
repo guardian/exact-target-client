@@ -1,11 +1,13 @@
 package com.gu.email.xml
 
-import com.gu.email.{AccountDetails, Subscriber}
+import com.gu.email.{EmailList, AccountDetails, Subscriber}
 import xml.NodeSeq
 
 case class SubscriberUpdateRequest(businessUnitId: Option[String], accountDetails: AccountDetails, subscribers: Seq[Subscriber])
 
 class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequest, Seq[Response[String]]] {
+  implicit def ActualListId( listId : String ) = new {def isAllDigits = listId.matches("^\\d*$")}
+
   def encodeRequest(request: SubscriberUpdateRequest) = {
     <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -51,7 +53,7 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
   }
 
   def encodeSubscriber(businessUnitId: Option[String], subscriber: Subscriber) = {
-    <Objects xsi:type="Subscriber">
+   <Objects xsi:type="Subscriber">
       {businessUnitId map (businessUnitId =>
       <Client>
         <ID>{businessUnitId}</ID>
@@ -67,10 +69,15 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
         if(!subscriber.subscriptions.isEmpty) {
           <Lists>
             {subscriber.subscriptions.map {
-            emailList =>
-              <ID>{emailList.listId}</ID>
-                <Status>{emailList.status}</Status>
-          } flatten}<ObjectID xsi:nil="true">
+            emailList => {
+                  if ( emailList.listId.isAllDigits ) {
+                    <ID>{emailList.listId}</ID>
+                  } else {
+                      <PartnerKey>{emailList.listId}</PartnerKey>
+                  }
+            }++
+            <Status>{emailList.status}</Status>
+          } flatten }<ObjectID xsi:nil="true">
           </ObjectID>
           </Lists>
         }

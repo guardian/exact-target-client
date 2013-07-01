@@ -17,7 +17,7 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
       AccountDetails("ausername", "apassword"),
       List(
         Subscriber("anEmailAddress", Some("aFirstName"), Some("aSecondName"), None, None, Some("aStatus"),
-          Some("anEmailPreference"), List(EmailList("aListId", "aStatus")))
+          Some("anEmailPreference"), List(EmailList("12345", "aStatus")))
       )
     )
 
@@ -57,7 +57,7 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
               <SubscriberKey>anEmailAddress</SubscriberKey>
               <EmailTypePreference>anEmailPreference</EmailTypePreference>
               <Lists>
-                <ID>aListId</ID>
+                <ID>12345</ID>
                 <Status>aStatus</Status>
                 <ObjectID xsi:nil="true">
                 </ObjectID>
@@ -70,12 +70,82 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
                 <Name>Last Name</Name>
                 <Value>aSecondName</Value>
               </Attributes>
+              <Status>aStatus</Status>
             </Objects>
           </CreateRequest>
         </soap:Body>
-      </soap:Envelope> )
+      </soap:Envelope>)
     )
   }
+
+  "SubscriberUpdateMessageEncoder" should "decode use CostumerKey for a non numeric ListID" in {
+    val time = new DateTime()
+    val update = new SubscriberUpdateRequest(
+      Some("aBusinessUnitId"),
+      AccountDetails("ausername", "apassword"),
+      List(
+        Subscriber("anEmailAddress", Some("aFirstName"), Some("aSecondName"), None, None, Some("aStatus"),
+          Some("anEmailPreference"), List(EmailList("nonNumericSoUseCustomerKey", "aStatus")))
+      )
+    )
+
+    Utility.trim(encoder.encodeRequest(update)) should equal(Utility.trim(
+      <soap:Envelope xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:ns1="http://exacttarget.com/wsdl/partnerAPI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Header>
+          <wsa:Action>Create</wsa:Action>
+          <wsa:MessageID>urn:uuid:168bbf3d-394e-4656-ae57-sdfsdfb4b568ae</wsa:MessageID>
+          <wsa:ReplyTo>
+            <wsa:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:Address>
+          </wsa:ReplyTo>
+          <wsa:To>https://webservice.s4.exacttarget.com/Service.asmx</wsa:To>
+          <wsse:Security soap:mustUnderstand="1">
+            <wsse:UsernameToken xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+              <wsse:Username>ausername</wsse:Username>
+              <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">apassword</wsse:Password>
+            </wsse:UsernameToken>
+          </wsse:Security>
+        </soap:Header>
+        <soap:Body>
+          <CreateRequest xmlns="http://exacttarget.com/wsdl/partnerAPI">
+            <Options>
+              <SaveOptions>
+                <SaveOption>
+                  <PropertyName>*</PropertyName>
+                  <SaveAction>UpdateAdd</SaveAction>
+                </SaveOption>
+              </SaveOptions>
+            </Options>
+            <Objects xsi:type="Subscriber">
+              <Client>
+                <ID>aBusinessUnitId</ID>
+              </Client>
+              <ObjectID xsi:nil="true">
+              </ObjectID>
+              <EmailAddress>anEmailAddress</EmailAddress>
+              <SubscriberKey>anEmailAddress</SubscriberKey>
+              <EmailTypePreference>anEmailPreference</EmailTypePreference>
+              <Lists>
+                <PartnerKey>nonNumericSoUseCustomerKey</PartnerKey>
+                <Status>aStatus</Status>
+                <ObjectID xsi:nil="true">
+                </ObjectID>
+              </Lists>
+              <Attributes>
+                <Name>First Name</Name>
+                <Value>aFirstName</Value>
+              </Attributes>
+              <Attributes>
+                <Name>Last Name</Name>
+                <Value>aSecondName</Value>
+              </Attributes>
+              <Status>aStatus</Status>
+            </Objects>
+          </CreateRequest>
+        </soap:Body>
+      </soap:Envelope>)
+    )
+  }
+
 
   "SubscriberUpdateMessageEncoder" should "decode subscriber update response" in {
     encoder.decodeResponse(
