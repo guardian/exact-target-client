@@ -4,7 +4,9 @@ organization := "com.gu"
 
 version := "2.19-SNAPSHOT"
 
-crossScalaVersions := Seq("2.9.0-1", "2.9.1", "2.9.2")
+scalaVersion := "2.9.1"
+
+crossScalaVersions := Seq("2.9.0-1", "2.9.1", "2.9.2", "2.10.2")
 
 resolvers += ("Sonatype Public" at "https://oss.sonatype.org/content/repositories/public/")
 

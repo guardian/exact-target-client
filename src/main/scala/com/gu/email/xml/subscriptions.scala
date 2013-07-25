@@ -54,17 +54,17 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
 
   def encodeSubscriber(businessUnitId: Option[String], subscriber: Subscriber) = {
    <Objects xsi:type="Subscriber">
-      {businessUnitId map (businessUnitId =>
+      {businessUnitId.map(businessUnitId =>
       <Client>
         <ID>{businessUnitId}</ID>
       </Client>
-      ) flatten}<ObjectID xsi:nil="true">
+      ).getOrElse(Nil)}<ObjectID xsi:nil="true">
     </ObjectID>
       <EmailAddress>{subscriber.email}</EmailAddress>
       <SubscriberKey>{subscriber.email}</SubscriberKey>
       {subscriber.emailTypePreference.map(preference =>
       <EmailTypePreference>{preference}</EmailTypePreference>
-    ) flatten}
+    ).getOrElse(Nil)}
       {
         if(!subscriber.subscriptions.isEmpty) {
           <Lists>
@@ -77,7 +77,7 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
                   }
             }++
             <Status>{emailList.status}</Status>
-          } flatten }<ObjectID xsi:nil="true">
+          } }<ObjectID xsi:nil="true">
           </ObjectID>
           </Lists>
         }
@@ -87,14 +87,14 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
         <Name>First Name</Name>
         <Value>{firstName}</Value>
       </Attributes>
-    ) flatten}{subscriber.lastName.map(lastName =>
+    ).getOrElse(Nil)}{subscriber.lastName.map(lastName =>
       <Attributes>
         <Name>Last Name</Name>
         <Value>{lastName}</Value>
       </Attributes>
-    ) flatten}{subscriber.status.map(status =>
+    ).getOrElse(Nil)}{subscriber.status.map(status =>
       <Status>{status}</Status>
-    ) flatten}
+    ).getOrElse(Nil)}
     </Objects>
   }
 

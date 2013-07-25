@@ -5,7 +5,6 @@ import java.net.URI
 import org.apache.commons.httpclient.HttpClient
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers
-import reflect.generic.Flags
 
 
 class ListSubscriberHarness extends FlatSpec with ShouldMatchers {
