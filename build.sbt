@@ -2,7 +2,7 @@ name := "exact-target-client"
 
 organization := "com.gu"
 
-version := "2.19"
+version := "2.20"
 
 scalaVersion := "2.9.1"
 
