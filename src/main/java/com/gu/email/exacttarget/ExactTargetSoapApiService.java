@@ -27,10 +27,10 @@ public class ExactTargetSoapApiService
     }
 
 
-    public TriggeredEmailResponse sendEmailRequest( String userName, String emailAddress, String businessUnitId ) throws ExactTargetException
+    public TriggeredEmailResponse sendEmailRequest( String userName, String emailAddress, String businessUnitId, String emailTemplateId ) throws ExactTargetException
     {
-        GuardianUser user = new GuardianUser( userName, emailAddress );
-        return sendEmailRequest( user, businessUnitId );
+        GuardianUser user = new GuardianUser( userName, emailAddress);
+        return sendEmailRequest(user, businessUnitId, emailTemplateId);
     }
 
 
@@ -65,9 +65,9 @@ public class ExactTargetSoapApiService
 
     }
 
-    TriggeredEmailResponse sendEmailRequest(  GuardianUser user, String businessUnitId) throws ExactTargetException
+    TriggeredEmailResponse sendEmailRequest(GuardianUser user, String businessUnitId, String emailTemplateId) throws ExactTargetException
     {
-        TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest( user, createSoapAction, businessUnitId);
+        TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest( user, createSoapAction, businessUnitId, emailTemplateId);
         PostMethod postMethod = soapFactory.createPostMethod( triggeredEmailRequest, createSoapAction );
 
         if( LOG.isDebugEnabled() )

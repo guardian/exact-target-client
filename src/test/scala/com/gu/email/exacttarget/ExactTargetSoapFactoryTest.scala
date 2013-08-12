@@ -8,7 +8,7 @@ import java.net.URI
 
 class ExactTargetSoapFactoryTest extends FunSuite with ShouldMatchers {
 
-  val factory = new ExactTargetFactory("", "", "", new URI("http://cheese.com/wensleydale"))
+  val factory = new ExactTargetFactory("", "", new URI("http://cheese.com/wensleydale"))
   val createSoapAction = "Create"
 
   val body = new RequestEntity() {

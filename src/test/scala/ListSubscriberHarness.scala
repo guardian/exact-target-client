@@ -12,7 +12,7 @@ class ListSubscriberHarness extends FlatSpec with ShouldMatchers {
         val subscribers = List(Subscriber("natbennett@hotmail.com", Some("Nat"), Some("Bennett"), status=Some("Active") ) )
 
        "this" should "add a subcriber to a list" in {
-          val factory = new ExactTargetFactory("gnmtestuser", "row_4boat", "001 WelcomeEmailTriggerET", new URI("https://webservice.s4.exacttarget.com/Service.asmx"))
+          val factory = new ExactTargetFactory("gnmtestuser", "row_4boat", new URI("https://webservice.s4.exacttarget.com/Service.asmx"))
           val httpClient = new HttpClient()
           val service = new TestSoapFactory(factory, httpClient)
           service.subscribeToList("alert_profile%2Fcharlesarthur", Some("1310199"), subscribers )

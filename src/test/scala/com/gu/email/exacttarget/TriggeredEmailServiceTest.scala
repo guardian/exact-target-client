@@ -27,13 +27,13 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
     val emailRequest = mock[TriggeredEmailRequest]
 
-    when(mockSoapFactory.createRequest(user, createSoapAction, "abusinessUnitId")).thenReturn(emailRequest)
+    when(mockSoapFactory.createRequest(user, createSoapAction, "abusinessUnitId", "anEmailRemplate")).thenReturn(emailRequest)
     when(mockSoapFactory.createPostMethod(emailRequest,createSoapAction)).thenReturn(postMethod)
     when(mockHttpClient.executeMethod(postMethod)).thenReturn(200)
     when(postMethod.getRequestEntity()).thenReturn(requestEntity);
 
     val service = new ExactTargetSoapApiService(mockSoapFactory, mockHttpClient)
-    service.sendEmailRequest(user, "abusinessUnitId")
+    service.sendEmailRequest(user, "abusinessUnitId", "anEmailRemplate")
 
     verify(mockHttpClient).executeMethod(postMethod)
   }
@@ -66,13 +66,13 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
     val emailRequest = mock[TriggeredEmailRequest]
     val expectedResponseDocument = mock[TriggeredEmailResponse]
 
-    when(mockSoapFactory.createRequest(user,createSoapAction, "abusinessUnitId")).thenReturn(emailRequest)
+    when(mockSoapFactory.createRequest(user,createSoapAction, "abusinessUnitId", "anEmailRemplate")).thenReturn(emailRequest)
     when(mockSoapFactory.createPostMethod(emailRequest, createSoapAction)).thenReturn(postMethod)
     when(mockSoapFactory.createResponseDocument(postMethod)).thenReturn(expectedResponseDocument)
     when(mockHttpClient.executeMethod(postMethod)).thenReturn(200)
 
     val service = new ExactTargetSoapApiService(mockSoapFactory, mockHttpClient)
-    val actualResponseDocument = service.sendEmailRequest(user, "abusinessUnitId")
+    val actualResponseDocument = service.sendEmailRequest(user, "abusinessUnitId", "anEmailRemplate")
 
     actualResponseDocument should be(expectedResponseDocument)
   }
@@ -108,13 +108,13 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
     val emailRequest = mock[TriggeredEmailRequest]
     val expectedResponse = mock[TriggeredEmailResponse]
 
-    when(mockSoapFactory.createRequest(user, createSoapAction, "abusinessUnitId")).thenReturn(emailRequest)
+    when(mockSoapFactory.createRequest(user, createSoapAction, "abusinessUnitId", "anEmailRemplate")).thenReturn(emailRequest)
     when(mockSoapFactory.createPostMethod(emailRequest, createSoapAction)).thenReturn(postMethod)
     when(mockSoapFactory.createResponseDocument(postMethod)).thenReturn(expectedResponse)
     when(mockHttpClient.executeMethod(postMethod)).thenReturn(500)
 
     val service = new ExactTargetSoapApiService(mockSoapFactory, mockHttpClient)
-    evaluating { service.sendEmailRequest(user, "abusinessUnitId") } should produce [ExactTargetException]
+    evaluating { service.sendEmailRequest(user, "abusinessUnitId", "anEmailRemplate") } should produce [ExactTargetException]
   }
 
 
@@ -143,7 +143,7 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
     val emailRequest = mock[TriggeredEmailRequest]
     val expectedResponseDocument = mock[TriggeredEmailResponse]
 
-    when(mockSoapFactory.createRequest(user,createSoapAction, "abusinessUnitId")).thenReturn(emailRequest)
+    when(mockSoapFactory.createRequest(user,createSoapAction, "abusinessUnitId", "anEmailRemplate")).thenReturn(emailRequest)
     when(mockSoapFactory.createPostMethod(emailRequest,createSoapAction)).thenReturn(postMethod)
     when(mockSoapFactory.createResponseDocument(postMethod)).thenReturn(expectedResponseDocument)
 
@@ -151,6 +151,6 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
     when(mockHttpClient.executeMethod(postMethod)).thenThrow(ioException)
 
     val service: ExactTargetSoapApiService = new ExactTargetSoapApiService(mockSoapFactory, mockHttpClient)
-    evaluating { service.sendEmailRequest(user, "abusinessUnitId") } should produce [ExactTargetException]
+    evaluating { service.sendEmailRequest(user, "abusinessUnitId", "anEmailRemplate") } should produce [ExactTargetException]
   }
 }

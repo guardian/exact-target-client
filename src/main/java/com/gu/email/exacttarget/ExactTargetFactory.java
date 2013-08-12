@@ -16,14 +16,12 @@ import java.net.URI;
 
 public class ExactTargetFactory
 {
-    private final String emailTemplate;
     private final URI endPoint;
     private final AccountDetails accountDetails;
 
-    public ExactTargetFactory( String accountName, String password, String emailTemplate, URI endPoint )
+    public ExactTargetFactory( String accountName, String password, URI endPoint )
     {
         accountDetails = new AccountDetails(accountName, password);
-        this.emailTemplate = emailTemplate;
         this.endPoint = endPoint;
     }
 
@@ -40,7 +38,7 @@ public class ExactTargetFactory
         return method;
     }
 
-    public TriggeredEmailRequest createRequest( GuardianUser guardianUser, String soapAction, String businessUnitId)
+    public TriggeredEmailRequest createRequest( GuardianUser guardianUser, String soapAction, String businessUnitId, String emailTemplate)
     {
         TriggeredEmailRequest triggeredRequest = new TriggeredEmailRequest( accountDetails, businessUnitId, emailTemplate, guardianUser, soapAction );
         return triggeredRequest;
