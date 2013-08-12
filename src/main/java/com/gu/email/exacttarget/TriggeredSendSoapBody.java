@@ -3,20 +3,24 @@ package com.gu.email.exacttarget;
 import org.jdom.Content;
 import org.jdom.Element;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import static com.gu.email.exacttarget.Namespaces.*;
 
 
 class TriggeredSendSoapBody extends Element
 {
-    private String userName;
+    private Map<String, String> attributes;
     private String emailAddress;
     private String emailTemplate;
     private String businessUnitId;
 
-    public TriggeredSendSoapBody( String businessUnitId, String emailTemplate, String userName, String emailAddress )
+    public TriggeredSendSoapBody( String businessUnitId, String emailTemplate, Map<String, String> attributes, String emailAddress )
     {
         super( "Body", SOAP );
-        this.userName = userName;
+        this.attributes = attributes;
         this.emailAddress = emailAddress;
         this.emailTemplate = emailTemplate;
         this.businessUnitId = businessUnitId;
@@ -81,19 +85,26 @@ class TriggeredSendSoapBody extends Element
         return subscribers;
     }
 
-    private Element attributes()
+    private List<Element> attributes()
     {
-        Element name = new Element( "Name", ET );
-        name.setText( "Field_A" );
+        List<Element> elements = new ArrayList<Element>();
 
-        Element value = new Element( "Value", ET );
-        value.setText( userName );
+        for (Map.Entry<String, String> stringStringEntry : this.attributes.entrySet()) {
+            Element name = new Element( "Name", ET );
+            name.setText( stringStringEntry.getKey());
 
-        Element attributes = new Element( "Attributes", ET );
-        attributes.addContent( name );
-        attributes.addContent( value );
+            Element value = new Element( "Value", ET );
+            value.setText( stringStringEntry.getValue() );
 
-        return attributes;
+            Element attributesElement = new Element( "Attributes", ET );
+            attributesElement.addContent( name );
+            attributesElement.addContent( value );
+
+            elements.add(attributesElement);
+        }
+
+
+        return elements;
     }
 
     private Element subscriberKey()

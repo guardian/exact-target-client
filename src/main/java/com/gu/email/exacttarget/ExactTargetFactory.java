@@ -12,6 +12,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ExactTargetFactory
@@ -33,21 +35,37 @@ public class ExactTargetFactory
         method.setRequestHeader( "Content-Type", "text/xml; charset=utf-8" );
         method.setRequestHeader( "Content-Length", "" + body.getContentLength() );
         method.setRequestHeader( "SOAPAction", soapAction );
-        method.setRequestEntity( body );
+        method.setRequestEntity(body);
 
         return method;
     }
 
+    @Deprecated
     public TriggeredEmailRequest createRequest( GuardianUser guardianUser, String soapAction, String businessUnitId, String emailTemplate)
     {
-        TriggeredEmailRequest triggeredRequest = new TriggeredEmailRequest( accountDetails, businessUnitId, emailTemplate, guardianUser, soapAction );
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("Field_A", guardianUser.userName());
+
+        TriggeredEmailRequest triggeredRequest = new TriggeredEmailRequest( accountDetails, businessUnitId, emailTemplate, guardianUser.email(), attributes, soapAction );
         return triggeredRequest;
     }
 
+    public TriggeredEmailRequest createRequest( String emailAddress, Map<String, String> attributes, String soapAction, String businessUnitId, String emailTemplate)
+    {
+        TriggeredEmailRequest triggeredRequest = new TriggeredEmailRequest( accountDetails, businessUnitId, emailTemplate, emailAddress, attributes, soapAction );
+        return triggeredRequest;
+    }
 
+    @Deprecated
     public EmailListForUserRequest createListForUserRequest( GuardianUser guardianUser, String businessUnitId)
     {
-        EmailListForUserRequest emailListForUserRequest = new EmailListForUserRequest(accountDetails, businessUnitId, guardianUser);
+        EmailListForUserRequest emailListForUserRequest = new EmailListForUserRequest(accountDetails, businessUnitId, guardianUser.email());
+        return emailListForUserRequest;
+    }
+
+    public EmailListForUserRequest createListForUserRequest( String emailAddress, String businessUnitId)
+    {
+        EmailListForUserRequest emailListForUserRequest = new EmailListForUserRequest(accountDetails, businessUnitId, emailAddress);
         return emailListForUserRequest;
     }
 

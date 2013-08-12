@@ -12,8 +12,8 @@ import java.io.UnsupportedEncodingException;
 
 public class EmailListForUserRequest extends ExactTargetRequest {
 
-    public EmailListForUserRequest(AccountDetails accountDetails, String businessUnitId, GuardianUser guardianUser) {
-        super(accountDetails, businessUnitId, guardianUser);
+    public EmailListForUserRequest(AccountDetails accountDetails, String businessUnitId, String emailAddress) {
+        super(accountDetails, businessUnitId, emailAddress);
         Document soapEnvelope = buildXmlMessage();//
         String soapEnvelopeString = xmlToString( soapEnvelope );
         try

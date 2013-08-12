@@ -21,13 +21,13 @@ public abstract class ExactTargetRequest implements RequestEntity {
     protected final String emailAddress;
     protected StringRequestEntity delegate;
 
-    public ExactTargetRequest(AccountDetails accountDetails, String businessUnitId, GuardianUser guardianUser)
+    public ExactTargetRequest(AccountDetails accountDetails, String businessUnitId, String emailAddress)
     {
         this.businessUnitId = businessUnitId;
         this.accountName = accountDetails.username();
         this.password = accountDetails.password();
 
-        this.emailAddress = guardianUser.email();
+        this.emailAddress = emailAddress;
     }
 
     protected String xmlToString( Document document )

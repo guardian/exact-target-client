@@ -11,21 +11,22 @@ import org.jdom.output.XMLOutputter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
 
 // TODO: change name. This is the body of a post request. It wraps a SOAP envelope
 class TriggeredEmailRequest extends ExactTargetRequest
 {
     private final String emailTemplate; //Keep here
-    private final String userName;     //Keep here
+    private final Map<String, String> attributes;
     private String soapAction;
 
 
-    public TriggeredEmailRequest( AccountDetails account, String businessUnitId, String emailTemplate, GuardianUser user, String soapAction )
+    public TriggeredEmailRequest( AccountDetails account, String businessUnitId, String emailTemplate, String emailAddress, Map<String, String> attributes, String soapAction )
     {
-        super(account, businessUnitId, user);
+        super(account, businessUnitId, emailAddress);
 
         this.soapAction = soapAction;
-        this.userName = user.userName();
+        this.attributes = attributes;
         this.emailTemplate = emailTemplate;// kee
         Document soapEnvelope = buildXmlMessage();//
         String soapEnvelopeString = xmlToString( soapEnvelope );
@@ -52,12 +53,9 @@ class TriggeredEmailRequest extends ExactTargetRequest
         return emailTemplate;
     }
 
-
-    public String getUserName()
-    {
-        return userName;
+    public Map<String, String> getAttributes() {
+        return attributes;
     }
-
 
     private Document buildXmlMessage()
     {

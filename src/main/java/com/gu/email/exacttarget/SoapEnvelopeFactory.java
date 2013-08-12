@@ -14,7 +14,7 @@ class SoapEnvelopeFactory
         TriggeredSendSoapBody body = new TriggeredSendSoapBody(
                 requestData.getBusinessUnitId(),
                 requestData.getEmailTemplate(),
-                requestData.getUserName(),
+                requestData.getAttributes(),
                 requestData.getEmailAddress() );
 
         return new SoapEnvelope( header, body );
