@@ -75,7 +75,7 @@ public class ExactTargetSoapApiService
     }
 
 
-    TriggeredEmailResponse sendEmailRequest(String emailAddress, Map<String, String> parameters, String businessUnitId, String emailTemplateId) throws ExactTargetException
+    public TriggeredEmailResponse sendEmailRequest(String emailAddress, Map<String, String> parameters, String businessUnitId, String emailTemplateId) throws ExactTargetException
     {
         TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest(emailAddress, parameters, createSoapAction, businessUnitId, emailTemplateId);
         PostMethod postMethod = soapFactory.createPostMethod( triggeredEmailRequest, createSoapAction );
