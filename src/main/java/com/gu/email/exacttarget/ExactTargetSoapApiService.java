@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExactTargetSoapApiService
 {
@@ -65,9 +67,17 @@ public class ExactTargetSoapApiService
 
     }
 
-    TriggeredEmailResponse sendEmailRequest(GuardianUser user, String businessUnitId, String emailTemplateId) throws ExactTargetException
+    TriggeredEmailResponse sendEmailRequest(GuardianUser user, String businessUnitId, String emailTemplateId) throws ExactTargetException {
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("Field_A", user.userName());
+
+        return sendEmailRequest(user.email(), attributes, businessUnitId, emailTemplateId);
+    }
+
+
+    TriggeredEmailResponse sendEmailRequest(String emailAddress, Map<String, String> parameters, String businessUnitId, String emailTemplateId) throws ExactTargetException
     {
-        TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest( user, createSoapAction, businessUnitId, emailTemplateId);
+        TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest(emailAddress, parameters, createSoapAction, businessUnitId, emailTemplateId);
         PostMethod postMethod = soapFactory.createPostMethod( triggeredEmailRequest, createSoapAction );
 
         if( LOG.isDebugEnabled() )

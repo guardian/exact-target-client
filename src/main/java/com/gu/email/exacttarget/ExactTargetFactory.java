@@ -40,16 +40,6 @@ public class ExactTargetFactory
         return method;
     }
 
-    @Deprecated
-    public TriggeredEmailRequest createRequest( GuardianUser guardianUser, String soapAction, String businessUnitId, String emailTemplate)
-    {
-        Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put("Field_A", guardianUser.userName());
-
-        TriggeredEmailRequest triggeredRequest = new TriggeredEmailRequest( accountDetails, businessUnitId, emailTemplate, guardianUser.email(), attributes, soapAction );
-        return triggeredRequest;
-    }
-
     public TriggeredEmailRequest createRequest( String emailAddress, Map<String, String> attributes, String soapAction, String businessUnitId, String emailTemplate)
     {
         TriggeredEmailRequest triggeredRequest = new TriggeredEmailRequest( accountDetails, businessUnitId, emailTemplate, emailAddress, attributes, soapAction );
