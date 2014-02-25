@@ -40,6 +40,7 @@ class TriggeredSendSoapBody extends Element
 
         objects.addContent( partnerKey() );
         objects.addContent( objectId() );
+        objects.addContent( businessUnitID() );
         objects.addContent( triggeredSendDefinition() );
         objects.addContent( subscribers() );
         return objects;
@@ -51,7 +52,6 @@ class TriggeredSendSoapBody extends Element
         customerKeyElement.setText( emailTemplate );
 
         Element triggeredSendDefinition = new Element( "TriggeredSendDefinition", ET );
-        triggeredSendDefinition.addContent( businessUnitID() );
         triggeredSendDefinition.addContent( partnerKey() );
         triggeredSendDefinition.addContent( objectId() );
         triggeredSendDefinition.addContent( customerKeyElement );

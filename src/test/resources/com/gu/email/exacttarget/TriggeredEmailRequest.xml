@@ -28,10 +28,10 @@
             <Objects xsi:type="TriggeredSend">
                 <PartnerKey xsi:nil="true"/>
                 <ObjectID xsi:nil="true"/>
+                <Client>
+                    <ID>XXXbusinessUnitIdXXX</ID>
+                </Client>
                 <TriggeredSendDefinition>
-                    <Client>
-                        <ID>XXXbusinessUnitIdXXX</ID>
-                    </Client>
                     <PartnerKey xsi:nil="true"/>
                     <ObjectID xsi:nil="true"/>
                     <CustomerKey>XXXemailTemplateXXX</CustomerKey>
