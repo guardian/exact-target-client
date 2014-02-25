@@ -1,8 +1,10 @@
+releaseSettings
+
+release-cross-build
+
 name := "exact-target-client"
 
 organization := "com.gu"
-
-version := "2.22-SNAPSHOT"
 
 scalaVersion := "2.9.2"
 
