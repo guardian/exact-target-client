@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 // TODO: change name. This is the body of a post request. It wraps a SOAP envelope
-class TriggeredEmailRequest extends ExactTargetRequest
+public class TriggeredEmailRequest extends ExactTargetRequest
 {
     private final String emailTemplate; //Keep here
     private final Map<String, String> attributes;
