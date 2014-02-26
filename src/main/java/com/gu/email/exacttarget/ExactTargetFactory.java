@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class ExactTargetFactory
 {
-    private final URI endPoint;
+    public final URI endPoint;
     private final AccountDetails accountDetails;
 
     public ExactTargetFactory( String accountName, String password, URI endPoint )
