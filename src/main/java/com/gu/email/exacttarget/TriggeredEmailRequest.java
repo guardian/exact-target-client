@@ -1,15 +1,9 @@
 package com.gu.email.exacttarget;
 
 import com.gu.email.AccountDetails;
-import com.gu.email.GuardianUser;
-import org.apache.commons.httpclient.methods.RequestEntity;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.jdom.Document;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
@@ -27,19 +21,21 @@ public class TriggeredEmailRequest extends ExactTargetRequest
 
         this.soapAction = soapAction;
         this.attributes = attributes;
-        this.emailTemplate = emailTemplate;// kee
-        Document soapEnvelope = buildXmlMessage();//
-        String soapEnvelopeString = xmlToString( soapEnvelope );
+        this.emailTemplate = emailTemplate;
 
         try
         {
-            delegate = new StringRequestEntity( soapEnvelopeString, "text/xml", "utf-8" );
+            delegate = new StringRequestEntity(getSoapEnvelopeString(), "text/xml", "utf-8" );
         }
         catch( UnsupportedEncodingException ex )
         {
             throw new IllegalStateException( ex );
         }
 
+    }
+
+    public String getSoapEnvelopeString() {
+        return xmlToString(buildXmlMessage());
     }
 
     public String getSoapAction()
