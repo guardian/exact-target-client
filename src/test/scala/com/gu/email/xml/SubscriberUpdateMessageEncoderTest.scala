@@ -2,12 +2,12 @@ package com.gu.email.xml
 
 import org.scalatest.FlatSpec
 import org.scalatest.mock.MockitoSugar
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 import xml.Utility
 import com.gu.email.{EmailList, Subscriber, AccountDetails}
 import org.joda.time.DateTime
 
-class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with ShouldMatchers{
+class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with Matchers{
   val encoder = new SubscriberUpdateMessageEncoder
 
   "SubscriberUpdateMessageEncoder" should "encode subscriber update message" in {

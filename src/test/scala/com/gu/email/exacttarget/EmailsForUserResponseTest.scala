@@ -1,7 +1,7 @@
 package com.gu.email.exacttarget
 
 import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 import org.jdom.input.SAXBuilder
 
 import scala.collection.JavaConverters._
@@ -9,7 +9,7 @@ import java.io.StringReader
 import com.gu.email.EmailList
 
 
-class EmailsForUserResponseTest extends FunSuite with ShouldMatchers {
+class EmailsForUserResponseTest extends FunSuite with Matchers {
 
   test("Should be able to extract important fields from response doc") {
 

@@ -1,12 +1,12 @@
 package com.gu.email.exacttarget
 
 import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 import org.apache.commons.httpclient.methods.RequestEntity
 import java.io.OutputStream
 import java.net.URI
 
-class ExactTargetSoapFactoryTest extends FunSuite with ShouldMatchers {
+class ExactTargetSoapFactoryTest extends FunSuite with Matchers {
 
   val factory = new ExactTargetFactory("", "", new URI("http://cheese.com/wensleydale"))
   val createSoapAction = "Create"

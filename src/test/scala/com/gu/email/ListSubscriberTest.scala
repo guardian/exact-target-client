@@ -1,7 +1,7 @@
 package com.gu.email
 
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 import scala.collection.Seq
 import org.scalatest.mock.MockitoSugar
 import scala._
@@ -9,7 +9,7 @@ import xml.{XmlRequestSender, Response, RequestSender, SubscriberUpdateRequest}
 import scala.Some
 import org.mockito.Mockito._
 
-class ListSubscriberTest extends FlatSpec with ShouldMatchers with MockitoSugar {
+class ListSubscriberTest extends FlatSpec with Matchers with MockitoSugar {
   val listSubscriber = new ListSubscriber {
     val xmlRequestSender = mock[XmlRequestSender]
     val accountDetails = mock[AccountDetails]
