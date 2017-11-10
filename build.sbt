@@ -6,7 +6,7 @@ organization := "com.gu"
 
 scalaVersion := "2.12.4"
 
-crossScalaVersions := Seq("2.10.4", "2.11.4", scalaVersion.value)
+crossScalaVersions := Seq("2.11.4", scalaVersion.value)
 
 resolvers += ("Sonatype Public" at "https://oss.sonatype.org/content/repositories/public/")
 
