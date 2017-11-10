@@ -19,28 +19,15 @@ libraryDependencies ++= {
     "org.slf4j" % "slf4j-api" % "1.6.1" % "provided",
     "org.mockito" % "mockito-core" % "1.9.5" % "test",
     "ch.qos.logback" % "logback-classic" % "1.0.7" % "test",
-    "org.scalatest" %% "scalatest" % "3.0.4" % "test"
+    "org.scalatest" %% "scalatest" % "3.0.4" % "test",
+    "org.scala-lang.modules" %% "scala-xml" % "1.0.6"
   )
 }
 
-libraryDependencies := {
-  CrossVersion.partialVersion(scalaVersion.value) match {
-    // if scala 2.11+ is used, add dependency on scala-xml module
-    case Some((2, scalaMajor)) if scalaMajor >= 11 =>
-      libraryDependencies.value ++ Seq("org.scala-lang.modules" %% "scala-xml" % "1.0.6")
-    case _ => libraryDependencies.value 
-  }
-}
-
-publishTo <<= (version) { version: String =>
-  val publishType = if (version.endsWith("SNAPSHOT")) "snapshots" else "releases"
-  Some(
-    Resolver.file(
-      s"guardian github $publishType",
-      file(s"${System.getProperty("user.home")}/guardian.github.com/maven/repo-$publishType")
-    )
-  )
-}
+publishTo := Some(
+  if (isSnapshot.value) Opts.resolver.sonatypeSnapshots
+  else Opts.resolver.sonatypeReleases
+)
 
 publishArtifact in (Compile, packageDoc) := false
 
