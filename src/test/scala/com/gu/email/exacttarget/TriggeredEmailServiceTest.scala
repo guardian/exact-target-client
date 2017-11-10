@@ -5,7 +5,7 @@ import org.apache.commons.httpclient.HttpClient
 import org.apache.commons.httpclient.methods.PostMethod
 import org.apache.commons.httpclient.methods.RequestEntity;
 import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
@@ -13,7 +13,7 @@ import java.io.IOException
 import scala.collection.JavaConversions._
 
 
-class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with MockitoSugar {
+class TriggeredEmailServiceTest extends FunSuite with Matchers with MockitoSugar {
 
   val postMethod = mock[PostMethod]
   val requestEntity = mock[RequestEntity]
@@ -116,7 +116,7 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
     when(mockHttpClient.executeMethod(postMethod)).thenReturn(500)
 
     val service = new ExactTargetSoapApiService(mockSoapFactory, mockHttpClient)
-    evaluating { service.sendEmailRequest(user, "abusinessUnitId", "anEmailRemplate") } should produce [ExactTargetException]
+    an [ExactTargetException] should be thrownBy service.sendEmailRequest(user, "abusinessUnitId", "anEmailRemplate")
   }
 
 
@@ -133,7 +133,7 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
     when(mockHttpClient.executeMethod(postMethod)).thenReturn(500)
 
     val service = new ExactTargetSoapApiService(mockSoapFactory, mockHttpClient)
-    evaluating { service.getEmailRequestsForUser(user, "abusinessUnitId") } should produce [ExactTargetException]
+    an [ExactTargetException] should be thrownBy service.getEmailRequestsForUser(user, "abusinessUnitId")
   }
 
 
@@ -153,6 +153,6 @@ class TriggeredEmailServiceTest extends FunSuite with ShouldMatchers with Mockit
     when(mockHttpClient.executeMethod(postMethod)).thenThrow(ioException)
 
     val service: ExactTargetSoapApiService = new ExactTargetSoapApiService(mockSoapFactory, mockHttpClient)
-    evaluating { service.sendEmailRequest(user, "abusinessUnitId", "anEmailRemplate") } should produce [ExactTargetException]
+    an [ExactTargetException] should be thrownBy service.sendEmailRequest(user, "abusinessUnitId", "anEmailRemplate")
   }
 }

@@ -4,13 +4,13 @@ import org.scalatest.FlatSpec
 import org.mockito.Matchers._
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 import org.apache.commons.httpclient.HttpClient
 import org.apache.commons.httpclient.methods.PostMethod
 import scala.xml.NodeSeq
 
 
-class XmlRequestSenderTest extends FlatSpec with MockitoSugar with ShouldMatchers{
+class XmlRequestSenderTest extends FlatSpec with MockitoSugar with Matchers{
   val httpClient = mock[HttpClient]
   val postMethod = mock[PostMethod]
   val requestSender = new XmlRequestSender(httpClient) {
@@ -28,7 +28,7 @@ class XmlRequestSenderTest extends FlatSpec with MockitoSugar with ShouldMatcher
   }
 }
 
-class RequestSenderTest extends FlatSpec with MockitoSugar with ShouldMatchers{
+class RequestSenderTest extends FlatSpec with MockitoSugar with Matchers{
   class SomeType
 
   val xmlRequestSender = mock[XmlRequestSender]

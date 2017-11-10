@@ -4,10 +4,10 @@ import com.gu.email.xml.XmlRequestSender
 import java.net.URI
 import org.apache.commons.httpclient.HttpClient
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 
 
-class ListSubscriberHarness extends FlatSpec with ShouldMatchers {
+class ListSubscriberHarness extends FlatSpec with Matchers {
 
         val subscribers = List(Subscriber("natbennett@hotmail.com", Some("Nat"), Some("Bennett"), status=Some("Active") ) )
 
