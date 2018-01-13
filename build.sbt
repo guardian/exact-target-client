@@ -1,3 +1,5 @@
+import ReleaseTransformations._
+
 name := "exact-target-client"
 organization := "com.gu"
 scalaVersion := "2.12.4"
@@ -22,3 +24,19 @@ publishTo := Some(
 )
 publishArtifact in (Compile, packageDoc) := false
 publishArtifact in (Compile, packageSrc) := true
+releaseCrossBuild := true
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  publishArtifacts,
+  setNextVersion,
+  commitNextVersion,
+  releaseStepCommand("sonatypeReleaseAll"),
+  pushChanges
+)
