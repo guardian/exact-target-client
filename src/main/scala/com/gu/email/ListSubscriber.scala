@@ -35,12 +35,7 @@ trait SubscriberInfo extends RequiresXmlRequestSender with RequiresAccountDetail
   lazy val infoSubscriberRetrieveMessageSender = new RequestSender[String, Response[Subscriber]](new SubscriberRetrieveMessageEncoder(accountDetails), xmlRequestSender)
   lazy val infoSubscriberUpdateMessageSender = new RequestSender[SubscriberUpdateRequest, Seq[Response[String]]](new SubscriberUpdateMessageEncoder(), xmlRequestSender)
 
-  def getSubscriberInfo(emailAddress: String) =
-  {
-    throw new RuntimeException("testing et sentry")
-    infoSubscriberRetrieveMessageSender.sendRequest(emailAddress, "Retrieve")
-
-  }
+  def getSubscriberInfo(emailAddress: String) = infoSubscriberRetrieveMessageSender.sendRequest(emailAddress, "Retrieve")
   def updateSubscriberInfo(subscriber: Subscriber) = infoSubscriberUpdateMessageSender.sendRequest(SubscriberUpdateRequest(None, accountDetails, List(subscriber)), "Create")
 
 }
