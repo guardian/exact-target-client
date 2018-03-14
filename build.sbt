@@ -9,7 +9,7 @@ libraryDependencies ++= {
   Seq(
     "joda-time"               % "joda-time"               % "2.3",
     "org.joda"                % "joda-convert"            % "1.6",
-    "commons-httpclient"      % "commons-httpclient"      % "3.1",
+    "org.apache.httpcomponents" % "httpclient" % "4.5.5",
     "org.jdom"                % "jdom"                    % "1.1",
     "org.slf4j"               % "slf4j-api"               % "1.6.1"   % "provided",
     "org.mockito"             % "mockito-core"            % "1.9.5"   % "test",

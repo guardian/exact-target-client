@@ -5,26 +5,30 @@ import org.mockito.Matchers._
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import org.scalatest.Matchers
-import org.apache.commons.httpclient.HttpClient
-import org.apache.commons.httpclient.methods.PostMethod
+import org.apache.http.client.methods.{CloseableHttpResponse, HttpPost}
+import org.apache.http.impl.client.DefaultHttpClient
+import org.apache.http.util.EntityUtils
+
 import scala.xml.NodeSeq
 
 
 class XmlRequestSenderTest extends FlatSpec with MockitoSugar with Matchers{
-  val httpClient = mock[HttpClient]
-  val postMethod = mock[PostMethod]
+  val httpClient = mock[DefaultHttpClient]
+  val postMethod = mock[HttpPost]
   val requestSender = new XmlRequestSender(httpClient) {
     override def getPostMethod() = {
       postMethod
     }
   }
 
+  val closeableHttpResponse = mock[CloseableHttpResponse]
+
   "XmlRequestSender" should "should decode resposne and return status code" in {
-    when(postMethod.getResponseBodyAsString).thenReturn(<Response/>.toString())
-    when(httpClient.executeMethod(postMethod)).thenReturn(500)
+    when(EntityUtils.toString(postMethod.getEntity)).thenReturn(<Response/>.toString())
+    when(httpClient.execute(postMethod)).thenReturn(closeableHttpResponse)
     val response = requestSender.sendSubscriptionRequest(<Request/>, "Action")
 
-    response should equal((500, <Response/>))
+    response should equal((closeableHttpResponse, <Response/>))
   }
 }
 

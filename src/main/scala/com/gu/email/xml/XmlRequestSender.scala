@@ -1,11 +1,13 @@
 package com.gu.email.xml
 
-import scala.xml.{Source, NodeSeq, XML}
-import org.apache.commons.httpclient.HttpClient
+import scala.xml.{NodeSeq, Source, XML}
 import org.slf4j.LoggerFactory
-import org.apache.commons.httpclient.methods.{PostMethod, StringRequestEntity}
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.StringEntity
+import org.apache.http.impl.client.DefaultHttpClient
+import org.apache.http.util.EntityUtils
 
-class XmlRequestSender(httpClient: HttpClient) {
+class XmlRequestSender(httpClient: DefaultHttpClient) {
   val OK = 200
   val logger = LoggerFactory.getLogger(classOf[XmlRequestSender])
 
@@ -16,34 +18,32 @@ class XmlRequestSender(httpClient: HttpClient) {
       logger.debug("Request xml: " + requestString)
     }
 
-    val requestBody = new StringRequestEntity(requestString, "text/xml", "UTF-8")
+    val requestBody = new StringEntity(requestString, "text/xml", "UTF-8")
 
     val httpMethod = getPostMethod()
-    httpMethod.setRequestHeader("Host", "webservice.s4.exacttarget.com")
-    httpMethod.setRequestHeader("Content-Type", "text/xml; charset=utf-8")
-    httpMethod.setRequestHeader("Content-Length", requestBody.getContentLength.toString)
-    httpMethod.setRequestHeader("SOAPAction", soapAction)
-    httpMethod.setRequestEntity(requestBody)
+    httpMethod.setHeader("Host", "webservice.s4.exacttarget.com")
+    httpMethod.setHeader("Content-Type", "text/xml; charset=utf-8")
+    httpMethod.setHeader("Content-Length", requestBody.getContentLength.toString)
+    httpMethod.setHeader("SOAPAction", soapAction)
+    httpMethod.setEntity(requestBody)
 
-    val responseCode = httpClient.executeMethod(httpMethod)
-    val responseBody = httpMethod.getResponseBodyAsString;
+    val response = httpClient.execute(httpMethod)
+    val responseBody = EntityUtils.toString(httpMethod.getEntity)
 
-    if (responseCode == OK) {
+    if (response.getStatusLine.getStatusCode == OK) {
       if (logger.isDebugEnabled) logger.debug("Email subscription response xml: " + responseBody)
     } else {
       logger.error("Request return error %s : %s : %s".
-        format(httpMethod.getStatusCode, httpMethod.getStatusLine, httpMethod.getStatusText))
+        format(response.getStatusLine.getStatusCode, response.getStatusLine, response.getStatusLine.getReasonPhrase))
       if (logger isDebugEnabled) {
         logger.debug("Response: %s" format responseBody)
       }
     }
 
-    (responseCode, XML.load(Source.fromString(responseBody)))
+    (response.getStatusLine.getStatusCode, XML.load(Source.fromString(responseBody)))
   }
 
-  def getPostMethod() = {
-    new PostMethod("https://webservice.s4.exacttarget.com/Service.asmx")
-  }
+  def getPostMethod() = new HttpPost("https://webservice.s4.exacttarget.com/Service.asmx")
 }
 
 

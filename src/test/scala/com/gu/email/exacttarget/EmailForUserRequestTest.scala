@@ -17,7 +17,7 @@ class EmailForUserRequestTest extends FunSuite with Matchers {
     val emailListsRequest = factory.createListForUserRequest(GuardianUser("XXXnew.userXXX", "mrwibblywobbly@guardian.co.uk"), "XXXbusinessUnitIdXXX")
 
     val stream = new ByteArrayOutputStream()
-    emailListsRequest.writeRequest(stream)
+    emailListsRequest.delegate.writeTo(stream)
     val actualXmlString = stream.toString
 
     val url = getClass.getClassLoader.getResource("com/gu/email/exacttarget/EmailListForUserRequest.xml")

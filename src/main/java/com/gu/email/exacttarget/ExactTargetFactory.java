@@ -2,8 +2,9 @@ package com.gu.email.exacttarget;
 
 import com.gu.email.AccountDetails;
 import com.gu.email.GuardianUser;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.RequestEntity;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.util.EntityUtils;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
@@ -27,15 +28,15 @@ public class ExactTargetFactory
         this.endPoint = endPoint;
     }
 
-    public PostMethod createPostMethod( RequestEntity body, String soapAction )
+    public HttpPost createPostMethod(HttpEntity body, String soapAction )
     {
-        PostMethod method = new PostMethod( endPoint.toString() );
+        HttpPost method = new HttpPost( endPoint.toString() );
 
-        method.setRequestHeader( "Host", endPoint.getHost() );
-        method.setRequestHeader( "Content-Type", "text/xml; charset=utf-8" );
-        method.setRequestHeader( "Content-Length", "" + body.getContentLength() );
-        method.setRequestHeader( "SOAPAction", soapAction );
-        method.setRequestEntity(body);
+        method.setHeader( "Host", endPoint.getHost() );
+        method.setHeader( "Content-Type", "text/xml; charset=utf-8" );
+        method.setHeader( "Content-Length", "" + body.getContentLength() );
+        method.setHeader( "SOAPAction", soapAction );
+        method.setEntity(body);
 
         return method;
     }
@@ -59,23 +60,23 @@ public class ExactTargetFactory
         return emailListForUserRequest;
     }
 
-    public TriggeredEmailResponse createResponseDocument( PostMethod postMethod ) throws ExactTargetException
+    public TriggeredEmailResponse createResponseDocument( HttpPost postMethod ) throws ExactTargetException
     {
         Document responseDocument = getDocumentFromPostRequest(postMethod);
         return new TriggeredEmailResponse( responseDocument );
     }
 
-    public EmailListForUserResponse createEmailListResponseDocument( PostMethod postMethod ) throws ExactTargetException
+    public EmailListForUserResponse createEmailListResponseDocument( HttpPost postMethod ) throws ExactTargetException
     {
         Document responseDocument = getDocumentFromPostRequest(postMethod);
         return new EmailListForUserResponse( responseDocument );
     }
 
-    private Document getDocumentFromPostRequest(PostMethod postMethod) throws ExactTargetException {
+    private Document getDocumentFromPostRequest(HttpPost postMethod) throws ExactTargetException {
         String bodyAsString  = null;
         try
         {
-            bodyAsString = postMethod.getResponseBodyAsString();
+            bodyAsString = EntityUtils.toString(postMethod.getEntity());
         }
         catch( IOException e )
         {

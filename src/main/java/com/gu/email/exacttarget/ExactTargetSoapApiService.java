@@ -2,8 +2,9 @@ package com.gu.email.exacttarget;
 
 import com.gu.email.GuardianUser;
 import com.gu.email.exacttarget.util.ExactTargetUtils;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,13 +17,13 @@ import java.util.Map;
 public class ExactTargetSoapApiService
 {
     private final ExactTargetFactory soapFactory;
-    private HttpClient httpClient;
+    private DefaultHttpClient httpClient;
     private static final Logger LOG = LoggerFactory.getLogger( TriggeredEmailResponse.class );
     private String createSoapAction = "Create";
     private String retrieveSoapAction = "Retrieve";
 
 
-    public ExactTargetSoapApiService(ExactTargetFactory soapFactory, HttpClient httpClient)
+    public ExactTargetSoapApiService(ExactTargetFactory soapFactory, DefaultHttpClient httpClient)
     {
         this.soapFactory = soapFactory;
         this.httpClient = httpClient;
@@ -44,18 +45,18 @@ public class ExactTargetSoapApiService
     EmailListForUserResponse getEmailRequestsForUser(GuardianUser guardianUser, String businessUnitId) throws  ExactTargetException {
 
         EmailListForUserRequest emailListForUserRequest = soapFactory.createListForUserRequest(guardianUser, businessUnitId);
-        PostMethod postMethod = soapFactory.createPostMethod(emailListForUserRequest, retrieveSoapAction);
+        HttpPost postMethod = soapFactory.createPostMethod(emailListForUserRequest.delegate, retrieveSoapAction);
 
         if ( LOG.isDebugEnabled() ) {
             dumpRequestBody(postMethod);
         }
 
         try {
-            int resposeCode = httpClient.executeMethod(postMethod);
+            int resposeCode = httpClient.execute(postMethod).getStatusLine().getStatusCode();
             if ( resposeCode < 200 || resposeCode >= 300)  {
                 throw new ExactTargetException(String.format("Recieved non 200 response retrieving email lists for: %s", guardianUser.email()));
             }
-            String s = postMethod.getResponseBodyAsString();
+            String s = EntityUtils.toString(postMethod.getEntity());
             LOG.debug("Email lists for user response:" + s);
             return soapFactory.createEmailListResponseDocument(postMethod);
         }
@@ -78,7 +79,7 @@ public class ExactTargetSoapApiService
     public TriggeredEmailResponse sendEmailRequest(String emailAddress, Map<String, String> parameters, String businessUnitId, String emailTemplateId) throws ExactTargetException
     {
         TriggeredEmailRequest triggeredEmailRequest = soapFactory.createRequest(emailAddress, parameters, createSoapAction, businessUnitId, emailTemplateId);
-        PostMethod postMethod = soapFactory.createPostMethod( triggeredEmailRequest, createSoapAction );
+        HttpPost postMethod = soapFactory.createPostMethod( triggeredEmailRequest.delegate, createSoapAction );
 
         if( LOG.isDebugEnabled() )
         {
@@ -87,12 +88,12 @@ public class ExactTargetSoapApiService
 
         try
         {
-            int responseCode = httpClient.executeMethod( postMethod );
+            int responseCode = httpClient.execute( postMethod ).getStatusLine().getStatusCode();
             if( responseCode < 200 || responseCode >= 300 )
             {
-                throw new ExactTargetException( "Received non 200 response: " + responseCode + "\n" + postMethod.getResponseBodyAsString() );
+                throw new ExactTargetException( "Received non 200 response: " + responseCode + "\n" + EntityUtils.toString(postMethod.getEntity()));
             }
-            LOG.debug("Triggered email response:" + postMethod.getResponseBodyAsString());
+            LOG.debug("Triggered email response:" + EntityUtils.toString(postMethod.getEntity()));
             return soapFactory.createResponseDocument( postMethod );
         }
         catch( IOException e )
@@ -101,12 +102,12 @@ public class ExactTargetSoapApiService
         }
     }
 
-    private void dumpRequestBody( PostMethod postMethod )
+    private void dumpRequestBody( HttpPost postMethod )
     {
         OutputStream bodyString = new ByteArrayOutputStream();
         try
         {
-            postMethod.getRequestEntity().writeRequest( bodyString );
+            postMethod.getEntity().writeTo( bodyString );
             LOG.info("Sending triggered email request:\n" + bodyString.toString());
         }
         catch( IOException e )
