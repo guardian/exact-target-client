@@ -37,6 +37,7 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
       <soap:Body>
         <CreateRequest xmlns="http://exacttarget.com/wsdl/partnerAPI">
           <Options>
+            <RequestType>Asynchronous</RequestType>
             <SaveOptions>
               <SaveOption>
                 <PropertyName>*</PropertyName>
