@@ -15,7 +15,7 @@ class TriggeredEmailRequestTest extends FunSuite with Matchers {
     val emailRequest = factory.createRequest("XXXnew.user@somewhere.comXXX", Map(("Field_A" -> "XXXnew.userXXX")), "Create", "XXXbusinessUnitIdXXX", "XXXemailTemplateXXX")
 
     val byteOutStream = new ByteArrayOutputStream()
-    emailRequest.writeRequest(byteOutStream)
+    emailRequest.delegate.writeTo(byteOutStream)
     val actualXmlString = byteOutStream.toString
 
     val url = getClass.getClassLoader.getResource("com/gu/email/exacttarget/TriggeredEmailRequest.xml")

@@ -4,6 +4,7 @@ import com.gu.email.AccountDetails;
 import com.gu.email.GuardianUser;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.jdom.Document;
 import org.jdom.JDOMException;
@@ -28,7 +29,7 @@ public class ExactTargetFactory
         this.endPoint = endPoint;
     }
 
-    public HttpPost createPostMethod(HttpEntity body, String soapAction )
+    public HttpPost createPostMethod(StringEntity body, String soapAction )
     {
         HttpPost method = new HttpPost( endPoint.toString() );
 

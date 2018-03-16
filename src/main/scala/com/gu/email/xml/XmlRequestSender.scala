@@ -3,11 +3,11 @@ package com.gu.email.xml
 import scala.xml.{NodeSeq, Source, XML}
 import org.slf4j.LoggerFactory
 import org.apache.http.client.methods.HttpPost
-import org.apache.http.entity.StringEntity
-import org.apache.http.impl.client.DefaultHttpClient
+import org.apache.http.entity.{ContentType, StringEntity}
+import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.util.EntityUtils
 
-class XmlRequestSender(httpClient: DefaultHttpClient) {
+class XmlRequestSender(httpClient: CloseableHttpClient) {
   val OK = 200
   val logger = LoggerFactory.getLogger(classOf[XmlRequestSender])
 
@@ -18,7 +18,7 @@ class XmlRequestSender(httpClient: DefaultHttpClient) {
       logger.debug("Request xml: " + requestString)
     }
 
-    val requestBody = new StringEntity(requestString, "text/xml", "UTF-8")
+    val requestBody = new StringEntity(requestString, ContentType.create("text/xml", "UTF-8"))
 
     val httpMethod = getPostMethod()
     httpMethod.setHeader("Host", "webservice.s4.exacttarget.com")

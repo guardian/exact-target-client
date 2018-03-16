@@ -7,10 +7,9 @@ import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import java.io.IOException
 
-import org.apache.http.HttpEntity
 import org.apache.http.client.methods.{CloseableHttpResponse, HttpPost}
 import org.apache.http.entity.StringEntity
-import org.apache.http.impl.client.DefaultHttpClient
+import org.apache.http.impl.client.CloseableHttpClient
 
 import scala.collection.JavaConversions._
 
@@ -27,7 +26,7 @@ class TriggeredEmailServiceTest extends FunSuite with Matchers with MockitoSugar
   test("Should construct a soap envelope from the params and send it off in a post request") {
 
     val mockSoapFactory = mock[ExactTargetFactory]
-    val mockHttpClient = mock[DefaultHttpClient]
+    val mockHttpClient = mock[CloseableHttpClient]
 
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
     val emailRequest = mock[TriggeredEmailRequest]
@@ -46,7 +45,7 @@ class TriggeredEmailServiceTest extends FunSuite with Matchers with MockitoSugar
 
   test("Should construct a soap envelope for an email list request and then send it off in a post request") {
     val mockSoapFactory = mock[ExactTargetFactory]
-    val mockHttpClient = mock[DefaultHttpClient]
+    val mockHttpClient = mock[CloseableHttpClient]
 
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
     val emailListRequest = mock[EmailListForUserRequest]
@@ -67,7 +66,7 @@ class TriggeredEmailServiceTest extends FunSuite with Matchers with MockitoSugar
 
 
     val mockSoapFactory = mock[ExactTargetFactory]
-    val mockHttpClient = mock[DefaultHttpClient]
+    val mockHttpClient = mock[CloseableHttpClient]
 
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
     val emailRequest = mock[TriggeredEmailRequest]
@@ -88,7 +87,7 @@ class TriggeredEmailServiceTest extends FunSuite with Matchers with MockitoSugar
 
 
     val mockSoapFactory = mock[ExactTargetFactory]
-    val mockHttpClient = mock[DefaultHttpClient]
+    val mockHttpClient = mock[CloseableHttpClient]
 
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
     val emailListRequest = mock[EmailListForUserRequest]
@@ -109,7 +108,7 @@ class TriggeredEmailServiceTest extends FunSuite with Matchers with MockitoSugar
 
   test("Should throw an exception if the response code is not 200") {
     val mockSoapFactory = mock[ExactTargetFactory]
-    val mockHttpClient = mock[DefaultHttpClient]
+    val mockHttpClient = mock[CloseableHttpClient]
 
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
     val emailRequest = mock[TriggeredEmailRequest]
@@ -127,7 +126,7 @@ class TriggeredEmailServiceTest extends FunSuite with Matchers with MockitoSugar
 
   test("Should throw an exception if the response code is not 200 when retrieving an emailList") {
     val mockSoapFactory = mock[ExactTargetFactory]
-    val mockHttpClient = mock[DefaultHttpClient]
+    val mockHttpClient = mock[CloseableHttpClient]
 
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
     val emailListRequest = mock[EmailListForUserRequest]
@@ -144,7 +143,7 @@ class TriggeredEmailServiceTest extends FunSuite with Matchers with MockitoSugar
 
   test("Should wrap IO exception thrown by http client") {
     val mockSoapFactory = mock[ExactTargetFactory]
-    val mockHttpClient = mock[DefaultHttpClient]
+    val mockHttpClient = mock[CloseableHttpClient]
 
     val user = GuardianUser("jon_balls", "jon.balls@test.com")
     val emailRequest = mock[TriggeredEmailRequest]

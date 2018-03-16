@@ -1,6 +1,7 @@
 package com.gu.email.exacttarget;
 
-import org.apache.commons.httpclient.HttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.jdom.JDOMException;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class Harness
     private static String businessUnitId = "1062022";
 
     private static URI endPoint;
-    private static final HttpClient httpClient = new HttpClient();
+    private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
     static {
         try

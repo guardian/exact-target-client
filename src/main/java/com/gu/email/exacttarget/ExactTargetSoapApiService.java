@@ -1,9 +1,8 @@
 package com.gu.email.exacttarget;
 
 import com.gu.email.GuardianUser;
-import com.gu.email.exacttarget.util.ExactTargetUtils;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,13 +16,13 @@ import java.util.Map;
 public class ExactTargetSoapApiService
 {
     private final ExactTargetFactory soapFactory;
-    private DefaultHttpClient httpClient;
+    private CloseableHttpClient httpClient;
     private static final Logger LOG = LoggerFactory.getLogger( TriggeredEmailResponse.class );
     private String createSoapAction = "Create";
     private String retrieveSoapAction = "Retrieve";
 
 
-    public ExactTargetSoapApiService(ExactTargetFactory soapFactory, DefaultHttpClient httpClient)
+    public ExactTargetSoapApiService(ExactTargetFactory soapFactory, CloseableHttpClient httpClient)
     {
         this.soapFactory = soapFactory;
         this.httpClient = httpClient;
