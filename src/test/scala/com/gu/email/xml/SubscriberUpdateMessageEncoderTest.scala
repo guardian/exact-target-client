@@ -40,6 +40,7 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
         <soap:Body>
           <CreateRequest xmlns="http://exacttarget.com/wsdl/partnerAPI">
             <Options>
+              <RequestType>Asynchronous</RequestType>
               <SaveOptions>
                 <SaveOption>
                   <PropertyName>*</PropertyName>
@@ -108,6 +109,7 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
         <soap:Body>
           <CreateRequest xmlns="http://exacttarget.com/wsdl/partnerAPI">
             <Options>
+              <RequestType>Asynchronous</RequestType>
               <SaveOptions>
                 <SaveOption>
                   <PropertyName>*</PropertyName>
