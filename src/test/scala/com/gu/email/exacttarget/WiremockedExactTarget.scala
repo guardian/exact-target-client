@@ -21,6 +21,9 @@ trait WiremockedExactTarget extends BeforeAndAfterAll {
     stubFor(expectedRequest.willReturn(aResponse().withBody("world")))
   }
 
+  override protected def afterAll(): Unit = {
+    wiremock.stop()
+  }
 }
 
 class WiremockedExactTargetSuite extends Suites(
