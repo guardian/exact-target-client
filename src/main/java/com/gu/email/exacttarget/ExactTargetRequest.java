@@ -56,4 +56,8 @@ public abstract class ExactTargetRequest {
     }
 
     public String getBusinessUnitId() { return businessUnitId; }
+
+    public StringEntity getDelegate() {
+        return delegate;
+    }
 }

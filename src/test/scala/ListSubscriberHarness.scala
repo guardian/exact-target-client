@@ -14,8 +14,7 @@ class ListSubscriberHarness extends FlatSpec with Matchers {
 
        "this" should "add a subcriber to a list" in {
           val factory = new ExactTargetFactory("gnmtestuser", "row_4boat", new URI("https://webservice.s4.exacttarget.com/Service.asmx"))
-          val httpClient = HttpClients.createDefault()
-          val service = new TestSoapFactory(factory, httpClient)
+          val service = new TestSoapFactory(factory)
           service.subscribeToList("alert_profile%2Fcharlesarthur", Some("1310199"), subscribers )
           //service.subscribeToList("1673", Some("1310199"), subscribers )
           //service.subscribeToList("alert_uk%2Fuk", Some("1062022"), subscribers)
@@ -23,8 +22,8 @@ class ListSubscriberHarness extends FlatSpec with Matchers {
 
 }
 
-class TestSoapFactory(factory: ExactTargetFactory, client: CloseableHttpClient ) extends ExactTargetSoapApiService(factory, client) with ListSubscriber {
-  override val xmlRequestSender = new XmlRequestSender(client)
+class TestSoapFactory(factory: ExactTargetFactory) extends ExactTargetSoapApiService(factory) with ListSubscriber {
+  override val xmlRequestSender = new XmlRequestSender()
   override val accountDetails = new AccountDetails("gnmtestuser", "row_4boat")
 }
 

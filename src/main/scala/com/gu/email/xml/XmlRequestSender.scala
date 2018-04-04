@@ -1,17 +1,19 @@
 package com.gu.email.xml
 
-import scala.xml.{NodeSeq, Source, XML}
-import org.slf4j.LoggerFactory
-import org.apache.http.client.methods.HttpPost
+import org.apache.http.client.fluent.Request
 import org.apache.http.entity.{ContentType, StringEntity}
-import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.util.EntityUtils
+import org.slf4j.LoggerFactory
 
-class XmlRequestSender(httpClient: CloseableHttpClient) {
-  val OK = 200
-  val logger = LoggerFactory.getLogger(classOf[XmlRequestSender])
+import scala.xml.{NodeSeq, Source, XML}
 
-  def sendSubscriptionRequest(request:NodeSeq, soapAction: String): (Int, NodeSeq) = {
+class XmlRequestSender() {
+
+  private val ExactTargetServiceUrl = "https://webservice.s4.exacttarget.com/Service.asmx"
+  private val OK = 200
+  private val logger = LoggerFactory.getLogger(getClass)
+
+  def sendSubscriptionRequest(request: NodeSeq, soapAction: String): (Int, NodeSeq) = {
     val requestString = request.toString()
 
     if (logger.isDebugEnabled) {
@@ -20,15 +22,14 @@ class XmlRequestSender(httpClient: CloseableHttpClient) {
 
     val requestBody = new StringEntity(requestString, ContentType.create("text/xml", "UTF-8"))
 
-    val httpMethod = getPostMethod()
-    httpMethod.setHeader("Host", "webservice.s4.exacttarget.com")
-    httpMethod.setHeader("Content-Type", "text/xml; charset=utf-8")
-    httpMethod.setHeader("Content-Length", requestBody.getContentLength.toString)
-    httpMethod.setHeader("SOAPAction", soapAction)
-    httpMethod.setEntity(requestBody)
+    val postRequest =
+      Request.Post(ExactTargetServiceUrl)
+        .addHeader("Host", "webservice.s4.exacttarget.com")
+        .addHeader("SOAPAction", soapAction)
+        .body(requestBody)
 
-    val response = httpClient.execute(httpMethod)
-    val responseBody = EntityUtils.toString(httpMethod.getEntity)
+    val response = postRequest.execute.returnResponse()
+    val responseBody = EntityUtils.toString(response.getEntity)
 
     if (response.getStatusLine.getStatusCode == OK) {
       if (logger.isDebugEnabled) logger.debug("Email subscription response xml: " + responseBody)
@@ -43,7 +44,6 @@ class XmlRequestSender(httpClient: CloseableHttpClient) {
     (response.getStatusLine.getStatusCode, XML.load(Source.fromString(responseBody)))
   }
 
-  def getPostMethod() = new HttpPost("https://webservice.s4.exacttarget.com/Service.asmx")
 }
 
 
