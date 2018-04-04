@@ -1,6 +1,7 @@
 package com.gu.email.exacttarget;
 
-import org.apache.commons.httpclient.HttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.jdom.JDOMException;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ public class Harness
     private static String businessUnitId = "1062022";
 
     private static URI endPoint;
-    private static final HttpClient httpClient = new HttpClient();
+    private static final CloseableHttpClient httpClient = HttpClients.createDefault();
 
     static {
         try
@@ -32,7 +33,7 @@ public class Harness
     public static void main( String args[] ) throws IOException, JDOMException, ExactTargetException
     {
         ExactTargetFactory factory = new ExactTargetFactory( accountName, password, endPoint );
-        ExactTargetSoapApiService exactTargetSoapApiService = new ExactTargetSoapApiService( factory, httpClient );
+        ExactTargetSoapApiService exactTargetSoapApiService = new ExactTargetSoapApiService(factory);
         TriggeredEmailResponse response = exactTargetSoapApiService.sendEmailRequest( "John Smit", "james.rodgers@guardian.co.uk", businessUnitId, emailTemplate );
 
         System.out.println( response.getStatusCode() );

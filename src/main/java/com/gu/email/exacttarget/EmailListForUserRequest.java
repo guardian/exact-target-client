@@ -2,8 +2,7 @@ package com.gu.email.exacttarget;
 
 import com.gu.email.AccountDetails;
 import com.gu.email.GuardianUser;
-import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.http.entity.StringEntity;
 import org.jdom.Document;
 
 import java.io.IOException;
@@ -18,7 +17,7 @@ public class EmailListForUserRequest extends ExactTargetRequest {
         String soapEnvelopeString = xmlToString( soapEnvelope );
         try
         {
-            delegate = new StringRequestEntity( soapEnvelopeString, "text/xml", "utf-8" );
+            delegate = new StringEntity( soapEnvelopeString, "text/xml", "utf-8" );
         }
         catch( UnsupportedEncodingException ex )
         {

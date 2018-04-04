@@ -2,24 +2,27 @@ package com.gu.email.exacttarget;
 
 import com.gu.email.AccountDetails;
 import com.gu.email.GuardianUser;
-import org.apache.commons.httpclient.methods.RequestEntity;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.BasicHttpEntity;
+import org.apache.http.entity.StringEntity;
 import org.jdom.Document;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
 
-public abstract class ExactTargetRequest implements RequestEntity {
+public abstract class ExactTargetRequest {
 
     protected final String businessUnitId;
     protected final String accountName;
     protected final String password;
     protected final String emailAddress;
-    protected StringRequestEntity delegate;
+    protected StringEntity delegate;
 
     public ExactTargetRequest(AccountDetails accountDetails, String businessUnitId, String emailAddress)
     {
@@ -52,34 +55,9 @@ public abstract class ExactTargetRequest implements RequestEntity {
         return emailAddress;
     }
 
-    @Override
-    public void writeRequest( OutputStream out ) throws IOException
-    {
-        delegate.writeRequest( out );
+    public String getBusinessUnitId() { return businessUnitId; }
+
+    public StringEntity getDelegate() {
+        return delegate;
     }
-
-    @Override
-    public long getContentLength()
-    {
-        return delegate.getContentLength();
-    }
-
-    @Override
-    public String getContentType()
-    {
-        return delegate.getContentType();
-    }
-
-    @Override
-    public boolean isRepeatable()
-    {
-        return delegate.isRepeatable();
-    }
-
-
-    public String getBusinessUnitId()
-    {
-        return businessUnitId;
-    }
-
 }

@@ -9,12 +9,14 @@ libraryDependencies ++= {
   Seq(
     "joda-time"               % "joda-time"               % "2.3",
     "org.joda"                % "joda-convert"            % "1.6",
-    "commons-httpclient"      % "commons-httpclient"      % "3.1",
+    "org.apache.httpcomponents" % "httpclient" % "4.5.5",
+    "org.apache.httpcomponents" % "fluent-hc" % "4.5.5",
     "org.jdom"                % "jdom"                    % "1.1",
     "org.slf4j"               % "slf4j-api"               % "1.6.1"   % "provided",
     "org.mockito"             % "mockito-core"            % "1.9.5"   % "test",
     "ch.qos.logback"          % "logback-classic"         % "1.0.7"   % "test",
     "org.scalatest"           %% "scalatest"              % "3.0.4"   % "test",
+    "com.github.tomakehurst" % "wiremock-standalone" % "2.16.0" % Test,
     "org.scala-lang.modules"  %% "scala-xml"              % "1.0.6"
   )
 }

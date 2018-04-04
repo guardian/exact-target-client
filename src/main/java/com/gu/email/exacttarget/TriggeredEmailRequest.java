@@ -1,7 +1,7 @@
 package com.gu.email.exacttarget;
 
 import com.gu.email.AccountDetails;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import org.apache.http.entity.StringEntity;
 import org.jdom.Document;
 
 import java.io.UnsupportedEncodingException;
@@ -25,7 +25,7 @@ public class TriggeredEmailRequest extends ExactTargetRequest
 
         try
         {
-            delegate = new StringRequestEntity(getSoapEnvelopeString(), "text/xml", "utf-8" );
+            delegate = new StringEntity(getSoapEnvelopeString(), "text/xml", "utf-8" );
         }
         catch( UnsupportedEncodingException ex )
         {

@@ -1,52 +1,29 @@
 package com.gu.email.exacttarget
 
-import org.scalatest.FunSuite
-import org.scalatest.Matchers
-import org.apache.commons.httpclient.methods.RequestEntity
-import java.io.OutputStream
 import java.net.URI
 
-class ExactTargetSoapFactoryTest extends FunSuite with Matchers {
+import com.github.tomakehurst.wiremock.client.WireMock._
+import org.apache.http.entity.{ContentType, StringEntity}
+import org.scalatest.{DoNotDiscover, FunSuite, Matchers}
 
-  val factory = new ExactTargetFactory("", "", new URI("http://cheese.com/wensleydale"))
+@DoNotDiscover
+class ExactTargetSoapFactoryTest(exactTargetMockUrl: String) extends FunSuite with Matchers {
+
+  val factory = new ExactTargetFactory("", "", new URI(exactTargetMockUrl))
   val createSoapAction = "Create"
+  val body = new StringEntity("hello", ContentType.create("text/xml", "UTF-8"))
 
-  val body = new RequestEntity() {
-    def isRepeatable() = false;
-
-    def writeRequest(out: OutputStream): Unit = {}
-
-    def getContentLength() = 35
-
-    def getContentType: String = "cheese;balls"
+  test("Should create a post request and set the body as specified, setting the content type and SOAPAction correctly") {
+    val request = factory.createPostMethod(body, createSoapAction)
+    request.execute()
+    verify(
+      postRequestedFor(urlEqualTo("/wensleydale"))
+      .withHeader("Host", equalTo("localhost"))
+      .withHeader("SOAPAction", equalTo("Create"))
+      .withHeader("Content-Type", equalTo("text/xml; charset=UTF-8"))
+      .withHeader("Content-Length", equalTo("5"))
+      .withRequestBody(equalTo("hello"))
+    )
   }
-
-  // irrelevant comment to trigger the build
-  test("Should create a post request and set the body as specified") {
-    val postBody = factory.createPostMethod(body, createSoapAction)
-
-    postBody.getRequestEntity should be(body)
-  }
-
-  test("Content length for the post method is copied from the body") {
-    val postBody = factory.createPostMethod(body, createSoapAction)
-    postBody.getRequestHeader("Content-Length").getValue should be("35")
-  }
-
-  test("The post method's host header is determined by the factory") {
-    val postBody = factory.createPostMethod(body, createSoapAction)
-    postBody.getRequestHeader("Host").getValue should be("cheese.com")
-  }
-
-  test("The SOAPAction header is a constant and should be 'Create' ") {
-    val postBody = factory.createPostMethod(body, createSoapAction)
-    postBody.getRequestHeader("SOAPAction").getValue should be("Create")
-  }
-
-  test("The content-type header is a constant") {
-    val postBody = factory.createPostMethod(body, createSoapAction)
-    postBody.getRequestHeader("Content-Type").getValue should be("text/xml; charset=utf-8")
-  }
-
 
 }

@@ -1,49 +1,48 @@
 package com.gu.email.xml
 
-import scala.xml.{Source, NodeSeq, XML}
-import org.apache.commons.httpclient.HttpClient
+import org.apache.http.client.fluent.Request
+import org.apache.http.entity.{ContentType, StringEntity}
+import org.apache.http.util.EntityUtils
 import org.slf4j.LoggerFactory
-import org.apache.commons.httpclient.methods.{PostMethod, StringRequestEntity}
 
-class XmlRequestSender(httpClient: HttpClient) {
-  val OK = 200
-  val logger = LoggerFactory.getLogger(classOf[XmlRequestSender])
+import scala.xml.{NodeSeq, Source, XML}
 
-  def sendSubscriptionRequest(request:NodeSeq, soapAction: String): (Int, NodeSeq) = {
+class XmlRequestSender(exactTargetServiceUrl: String = "https://webservice.s4.exacttarget.com/Service.asmx") {
+
+  private val OK = 200
+  private val logger = LoggerFactory.getLogger(getClass)
+
+  def sendSubscriptionRequest(request: NodeSeq, soapAction: String): (Int, NodeSeq) = {
     val requestString = request.toString()
 
     if (logger.isDebugEnabled) {
       logger.debug("Request xml: " + requestString)
     }
 
-    val requestBody = new StringRequestEntity(requestString, "text/xml", "UTF-8")
+    val requestBody = new StringEntity(requestString, ContentType.create("text/xml", "UTF-8"))
 
-    val httpMethod = getPostMethod()
-    httpMethod.setRequestHeader("Host", "webservice.s4.exacttarget.com")
-    httpMethod.setRequestHeader("Content-Type", "text/xml; charset=utf-8")
-    httpMethod.setRequestHeader("Content-Length", requestBody.getContentLength.toString)
-    httpMethod.setRequestHeader("SOAPAction", soapAction)
-    httpMethod.setRequestEntity(requestBody)
+    val postRequest =
+      Request.Post(exactTargetServiceUrl)
+        .addHeader("Host", "webservice.s4.exacttarget.com")
+        .addHeader("SOAPAction", soapAction)
+        .body(requestBody)
 
-    val responseCode = httpClient.executeMethod(httpMethod)
-    val responseBody = httpMethod.getResponseBodyAsString;
+    val response = postRequest.execute.returnResponse()
+    val responseBody = EntityUtils.toString(response.getEntity)
 
-    if (responseCode == OK) {
+    if (response.getStatusLine.getStatusCode == OK) {
       if (logger.isDebugEnabled) logger.debug("Email subscription response xml: " + responseBody)
     } else {
       logger.error("Request return error %s : %s : %s".
-        format(httpMethod.getStatusCode, httpMethod.getStatusLine, httpMethod.getStatusText))
+        format(response.getStatusLine.getStatusCode, response.getStatusLine, response.getStatusLine.getReasonPhrase))
       if (logger isDebugEnabled) {
         logger.debug("Response: %s" format responseBody)
       }
     }
 
-    (responseCode, XML.load(Source.fromString(responseBody)))
+    (response.getStatusLine.getStatusCode, XML.load(Source.fromString(responseBody)))
   }
 
-  def getPostMethod() = {
-    new PostMethod("https://webservice.s4.exacttarget.com/Service.asmx")
-  }
 }
 
 
