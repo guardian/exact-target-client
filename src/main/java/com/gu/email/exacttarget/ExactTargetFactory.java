@@ -30,8 +30,6 @@ public class ExactTargetFactory {
         return Request
                 .Post(endPoint)
                 .addHeader("Host", endPoint.getHost())
-//                .addHeader("Content-Type", "text/xml; charset=utf-8")
-//                .addHeader("Content-Length", "" + body.getContentLength())
                 .addHeader("SOAPAction", soapAction)
                 .body(body);
     }

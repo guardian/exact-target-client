@@ -7,9 +7,8 @@ import org.slf4j.LoggerFactory
 
 import scala.xml.{NodeSeq, Source, XML}
 
-class XmlRequestSender() {
+class XmlRequestSender(exactTargetServiceUrl: String = "https://webservice.s4.exacttarget.com/Service.asmx") {
 
-  private val ExactTargetServiceUrl = "https://webservice.s4.exacttarget.com/Service.asmx"
   private val OK = 200
   private val logger = LoggerFactory.getLogger(getClass)
 
@@ -23,7 +22,7 @@ class XmlRequestSender() {
     val requestBody = new StringEntity(requestString, ContentType.create("text/xml", "UTF-8"))
 
     val postRequest =
-      Request.Post(ExactTargetServiceUrl)
+      Request.Post(exactTargetServiceUrl)
         .addHeader("Host", "webservice.s4.exacttarget.com")
         .addHeader("SOAPAction", soapAction)
         .body(requestBody)

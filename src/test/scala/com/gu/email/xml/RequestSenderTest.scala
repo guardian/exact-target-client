@@ -1,33 +1,25 @@
 package com.gu.email.xml
 
-import org.scalatest.FlatSpec
-import org.mockito.Matchers._
+import com.github.tomakehurst.wiremock.client.WireMock.{aResponse, post, stubFor}
+import com.gu.email.exacttarget.WiremockedExactTarget
 import org.mockito.Mockito._
+import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.mock.MockitoSugar
-import org.scalatest.Matchers
-import org.apache.http.client.methods.{CloseableHttpResponse, HttpPost}
-import org.apache.http.impl.client.CloseableHttpClient
-import org.apache.http.util.EntityUtils
 
 import scala.xml.NodeSeq
 
 
-class XmlRequestSenderTest extends FlatSpec with MockitoSugar with Matchers{
-  val httpClient = mock[CloseableHttpClient]
-  val postMethod = mock[HttpPost]
-  val requestSender = new XmlRequestSender() {
-  }
+class XmlRequestSenderTest extends FlatSpec with WiremockedExactTarget with MockitoSugar with Matchers {
+  val requestSender = new XmlRequestSender(exactTargetServiceUrl)
 
-  val closeableHttpResponse = mock[CloseableHttpResponse]
-/**
+
   "XmlRequestSender" should "should decode response and return status code" in {
-    when(EntityUtils.toString(postMethod.getEntity)).thenReturn(<Response/>.toStream toString())
-    when(httpClient.execute(postMethod)).thenReturn(closeableHttpResponse)
+    val expectedRequest = post("/wensleydale")
+    stubFor(expectedRequest.willReturn(aResponse().withBody(<Response/>.toString().getBytes)))
     val response = requestSender.sendSubscriptionRequest(<Request/>, "Action")
-
-    response should equal((closeableHttpResponse, <Response/>))
+    response should equal((200, <Response/>))
   }
-  **/
+
 }
 
 class RequestSenderTest extends FlatSpec with MockitoSugar with Matchers{
