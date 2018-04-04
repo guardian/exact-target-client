@@ -1,17 +1,15 @@
 package com.gu.email.xml
 
 import com.github.tomakehurst.wiremock.client.WireMock.{aResponse, post, stubFor}
-import com.gu.email.exacttarget.WiremockedExactTarget
 import org.mockito.Mockito._
-import org.scalatest.{FlatSpec, Matchers}
 import org.scalatest.mock.MockitoSugar
+import org.scalatest.{DoNotDiscover, FlatSpec, Matchers}
 
 import scala.xml.NodeSeq
 
-
-class XmlRequestSenderTest extends FlatSpec with WiremockedExactTarget with MockitoSugar with Matchers {
-  val requestSender = new XmlRequestSender(exactTargetServiceUrl)
-
+@DoNotDiscover
+class XmlRequestSenderTest(exactTargetMockUrl: String) extends FlatSpec with MockitoSugar with Matchers {
+  val requestSender = new XmlRequestSender(exactTargetMockUrl)
 
   "XmlRequestSender" should "should decode response and return status code" in {
     val expectedRequest = post("/wensleydale")

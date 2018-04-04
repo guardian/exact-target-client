@@ -1,15 +1,15 @@
 package com.gu.email.exacttarget
 
-import org.scalatest.FunSuite
-import org.scalatest.Matchers
+import org.scalatest.{DoNotDiscover, FunSuite, Matchers}
 import java.net.URI
+
 import com.gu.email.GuardianUser
 import java.io.ByteArrayOutputStream
+
 import org.jdom.input.SAXBuilder
 import org.jdom.output.{Format, XMLOutputter}
 
 class EmailForUserRequestTest extends FunSuite with Matchers {
-
 
   test("should generate correct soap message")
   {

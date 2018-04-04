@@ -4,11 +4,12 @@ import java.net.URI
 
 import com.github.tomakehurst.wiremock.client.WireMock._
 import org.apache.http.entity.{ContentType, StringEntity}
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.{DoNotDiscover, FunSuite, Matchers}
 
-class ExactTargetSoapFactoryTest extends FunSuite with WiremockedExactTarget with Matchers {
+@DoNotDiscover
+class ExactTargetSoapFactoryTest(exactTargetMockUrl: String) extends FunSuite with Matchers {
 
-  val factory = new ExactTargetFactory("", "", new URI(exactTargetServiceUrl))
+  val factory = new ExactTargetFactory("", "", new URI(exactTargetMockUrl))
   val createSoapAction = "Create"
   val body = new StringEntity("hello", ContentType.create("text/xml", "UTF-8"))
 

@@ -3,14 +3,16 @@ package com.gu.email.exacttarget
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.{aResponse, post, stubFor}
-import org.scalatest.{BeforeAndAfterAll, Suite}
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration
+import com.gu.email.xml.XmlRequestSenderTest
+import org.scalatest.{BeforeAndAfterAll, Suite, Suites}
 
 trait WiremockedExactTarget extends BeforeAndAfterAll {
   self: Suite =>
 
-  lazy val wiremockPort = 6066
-  lazy val wiremock = new WireMockServer(wiremockPort)
-  lazy val exactTargetServiceUrl = s"http://localhost:$wiremockPort/wensleydale"
+  val wiremockPort = 6066
+  val wiremock = new WireMockServer(wiremockPort)
+  val exactTargetServiceUrl = s"http://localhost:$wiremockPort/wensleydale"
 
   override protected def beforeAll(): Unit = {
     wiremock.start()
@@ -19,7 +21,9 @@ trait WiremockedExactTarget extends BeforeAndAfterAll {
     stubFor(expectedRequest.willReturn(aResponse().withBody("world")))
   }
 
-  override protected def afterAll(): Unit = wiremock.stop()
-
-
 }
+
+class WiremockedExactTargetSuite extends Suites(
+  new ExactTargetSoapFactoryTest("http://localhost:6066/wensleydale"),
+  new XmlRequestSenderTest("http://localhost:6066/wensleydale")
+) with WiremockedExactTarget
