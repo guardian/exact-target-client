@@ -27,7 +27,6 @@ class SubscriberRetrieveMessageEncoderTest extends FlatSpec with MockitoSugar wi
           <RetrieveRequestMsg xmlns="http://exacttarget.com/wsdl/partnerAPI">
             <RetrieveRequest>
               <ObjectType>Subscriber</ObjectType>
-              <ObjectType>Subscriber</ObjectType>
               <Properties>ID</Properties>
               <Properties>CreatedDate</Properties>
               <Properties>Client.ID</Properties>
@@ -70,7 +69,6 @@ class SubscriberRetrieveMessageEncoderTest extends FlatSpec with MockitoSugar wi
             <PartnerKey xsi:nil="true"/>
             <CreatedDate>2012-12-07T06:57:00</CreatedDate>
             <ID>5797215</ID>
-            <ObjectID xsi:nil="true"/>
             <EmailAddress>foo@blah.com</EmailAddress>
             <Attributes>
               <Name>First Name</Name>

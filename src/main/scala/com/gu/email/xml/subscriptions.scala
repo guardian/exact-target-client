@@ -59,8 +59,7 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
       <Client>
         <ID>{businessUnitId}</ID>
       </Client>
-      ).getOrElse(Nil)}<ObjectID xsi:nil="true">
-    </ObjectID>
+      ).getOrElse(Nil)}
       <EmailAddress>{subscriber.email}</EmailAddress>
       <SubscriberKey>{subscriber.email}</SubscriberKey>
       {subscriber.emailTypePreference.map(preference =>
@@ -78,8 +77,7 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
                   }
             }++
             <Status>{emailList.status}</Status>
-          } }<ObjectID xsi:nil="true">
-          </ObjectID>
+          } }
           </Lists>
         }
       }
@@ -125,7 +123,6 @@ class SubscriberRetrieveMessageEncoder(accountDetails: AccountDetails) extends M
       <soapenv:Body>
         <RetrieveRequestMsg xmlns="http://exacttarget.com/wsdl/partnerAPI">
           <RetrieveRequest>
-            <ObjectType>Subscriber</ObjectType>
             <ObjectType>Subscriber</ObjectType>
             <Properties>ID</Properties>
             <Properties>CreatedDate</Properties>
