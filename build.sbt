@@ -20,10 +20,6 @@ libraryDependencies ++= {
     "org.scala-lang.modules"  %% "scala-xml"              % "1.0.6"
   )
 }
-publishTo := Some(
-  if (isSnapshot.value) Opts.resolver.sonatypeSnapshots
-  else Opts.resolver.sonatypeReleases
-)
 publishArtifact in (Compile, packageDoc) := false
 publishArtifact in (Compile, packageSrc) := true
 releaseCrossBuild := true
