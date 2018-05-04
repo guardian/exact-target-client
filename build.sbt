@@ -20,6 +20,18 @@ libraryDependencies ++= {
     "org.scala-lang.modules"  %% "scala-xml"              % "1.0.6"
   )
 }
+
+lazy val root = (project in file(".")).settings(
+  aggregate in update := false,
+  publishArtifact := false,
+  publish := {},
+  publishLocal := {}
+)
+
+publishTo := Some(
+  if (isSnapshot.value) Opts.resolver.sonatypeSnapshots
+  else Opts.resolver.sonatypeReleases
+)
 publishArtifact in (Compile, packageDoc) := false
 publishArtifact in (Compile, packageSrc) := true
 releaseCrossBuild := true
