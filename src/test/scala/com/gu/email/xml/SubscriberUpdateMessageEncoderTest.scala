@@ -52,16 +52,12 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
               <Client>
                 <ID>aBusinessUnitId</ID>
               </Client>
-              <ObjectID xsi:nil="true">
-              </ObjectID>
               <EmailAddress>anEmailAddress</EmailAddress>
               <SubscriberKey>anEmailAddress</SubscriberKey>
               <EmailTypePreference>anEmailPreference</EmailTypePreference>
               <Lists>
                 <ID>12345</ID>
                 <Status>aStatus</Status>
-                <ObjectID xsi:nil="true">
-                </ObjectID>
               </Lists>
               <Attributes>
                 <Name>First Name</Name>
@@ -121,16 +117,12 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
               <Client>
                 <ID>aBusinessUnitId</ID>
               </Client>
-              <ObjectID xsi:nil="true">
-              </ObjectID>
               <EmailAddress>anEmailAddress</EmailAddress>
               <SubscriberKey>anEmailAddress</SubscriberKey>
               <EmailTypePreference>anEmailPreference</EmailTypePreference>
               <Lists>
                 <PartnerKey>nonNumericSoUseCustomerKey</PartnerKey>
                 <Status>aStatus</Status>
-                <ObjectID xsi:nil="true">
-                </ObjectID>
               </Lists>
               <Attributes>
                 <Name>First Name</Name>
@@ -178,13 +170,11 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
                 </Client>
                 <PartnerKey xsi:nil="true" />
                 <ID>5797215</ID>
-                <ObjectID xsi:nil="true" />
                 <EmailAddress>13219403-francis@rhys-jones.com</EmailAddress>
                 <SubscriberKey>13219403-francis@rhys-jones.com</SubscriberKey>
                 <Lists>
                   <PartnerKey xsi:nil="true" />
                   <ID>217</ID>
-                  <ObjectID xsi:nil="true" />
                   <Status>Unsubscribed</Status>
                 </Lists>
               </Object>
