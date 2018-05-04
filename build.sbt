@@ -2,8 +2,8 @@ import ReleaseTransformations._
 
 name := "exact-target-client"
 organization := "com.gu"
-scalaVersion := "2.12.4"
-crossScalaVersions := Seq("2.11.4", scalaVersion.value)
+scalaVersion in ThisBuild := "2.12.4"
+crossScalaVersions in ThisBuild := Seq("2.11.4", scalaVersion.value)
 resolvers += ("Sonatype Public" at "https://oss.sonatype.org/content/repositories/public/")
 libraryDependencies ++= {
   Seq(
