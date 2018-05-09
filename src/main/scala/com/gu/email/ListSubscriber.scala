@@ -35,17 +35,27 @@ trait SubscriberInfo extends RequiresXmlRequestSender with RequiresAccountDetail
   lazy val infoSubscriberRetrieveMessageSender = new RequestSender[String, Response[Subscriber]](new SubscriberRetrieveMessageEncoder(accountDetails), xmlRequestSender)
   lazy val infoSubscriberUpdateMessageSender = new RequestSender[SubscriberUpdateRequest, Seq[Response[String]]](new SubscriberUpdateMessageEncoder(), xmlRequestSender)
 
-  def getSubscriberInfo(emailAddress: String) = infoSubscriberRetrieveMessageSender.sendRequest(emailAddress, "Retrieve")
-  def updateSubscriberInfo(subscriber: Subscriber) = infoSubscriberUpdateMessageSender.sendRequest(SubscriberUpdateRequest(None, accountDetails, List(subscriber)), "Create")
+  def getSubscriberInfo(emailAddress: String): (Int, Response[Subscriber]) =
+    infoSubscriberRetrieveMessageSender.sendRequest(emailAddress, "Retrieve")
+
+  def updateSubscriberInfo(subscriber: Subscriber, businessUnitId: Option[String]): (Int, Seq[Response[String]]) =
+    infoSubscriberUpdateMessageSender.sendRequest(
+      SubscriberUpdateRequest(businessUnitId, accountDetails, List(subscriber)), "Create")
 
 }
 
 case class AccountDetails(username: String, password: String)
 
-case class Subscriber(email: String, firstName: Option[String], lastName: Option[String],
-                      createdDate: Option[String] = None, unsubscribeDate: Option[String] = None,
-                      status: Option[String] = None, emailTypePreference: Option[String] = None,
-                      subscriptions: List[EmailList] = Nil)
+case class Subscriber(
+  email: String,
+  firstName: Option[String] = None,
+  lastName: Option[String] = None,
+  createdDate: Option[String] = None,
+  unsubscribeDate: Option[String] = None,
+  status: Option[String] = None,
+  emailTypePreference: Option[String] = None,
+  subscriptions: List[EmailList] = Nil
+)
 
 case class GuardianUser(userName: String, email: String)
 
