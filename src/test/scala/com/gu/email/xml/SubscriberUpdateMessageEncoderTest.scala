@@ -82,7 +82,7 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
       AccountDetails("ausername", "apassword"),
       List(
         Subscriber("anEmailAddress", Some("aFirstName"), Some("aSecondName"), None, None, Some("aStatus"),
-          Some("anEmailPreference"), List(EmailList("nonNumericSoUseCustomerKey", "aStatus")))
+          Some("anEmailPreference"), List(EmailList("12345", "aStatus")))
       )
     )
 
@@ -121,7 +121,7 @@ class SubscriberUpdateMessageEncoderTest extends FlatSpec with MockitoSugar with
               <SubscriberKey>anEmailAddress</SubscriberKey>
               <EmailTypePreference>anEmailPreference</EmailTypePreference>
               <Lists>
-                <PartnerKey>nonNumericSoUseCustomerKey</PartnerKey>
+                <ID>12345</ID>
                 <Status>aStatus</Status>
               </Lists>
               <Attributes>

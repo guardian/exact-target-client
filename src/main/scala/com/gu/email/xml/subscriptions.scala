@@ -66,18 +66,10 @@ class SubscriberUpdateMessageEncoder extends MessageEncoder[SubscriberUpdateRequ
       <EmailTypePreference>{preference}</EmailTypePreference>
     ).getOrElse(Nil)}
       {
-        if(!subscriber.subscriptions.isEmpty) {
+        subscriber.subscriptions.map { emailList =>
           <Lists>
-            {subscriber.subscriptions.map {
-            emailList => {
-                  if ( emailList.listId.isAllDigits ) {
-                    <ID>{emailList.listId}</ID>
-                  } else {
-                      <PartnerKey>{emailList.listId}</PartnerKey>
-                  }
-            }++
+            <ID>{emailList.listId}</ID>
             <Status>{emailList.status}</Status>
-          } }
           </Lists>
         }
       }
